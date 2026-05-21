@@ -1,0 +1,138 @@
+@model StudentManagement.Services.ViewModels.Ogrenci.DersKayitViewModel
+@{
+    ViewData["Title"]      = "Ders Kaydı";
+    ViewData["Breadcrumb"] = "Ders Kaydı";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Ders Kaydı</h1>
+        <p class="page-subtitle">@Model.DonemAdi · Mevcut yük: <strong>@Model.MevcutAktsYuku AKTS</strong></p>
+    </div>
+</div>
+
+@if (!Model.KayitAcik)
+{
+    <div class="alert alert-warning">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div class="alert-body">
+            <div class="alert-title">Ders Kayıt Dönemi Kapalı</div>
+            <div class="alert-text">
+                Şu anda ders kayıt dönemi aktif değil.
+                Kayıt dönemi: <strong data-date="@Model.KayitBaslangic"></strong> –
+                <strong data-date="@Model.KayitBitis"></strong>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="card table-card">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Ders ara..." data-table="dersKayitTbl" />
+        </div>
+        <div style="font-size:.78rem; color:var(--color-gray-400);">
+            <strong>@Model.MevcutDersler.Count</strong> ders mevcut
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="ubys-table" id="dersKayitTbl">
+            <thead>
+                <tr>
+                    <th>Ders Kodu</th>
+                    <th>Ders Adı</th>
+                    <th>Öğretmen</th>
+                    <th>Gün / Saat</th>
+                    <th>AKTS</th>
+                    <th>Doluluk</th>
+                    <th>Durum</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.MevcutDersler)
+                {
+                    var oran      = d.MaxKontenjan > 0 ? (int)((double)d.KayitliSayisi / d.MaxKontenjan * 100) : 0;
+                    var oranClass = oran >= 90 ? "danger" : oran >= 60 ? "warning" : "success";
+                    var dolu      = d.KayitliSayisi >= d.MaxKontenjan;
+                    <tr class="@(d.ZatenKayitli ? "table-row-muted" : "")">
+                        <td><span class="badge badge-secondary">@d.DersKodu</span></td>
+                        <td>
+                            <div class="primary">@d.DersAdi</div>
+                            <div class="secondary">@d.BolumAdi</div>
+                        </td>
+                        <td><span style="font-size:.8rem;">@d.OgretmenAdi</span></td>
+                        <td>
+                            <div style="font-size:.8rem; font-weight:700;">@d.Gun</div>
+                            <div class="secondary">@d.BaslangicSaati?.ToString(@"hh\:mm") - @d.BitisSaati?.ToString(@"hh\:mm") · @d.Derslik</div>
+                        </td>
+                        <td><strong>@d.Akts</strong></td>
+                        <td>
+                            <div style="min-width:70px;">
+                                <div style="font-size:.7rem; font-weight:700; margin-bottom:3px;">
+                                    @d.KayitliSayisi/@d.MaxKontenjan
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar @oranClass" style="width:@oran%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @if (d.ZatenKayitli)
+                            {
+                                <span class="badge badge-devam">Kayıtlı</span>
+                            }
+                            else if (d.TalepVar)
+                            {
+                                <span class="badge badge-talep">Talep Verildi</span>
+                            }
+                            else if (dolu)
+                            {
+                                <span class="badge badge-danger">Dolu</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">Müsait</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!d.ZatenKayitli && !d.TalepVar && !dolu && Model.KayitAcik)
+                            {
+                                <form asp-action="DersKayitTalep" asp-controller="OgrenciPanel"
+                                      method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="DersAtamaId" value="@d.DersAtamaId" />
+                                    <button type="submit" class="btn btn-primary btn-sm"
+                                            data-confirm="@d.DersAdi dersine kayıt talebi oluşturmak istiyor musunuz?"
+                                            data-confirm-btn="Evet, Talep Oluştur">
+                                        <i class="fas fa-plus"></i> Kayıt Yap
+                                    </button>
+                                </form>
+                            }
+                            else if (d.ZatenKayitli)
+                            {
+                                <form asp-action="DersBirak" asp-controller="OgrenciPanel"
+                                      method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="DersAtamaId" value="@d.DersAtamaId" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            data-confirm="@d.DersAdi dersinden çekilmek istiyor musunuz?"
+                                            data-confirm-type="danger"
+                                            data-confirm-btn="Evet, Bırak">
+                                        <i class="fas fa-minus"></i> Bırak
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .table-row-muted td { opacity: .65; }
+</style>

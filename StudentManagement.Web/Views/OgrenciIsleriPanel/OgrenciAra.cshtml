@@ -1,0 +1,113 @@
+@model StudentManagement.Services.ViewModels.OgrenciIsleri.OgrenciAraViewModel
+@{
+    ViewData["Title"]      = "Öğrenci Ara";
+    ViewData["Breadcrumb"] = "Öğrenci Ara";
+}
+
+<div class="page-header">
+    <div><h1 class="page-title">Öğrenci Ara</h1></div>
+</div>
+
+<!-- Arama Formu -->
+<div class="card" style="margin-bottom:20px;">
+    <div class="card-body">
+        <form asp-action="OgrenciAra" asp-controller="OgrenciIsleriPanel"
+              method="get" id="araForm">
+            <div style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
+                <div class="form-group" style="flex:1; min-width:200px; margin-bottom:0;">
+                    <label class="form-label">Ad Soyad / Öğrenci No / E-posta</label>
+                    <div class="input-icon">
+                        <i class="fas fa-search"></i>
+                        <input name="q" class="form-control" value="@Model.AramaTermi"
+                               placeholder="Arama yapın..." autofocus />
+                    </div>
+                </div>
+                <div class="form-group" style="min-width:160px; margin-bottom:0;">
+                    <label class="form-label">Bölüm</label>
+                    <select name="bolumId" class="form-control"
+                            asp-items="ViewBag.Bolumler">
+                        <option value="">Tüm Bölümler</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label" style="visibility:hidden;">Ara</label>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Ara
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Sonuçlar -->
+@if (Model.Sonuclar != null)
+{
+    <div class="card table-card">
+        <div class="card-header">
+            <div class="card-title">
+                <i class="fas fa-users"></i>
+                Arama Sonuçları
+                <span class="badge badge-secondary" style="margin-left:6px;">
+                    @Model.Sonuclar.Count kayıt
+                </span>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="ubys-table">
+                <thead>
+                    <tr>
+                        <th>Öğrenci No</th>
+                        <th>Ad Soyad</th>
+                        <th>E-posta</th>
+                        <th>Bölüm</th>
+                        <th>GANO</th>
+                        <th>Durum</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in Model.Sonuclar)
+                    {
+                        <tr>
+                            <td><code style="font-size:.76rem;">@o.OgrenciNo</code></td>
+                            <td><div class="primary">@o.TamAd</div></td>
+                            <td><span class="text-sm text-muted">@o.Email</span></td>
+                            <td><span class="badge badge-secondary">@o.BolumKodu</span></td>
+                            <td>
+                                <strong style="color:@(o.Gano >= 2.0 ? "var(--color-success)" : "var(--color-danger)");">
+                                    @o.Gano.ToString("F2")
+                                </strong>
+                            </td>
+                            <td>
+                                @{
+                                    var (cls, lbl) = o.OgrenciDurumAdi switch {
+                                        "Aktif"       => ("badge-success",   "Aktif"),
+                                        "Mezun"       => ("badge-info",      "Mezun"),
+                                        "Dondurulmus" => ("badge-warning",   "Dondurulmuş"),
+                                        _             => ("badge-secondary", o.OgrenciDurumAdi)
+                                    };
+                                }
+                                <span class="badge @cls">@lbl</span>
+                            </td>
+                            <td>
+                                <a href="/OgrenciIsleri/OgrenciDetay/@o.OgrenciId"
+                                   class="btn btn-outline-secondary btn-xs">
+                                    Detay
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (!Model.Sonuclar.Any())
+        {
+            <div class="empty-state">
+                <div class="empty-state-icon"><i class="fas fa-magnifying-glass"></i></div>
+                <div class="empty-state-title">Sonuç bulunamadı</div>
+                <div class="empty-state-text">Arama kriterlerinizi değiştirerek tekrar deneyin.</div>
+            </div>
+        }
+    </div>
+}

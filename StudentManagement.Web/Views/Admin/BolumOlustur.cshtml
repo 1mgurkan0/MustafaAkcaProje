@@ -1,0 +1,83 @@
+@model StudentManagement.Services.ViewModels.Admin.BolumOlusturViewModel
+@{
+    ViewData["Title"]      = "Yeni Bölüm";
+    ViewData["Breadcrumb"] = "Bölüm Ekle";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Yeni Bölüm Ekle</h1>
+        <p class="page-subtitle">Sisteme yeni bir akademik bölüm tanımlayın.</p>
+    </div>
+    <a href="/Admin/Bolumler" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Geri
+    </a>
+</div>
+
+<div style="max-width:560px;">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-building-columns"></i> Bölüm Bilgileri</div>
+        </div>
+        <div class="card-body">
+            <form asp-action="BolumOlustur" asp-controller="Admin" method="post" id="bolumForm" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="BolumKodu" class="form-label">Bölüm Kodu <span class="required">*</span></label>
+                    <input asp-for="BolumKodu" class="form-control"
+                           placeholder="örn: BIL, YMH, EEE"
+                           style="text-transform:uppercase;" maxlength="10" />
+                    <span asp-validation-for="BolumKodu" class="invalid-feedback"></span>
+                    <div class="form-text">Büyük harf ve rakam, en fazla 10 karakter.</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="BolumAdi" class="form-label">Bölüm Adı <span class="required">*</span></label>
+                    <input asp-for="BolumAdi" class="form-control"
+                           placeholder="örn: Bilgisayar Mühendisliği" maxlength="100" />
+                    <span asp-validation-for="BolumAdi" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MinMezuniyetAkts" class="form-label">
+                        Minimum Mezuniyet AKTS <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="MinMezuniyetAkts" class="form-control"
+                               type="number" min="60" max="300" placeholder="240" />
+                        <span class="input-group-text">AKTS</span>
+                    </div>
+                    <span asp-validation-for="MinMezuniyetAkts" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Aciklama" class="form-label">Açıklama</label>
+                    <textarea asp-for="Aciklama" class="form-control"
+                              placeholder="Bölüm hakkında kısa bilgi..." rows="3" maxlength="500"></textarea>
+                    <span asp-validation-for="Aciklama" class="invalid-feedback"></span>
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+                    <a href="/Admin/Bolumler" class="btn btn-outline-secondary">İptal</a>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <i class="fas fa-save"></i> Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("bolumForm").addEventListener("submit", function () {
+            SMS.form.setLoading(this, true);
+        });
+        // Büyük harfe çevir
+        document.querySelector("[name='BolumKodu']").addEventListener("input", function () {
+            this.value = this.value.toUpperCase();
+        });
+    </script>
+}

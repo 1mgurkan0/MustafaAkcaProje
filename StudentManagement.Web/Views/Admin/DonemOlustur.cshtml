@@ -1,0 +1,68 @@
+@model StudentManagement.Services.ViewModels.Admin.DonemOlusturViewModel
+@using StudentManagement.Core.Enums
+@{
+    ViewData["Title"]      = "Yeni Dönem";
+    ViewData["Breadcrumb"] = "Dönem Ekle";
+}
+
+<div class="page-header">
+    <div><h1 class="page-title">Yeni Dönem Ekle</h1></div>
+    <a href="/Admin/Donemler" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Geri</a>
+</div>
+
+<div style="max-width:560px;">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-calendar-plus"></i> Dönem Bilgileri</div>
+        </div>
+        <div class="card-body">
+            <form asp-action="DonemOlustur" asp-controller="Admin" method="post" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="DonemKodu" class="form-label">Dönem Kodu <span class="required">*</span></label>
+                    <input asp-for="DonemKodu" class="form-control" placeholder="örn: 2024-GUZ" maxlength="20"
+                           style="text-transform:uppercase;" />
+                    <span asp-validation-for="DonemKodu" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Yil" class="form-label">Yıl <span class="required">*</span></label>
+                        <input asp-for="Yil" class="form-control" type="number"
+                               min="2000" max="2100" placeholder="2024" />
+                        <span asp-validation-for="Yil" class="invalid-feedback"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DonemTur" class="form-label">Dönem Türü <span class="required">*</span></label>
+                        <select asp-for="DonemTur" class="form-control"
+                                asp-items="Html.GetEnumSelectList<DonemTur>()">
+                            <option value="">— Seçiniz —</option>
+                        </select>
+                        <span asp-validation-for="DonemTur" class="invalid-feedback"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="DersKayitBaslangic" class="form-label">Kayıt Başlangıç <span class="required">*</span></label>
+                        <input asp-for="DersKayitBaslangic" class="form-control" type="date" />
+                        <span asp-validation-for="DersKayitBaslangic" class="invalid-feedback"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DersKayitBitis" class="form-label">Kayıt Bitiş <span class="required">*</span></label>
+                        <input asp-for="DersKayitBitis" class="form-control" type="date" />
+                        <span asp-validation-for="DersKayitBitis" class="invalid-feedback"></span>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+                    <a href="/Admin/Donemler" class="btn btn-outline-secondary">İptal</a>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

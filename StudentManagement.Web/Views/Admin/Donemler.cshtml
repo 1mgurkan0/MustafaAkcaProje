@@ -1,0 +1,95 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.Admin.DonemViewModel>
+@{
+    ViewData["Title"]      = "Dönemler";
+    ViewData["Breadcrumb"] = "Dönemler";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Dönemler</h1>
+        <p class="page-subtitle">Akademik dönemleri yönetin. Sistemde yalnızca bir aktif dönem olabilir.</p>
+    </div>
+    <a href="/Admin/DonemOlustur" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Yeni Dönem
+    </a>
+</div>
+
+<div class="card table-card">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Dönem ara..." data-table="donemTable" />
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="ubys-table" id="donemTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Dönem Kodu</th>
+                    <th>Yıl</th>
+                    <th>Tür</th>
+                    <th>Kayıt Dönemi</th>
+                    <th>Ders Atama</th>
+                    <th>Durum</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td class="text-muted text-sm">@d.Id</td>
+                        <td><span class="badge badge-secondary">@d.DonemKodu</span></td>
+                        <td><strong>@d.Yil</strong></td>
+                        <td>@d.DonemTurAdi</td>
+                        <td>
+                            <div style="font-size:.78rem;">
+                                <span data-date="@d.DersKayitBaslangic"></span>
+                                <span style="color:var(--color-gray-400);"> – </span>
+                                <span data-date="@d.DersKayitBitis"></span>
+                            </div>
+                        </td>
+                        <td><strong>@d.DersAtamaSayisi</strong></td>
+                        <td>
+                            @if (d.AktifMi)
+                            {
+                                <span class="badge badge-success"><i class="fas fa-circle" style="font-size:.5rem;"></i> Aktif Dönem</span>
+                            }
+                            else if (d.IsActive)
+                            {
+                                <span class="badge badge-secondary">Pasif</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Silinmiş</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="/Admin/DonemDuzenle/@d.Id"
+                                   class="btn btn-outline-secondary btn-icon btn-sm" title="Düzenle">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                @if (!d.AktifMi)
+                                {
+                                    <form asp-action="DonemAktifYap" asp-controller="Admin"
+                                          asp-route-id="@d.Id" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit"
+                                                class="btn btn-outline-secondary btn-icon btn-sm"
+                                                data-confirm="Bu dönemi aktif yapmak istediğinize emin misiniz? Mevcut aktif dönem pasife alınacak."
+                                                data-confirm-title="Aktif Dönem Değiştir"
+                                                title="Aktif Yap">
+                                            <i class="fas fa-star"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

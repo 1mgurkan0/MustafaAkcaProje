@@ -1,0 +1,72 @@
+@model StudentManagement.Services.ViewModels.Admin.DersAtamaOlusturViewModel
+@using StudentManagement.Core.Enums
+@{
+    ViewData["Title"]      = "Ders Ataması Oluştur";
+    ViewData["Breadcrumb"] = "Yeni Ders Ataması";
+}
+<div class="page-header">
+    <div><h1 class="page-title">Yeni Ders Ataması</h1><p class="page-subtitle">Aktif dönem için ders ve öğretmen eşleştirin.</p></div>
+    <a href="/Admin/DersAtamalar" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Geri</a>
+</div>
+<div style="max-width:620px;">
+    <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fas fa-chalkboard-user"></i> Atama Bilgileri</div></div>
+        <div class="card-body">
+            <form asp-action="DersAtamaOlustur" asp-controller="Admin" method="post" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="DersId" class="form-label">Ders <span class="required">*</span></label>
+                        <select asp-for="DersId" class="form-control" asp-items="ViewBag.Dersler">
+                            <option value="">— Ders seçiniz —</option>
+                        </select>
+                        <span asp-validation-for="DersId" class="invalid-feedback"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DonemId" class="form-label">Dönem <span class="required">*</span></label>
+                        <select asp-for="DonemId" class="form-control" asp-items="ViewBag.Donemler">
+                            <option value="">— Dönem seçiniz —</option>
+                        </select>
+                        <span asp-validation-for="DonemId" class="invalid-feedback"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="OgretmenId" class="form-label">Öğretmen <span class="required">*</span></label>
+                    <select asp-for="OgretmenId" class="form-control" asp-items="ViewBag.Ogretmenler">
+                        <option value="">— Öğretmen seçiniz —</option>
+                    </select>
+                    <span asp-validation-for="OgretmenId" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Gun" class="form-label">Gün <span class="required">*</span></label>
+                        <select asp-for="Gun" class="form-control" asp-items="Html.GetEnumSelectList<DersGun>()">
+                            <option value="">— Gün —</option>
+                        </select>
+                        <span asp-validation-for="Gun" class="invalid-feedback"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Saat" class="form-label">Saat <span class="required">*</span></label>
+                        <input asp-for="Saat" class="form-control" placeholder="09:00" pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" />
+                        <span asp-validation-for="Saat" class="invalid-feedback"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Derslik" class="form-label">Derslik <span class="required">*</span></label>
+                    <input asp-for="Derslik" class="form-control" placeholder="örn: A-101, Lab-2" maxlength="20" />
+                    <span asp-validation-for="Derslik" class="invalid-feedback"></span>
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <a href="/Admin/DersAtamalar" class="btn btn-outline-secondary">İptal</a>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

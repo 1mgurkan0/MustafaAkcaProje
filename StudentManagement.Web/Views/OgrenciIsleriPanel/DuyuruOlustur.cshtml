@@ -1,0 +1,83 @@
+@model StudentManagement.Services.ViewModels.Ogretmen.DuyuruOlusturViewModel
+@using StudentManagement.Core.Enums
+@{
+    ViewData["Title"]      = "Duyuru Oluştur";
+    ViewData["Breadcrumb"] = "Duyuru Oluştur";
+}
+
+<div class="page-header">
+    <div><h1 class="page-title">Duyuru Oluştur</h1></div>
+    <a href="/OgrenciIsleri/Dashboard" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Geri
+    </a>
+</div>
+
+<div style="max-width:680px;">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-bullhorn"></i> Yeni Duyuru</div>
+        </div>
+        <div class="card-body">
+            <form asp-action="DuyuruOlustur" asp-controller="OgrenciIsleriPanel"
+                  method="post" id="duyuruForm" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="Baslik" class="form-label">Başlık <span class="required">*</span></label>
+                    <input asp-for="Baslik" class="form-control"
+                           placeholder="Duyuru başlığını girin" maxlength="200" />
+                    <span asp-validation-for="Baslik" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Icerik" class="form-label">İçerik <span class="required">*</span></label>
+                    <textarea asp-for="Icerik" class="form-control" rows="6"
+                              maxlength="2000" id="icerikArea"
+                              placeholder="Duyuru içeriğini yazın..."></textarea>
+                    <div style="text-align:right; margin-top:4px;">
+                        <span style="font-size:.7rem; color:var(--color-gray-400);" id="charCount">0 / 2000</span>
+                    </div>
+                    <span asp-validation-for="Icerik" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Hedef" class="form-label">Hedef Kitle <span class="required">*</span></label>
+                    <select asp-for="Hedef" class="form-control"
+                            asp-items="Html.GetEnumSelectList<DuyuruHedef>()">
+                        <option value="">— Seçiniz —</option>
+                    </select>
+                    <span asp-validation-for="Hedef" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check">
+                        <input asp-for="Onemli" type="checkbox" />
+                        <span>Önemli Duyuru <span style="font-size:.72rem; color:var(--color-gray-400);">(kırmızı vurgulu)</span></span>
+                    </label>
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <a href="/OgrenciIsleri/Dashboard" class="btn btn-outline-secondary">İptal</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-bullhorn"></i> Yayınla
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("icerikArea").addEventListener("input", function () {
+            const el = document.getElementById("charCount");
+            el.textContent = `${this.value.length} / 2000`;
+            el.style.color = this.value.length > 1800
+                ? "var(--color-danger)" : "var(--color-gray-400)";
+        });
+        document.getElementById("duyuruForm").addEventListener("submit", function () {
+            SMS.form.setLoading(this, true);
+        });
+    </script>
+}

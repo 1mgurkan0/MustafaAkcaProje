@@ -1,0 +1,40 @@
+[2026-05-15 10:53:02 WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-15 10:53:02 WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-15 10:54:02 INF] Veritabanı migration ve seed tamamlandı.
+[2026-05-15 10:55:23 WRN] Failed to determine the https port for redirect.
+[2026-05-15 10:55:23 WRN] Failed to determine the https port for redirect.
+[2026-05-15 10:57:06 INF] Giriş başarılı. KullaniciAdi:admin
+[2026-05-15 10:57:06 INF] Session oluşturuldu. UserId:1
+[2026-05-15 10:57:07 ERR] Beklenmeyen hata oluştu.
+System.InvalidOperationException: The layout view '_Layout' could not be located. The following locations were searched:
+/Views/Admin/_Layout.cshtml
+/Views/Shared/_Layout.cshtml
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.GetLayoutPage(ViewContext context, String executingFilePath, String layoutPath)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderLayoutAsync(ViewContext context, ViewBufferTextWriter bodyWriter)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at StudentManagement.Web.Middlewares.SessionValidationMiddleware.InvokeAsync(HttpContext context) in C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web\Middlewares\SessionValidationMiddleware.cs:line 54
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at StudentManagement.Web.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web\Middlewares\GlobalExceptionMiddleware.cs:line 19
+2026-05-15 10:59:23.775 +03:00 [WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-15 10:59:24.507 +03:00 [INF] Veritabanı migration ve seed tamamlandı.
+2026-05-15 10:59:29.195 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 10:59:29.201 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 10:59:33.854 +03:00 [INF] Giriş başarılı. KullaniciAdi:admin
+2026-05-15 10:59:33.858 +03:00 [INF] Session oluşturuldu. UserId:1

@@ -1,0 +1,47 @@
+@{ ViewData["Title"] = "İşlem Kayıtları"; }
+<div class="d-flex align-items-center justify-content-between mb-4 mt-4">
+    <h4 class="mb-0 fw-bold"><i class="fas fa-clipboard-list me-2 text-secondary"></i>İşlem Kayıtları</h4>
+    <span class="badge bg-secondary rounded-pill px-3 py-2"><i class="fas fa-shield-alt me-1"></i>Sadece Admin</span>
+</div>
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-4">
+        <div class="table-responsive">
+            <table id="auditTable" class="table table-hover align-middle w-100">
+                <thead class="table-light">
+                    <tr>
+                        <th>Kullanıcı</th><th>İşlem</th><th>Varlık</th>
+                        <th>ID</th><th>IP Adresi</th><th>Detay</th><th>Tarih</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+@Html.AntiForgeryToken()
+@section Scripts {
+<script>
+    const token = SMS.getAntiForgeryToken();
+    const actionMap = {
+        1: ['bg-success','fa-plus','Create'], 2: ['bg-warning text-dark','fa-edit','Update'],
+        3: ['bg-danger','fa-trash','Delete'],  4: ['bg-primary','fa-sign-in-alt','Login'],
+        5: ['bg-secondary','fa-sign-out-alt','Logout'], 6: ['bg-info','fa-user-plus','Register'],
+        7: ['bg-success','fa-link','DersAta'], 8: ['bg-danger','fa-unlink','DersCikar'],
+        9: ['bg-warning text-dark','fa-star','NotGüncelle']
+    };
+    SMS.initDataTable('auditTable', '@Url.Action("GetDataTable", "AuditLog")', [
+        { data: 'kullaniciAdi', render: v => v ? `<span class="fw-semibold"><i class="fas fa-user me-1 text-muted"></i>${v}</span>` : '—' },
+        { data: 'action', render: (v, t, row) => {
+            const [cls, ico, lbl] = actionMap[v] || ['bg-secondary','fa-info', row.actionText];
+            return `<span class="badge ${cls} rounded-pill"><i class="fas ${ico} me-1"></i>${lbl}</span>`;
+        }},
+        { data: 'entityName', render: v => v || '—' },
+        { data: 'entityId', render: v => v ? `<span class="badge bg-light text-dark border">#${v}</span>` : '—' },
+        { data: 'ipAddress', render: v => v ? `<code class="small">${v}</code>` : '—' },
+        { data: 'details', render: v => v ? `<span class="small text-muted">${v.length > 40 ? v.substring(0,40)+'...' : v}</span>` : '—' },
+        { data: 'timestamp', render: v => {
+            const d = new Date(v);
+            return `<span class="small text-muted">${d.toLocaleDateString('tr-TR')}<br><strong>${d.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</strong></span>`;
+        }}
+    ], token, { order: [[6, 'desc']] });
+</script>
+}

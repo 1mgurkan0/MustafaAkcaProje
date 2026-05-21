@@ -1,0 +1,65 @@
+[2026-05-15 10:59:23 WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-15 10:59:24 INF] Veritabanı migration ve seed tamamlandı.
+[2026-05-15 10:59:29 WRN] Failed to determine the https port for redirect.
+[2026-05-15 10:59:29 WRN] Failed to determine the https port for redirect.
+[2026-05-15 10:59:33 INF] Giriş başarılı. KullaniciAdi:admin
+[2026-05-15 10:59:33 INF] Session oluşturuldu. UserId:1
+2026-05-15 11:45:52.716 +03:00 [WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-15 11:45:53.624 +03:00 [INF] Veritabanı migration ve seed tamamlandı.
+2026-05-15 11:45:58.499 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 11:45:58.505 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 11:46:12.684 +03:00 [ERR] Beklenmeyen hata oluştu.
+System.InvalidOperationException: The model item passed into the ViewDataDictionary is of type 'StudentManagement.Services.ViewModels.Auth.LoginViewModel', but this ViewDataDictionary instance requires a model item of type 'StudentManagement.Services.ViewModels.LoginViewModel'.
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary.EnsureCompatible(Object value)
+   at lambda_method10(Closure, ViewDataDictionary)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPagePropertyActivator.Activate(Object page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at StudentManagement.Web.Middlewares.SessionValidationMiddleware.InvokeAsync(HttpContext context) in C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web\Middlewares\SessionValidationMiddleware.cs:line 54
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at StudentManagement.Web.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web\Middlewares\GlobalExceptionMiddleware.cs:line 19
+2026-05-15 11:46:23.992 +03:00 [INF] Giriş başarılı. KullaniciAdi:admin
+2026-05-15 11:46:23.996 +03:00 [INF] Session oluşturuldu. UserId:1
+2026-05-15 11:46:50.526 +03:00 [INF] Giriş başarılı. KullaniciAdi:ahmet.yilmaz
+2026-05-15 11:46:50.528 +03:00 [INF] Session oluşturuldu. UserId:4
+2026-05-15 11:46:52.499 +03:00 [ERR] The view 'Sinavlar' was not found. Searched locations: ["/Views/OgretmenPanel/Sinavlar.cshtml","/Views/Shared/Sinavlar.cshtml"]
+2026-05-15 11:46:52.507 +03:00 [ERR] Beklenmeyen hata oluştu.
+System.InvalidOperationException: The view 'Sinavlar' was not found. The following locations were searched:
+/Views/OgretmenPanel/Sinavlar.cshtml
+/Views/Shared/Sinavlar.cshtml
+   at Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable`1 originalLocations)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at StudentManagement.Web.Middlewares.SessionValidationMiddleware.InvokeAsync(HttpContext context) in C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web\Middlewares\SessionValidationMiddleware.cs:line 54
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at StudentManagement.Web.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web\Middlewares\GlobalExceptionMiddleware.cs:line 19

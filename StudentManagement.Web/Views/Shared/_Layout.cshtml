@@ -1,0 +1,318 @@
+@using StudentManagement.Core.Enums
+@using StudentManagement.Core.Constants
+@{
+    var currentRole = Context.Session.GetString(AppConstants.Session.UserRole) ?? "";
+    var fullName    = Context.Session.GetString(AppConstants.Session.FullName)   ?? "Kullanıcı";
+    var username    = Context.Session.GetString(AppConstants.Session.Username)   ?? "";
+
+    // Rol enum parse
+    KullaniciRol? rol = Enum.TryParse<KullaniciRol>(currentRole, out var r) ? r : null;
+
+    // Tema sınıfı
+    var themeClass = rol switch {
+        KullaniciRol.Admin         => "theme-admin",
+        KullaniciRol.Ogretmen      => "theme-ogretmen",
+        KullaniciRol.Ogrenci       => "theme-ogrenci",
+        KullaniciRol.OgrenciIsleri => "theme-ogrenciisleri",
+        _                          => "theme-ogrenci"
+    };
+
+    // data-role attribute (JS tema için)
+    var dataRole = rol switch {
+        KullaniciRol.Admin         => "admin",
+        KullaniciRol.Ogretmen      => "ogretmen",
+        KullaniciRol.Ogrenci       => "ogrenci",
+        KullaniciRol.OgrenciIsleri => "ogrenciisleri",
+        _                          => "ogrenci"
+    };
+
+    // Rol etiketi
+    var rolLabel = rol switch {
+        KullaniciRol.Admin         => "Yönetici",
+        KullaniciRol.Ogretmen      => "Öğretmen",
+        KullaniciRol.Ogrenci       => "Öğrenci",
+        KullaniciRol.OgrenciIsleri => "Öğrenci İşleri",
+        _                          => ""
+    };
+
+    // Avatar harfleri
+    var avatarText = fullName.Length >= 2
+        ? string.Join("", fullName.Split(' ').Take(2).Select(w => w[0].ToString().ToUpper()))
+        : fullName.Length == 1 ? fullName[0].ToString().ToUpper() : "U";
+
+    var pageTitle    = ViewData["Title"]?.ToString() ?? "UBYS";
+    var breadcrumb   = ViewData["Breadcrumb"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="tr" class="@themeClass">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@pageTitle — UBYS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body data-role="@dataRole">
+
+<div class="app-wrapper">
+
+    <!-- ═══ SIDEBAR ═══════════════════════════════════════════════════ -->
+    <aside class="sidebar" id="appSidebar">
+
+        <!-- Brand -->
+        <a class="sidebar-brand" href="/">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="sidebar-brand-text">
+                <div class="sidebar-brand-name">UBYS</div>
+                <div class="sidebar-brand-sub">Yönetim Sistemi</div>
+            </div>
+        </a>
+
+        <!-- Kullanıcı -->
+        <div class="sidebar-user">
+            <div class="sidebar-user-avatar">@avatarText</div>
+            <div class="sidebar-user-info">
+                <div class="sidebar-user-name">@fullName</div>
+                <div class="sidebar-user-role">@rolLabel</div>
+            </div>
+        </div>
+
+        <!-- Nav -->
+        <nav class="sidebar-nav">
+
+            @if (rol == KullaniciRol.Admin)
+            {
+                <!-- ADMIN NAV -->
+                <div class="sidebar-section">Genel</div>
+                <a class="sidebar-link" href="/Admin/Dashboard">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+
+                <div class="sidebar-section">Akademik</div>
+                <a class="sidebar-link" href="/Admin/Bolumler">
+                    <i class="fas fa-building-columns"></i> Bölümler
+                </a>
+                <a class="sidebar-link" href="/Admin/Donemler">
+                    <i class="fas fa-calendar-alt"></i> Dönemler
+                </a>
+                <a class="sidebar-link" href="/Admin/DersKatalogu">
+                    <i class="fas fa-book"></i> Ders Kataloğu
+                </a>
+                <a class="sidebar-link" href="/Admin/DersAtamalar">
+                    <i class="fas fa-chalkboard-user"></i> Ders Atamaları
+                </a>
+
+                <div class="sidebar-section">Kullanıcılar</div>
+                <a class="sidebar-link" href="/Admin/Ogrenciler">
+                    <i class="fas fa-users"></i> Öğrenciler
+                </a>
+
+                <div class="sidebar-section">Sistem</div>
+                <a class="sidebar-link" href="/Admin/AuditLogs">
+                    <i class="fas fa-clipboard-list"></i> Denetim Kayıtları
+                </a>
+            }
+            else if (rol == KullaniciRol.Ogretmen)
+            {
+                <!-- ÖĞRETMEN NAV -->
+                <div class="sidebar-section">Genel</div>
+                <a class="sidebar-link" href="/OgretmenPanel/Dashboard">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+
+                <div class="sidebar-section">Derslerim</div>
+                <a class="sidebar-link" href="/OgretmenPanel/Derslerim">
+                    <i class="fas fa-chalkboard"></i> Derslerim
+                </a>
+                <a class="sidebar-link" href="/OgretmenPanel/Sinavlar">
+                    <i class="fas fa-file-pen"></i> Sınavlar
+                </a>
+
+                <div class="sidebar-section">İşlemler</div>
+                <a class="sidebar-link" href="/OgretmenPanel/Duyurular">
+                    <i class="fas fa-bullhorn"></i> Duyurular
+                </a>
+            }
+            else if (rol == KullaniciRol.OgrenciIsleri)
+            {
+                <!-- ÖĞRENCİ İŞLERİ NAV -->
+                <div class="sidebar-section">Genel</div>
+                <a class="sidebar-link" href="/OgrenciIsleri/Dashboard">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+
+                <div class="sidebar-section">Kayıt İşlemleri</div>
+                <a class="sidebar-link" href="/OgrenciIsleri/Talepler">
+                    <i class="fas fa-inbox"></i> Ders Kayıt Talepleri
+                    @{
+                        var bekleyenSayi = ViewData["BekleyenTalepSayisi"]?.ToString();
+                        if (!string.IsNullOrEmpty(bekleyenSayi) && bekleyenSayi != "0")
+                        {
+                            <span class="sidebar-badge">@bekleyenSayi</span>
+                        }
+                    }
+                </a>
+
+                <div class="sidebar-section">Öğrenci</div>
+                <a class="sidebar-link" href="/OgrenciIsleri/OgrenciAra">
+                    <i class="fas fa-magnifying-glass"></i> Öğrenci Ara
+                </a>
+                <a class="sidebar-link" href="/OgrenciIsleri/Belgeler">
+                    <i class="fas fa-file-circle-check"></i> Belge Talepleri
+                </a>
+
+                <div class="sidebar-section">Duyurular</div>
+                <a class="sidebar-link" href="/OgrenciIsleri/DuyuruOlustur">
+                    <i class="fas fa-bullhorn"></i> Duyuru Yayınla
+                </a>
+            }
+            else if (rol == KullaniciRol.Ogrenci)
+            {
+                <!-- ÖĞRENCİ NAV -->
+                <div class="sidebar-section">Genel</div>
+                <a class="sidebar-link" href="/OgrenciPanel/Dashboard">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+
+                <div class="sidebar-section">Akademik</div>
+                <a class="sidebar-link" href="/OgrenciPanel/DersKayit">
+                    <i class="fas fa-plus-circle"></i> Ders Kaydı
+                </a>
+                <a class="sidebar-link" href="/OgrenciPanel/Derslerim">
+                    <i class="fas fa-book-open"></i> Derslerim
+                </a>
+                <a class="sidebar-link" href="/OgrenciPanel/Transkript">
+                    <i class="fas fa-scroll"></i> Transkript
+                </a>
+                <a class="sidebar-link" href="/OgrenciPanel/DersProgrami">
+                    <i class="fas fa-calendar-week"></i> Ders Programı
+                </a>
+
+                <div class="sidebar-section">Bilgi</div>
+                <a class="sidebar-link" href="/OgrenciPanel/SinavTakvimi">
+                    <i class="fas fa-clock"></i> Sınav Takvimi
+                </a>
+                <a class="sidebar-link" href="/OgrenciPanel/Duyurular">
+                    <i class="fas fa-bell"></i> Duyurular
+                </a>
+                <a class="sidebar-link" href="/OgrenciPanel/Belgeler">
+                    <i class="fas fa-file-alt"></i> Belgelerim
+                </a>
+            }
+        </nav>
+
+        <!-- Sidebar Footer / Çıkış -->
+        <div class="sidebar-footer">
+            <form asp-action="Logout" asp-controller="Auth" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="sidebar-logout">
+                    <i class="fas fa-right-from-bracket"></i>
+                    Çıkış Yap
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Mobil Overlay -->
+    <div id="sidebarOverlay"
+         style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:999;"
+         onclick="SMS.sidebar.close()"></div>
+
+    <!-- ═══ ANA İÇERİK ════════════════════════════════════════════════ -->
+    <div class="main-content">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <button class="topbar-toggle" id="sidebarToggle" aria-label="Menüyü aç/kapat">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Breadcrumb -->
+            <nav class="topbar-breadcrumb" aria-label="breadcrumb">
+                <a href="/">Ana Sayfa</a>
+                @if (!string.IsNullOrEmpty(breadcrumb))
+                {
+                    <span class="separator"><i class="fas fa-chevron-right"></i></span>
+                    <span class="current">@breadcrumb</span>
+                }
+                else
+                {
+                    <span class="separator"><i class="fas fa-chevron-right"></i></span>
+                    <span class="current">@pageTitle</span>
+                }
+            </nav>
+
+            <!-- Topbar Aksiyonlar -->
+            <div class="topbar-actions">
+                @if (rol == KullaniciRol.Ogrenci)
+                {
+                    <a class="topbar-btn" href="/OgrenciPanel/Duyurular"
+                       title="Duyurular" data-bs-toggle="tooltip">
+                        <i class="fas fa-bell"></i>
+                        <span class="topbar-notif-dot"></span>
+                    </a>
+                }
+                else if (rol == KullaniciRol.OgrenciIsleri)
+                {
+                    <a class="topbar-btn" href="/OgrenciIsleri/Talepler"
+                       title="Bekleyen Talepler" data-bs-toggle="tooltip">
+                        <i class="fas fa-inbox"></i>
+                    </a>
+                }
+
+                <a class="topbar-btn" href="#" title="@username" data-bs-toggle="tooltip">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="page-content">
+
+            <!-- SweetAlert TempData Veri Bloğu -->
+            <div id="swal-data"
+                 data-success="@TempData[AppConstants.TempDataKeys.SuccessMessage]"
+                 data-error="@TempData[AppConstants.TempDataKeys.ErrorMessage]"
+                 data-warning="@TempData[AppConstants.TempDataKeys.WarningMessage]"
+                 data-info="@TempData[AppConstants.TempDataKeys.InfoMessage]"
+                 style="display:none;"></div>
+
+            @RenderBody()
+        </main>
+    </div>
+</div>
+
+<!-- ═══ SCRIPTS ════════════════════════════════════════════════════════ -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+
+<script>
+    // Mobil: overlay display'ini toggle'a bağla
+    (function () {
+        const overlay = document.getElementById("sidebarOverlay");
+        const sidebar = document.getElementById("appSidebar");
+        if (!overlay || !sidebar) return;
+
+        const observer = new MutationObserver(() => {
+            overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
+        });
+        observer.observe(sidebar, { attributes: true, attributeFilter: ["class"] });
+    })();
+</script>
+</body>
+</html>

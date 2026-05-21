@@ -1,0 +1,12 @@
+[2026-05-15 13:38:06 WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-15 13:38:07 INF] Veritabanı migration ve seed tamamlandı.
+[2026-05-15 13:38:22 WRN] Failed to determine the https port for redirect.
+[2026-05-15 13:38:22 WRN] Failed to determine the https port for redirect.
+[2026-05-15 13:38:23 INF] Giriş başarılı. KullaniciAdi:admin
+[2026-05-15 13:38:23 INF] Session oluşturuldu. UserId:1
+2026-05-15 13:52:27.091 +03:00 [WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-15 13:52:28.165 +03:00 [INF] Veritabanı migration ve seed tamamlandı.
+2026-05-15 13:52:30.298 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 13:52:30.304 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 13:52:54.522 +03:00 [INF] Giriş başarılı. KullaniciAdi:admin
+2026-05-15 13:52:54.526 +03:00 [INF] Session oluşturuldu. UserId:1

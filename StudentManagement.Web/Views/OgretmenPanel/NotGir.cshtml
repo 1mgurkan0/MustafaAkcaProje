@@ -1,0 +1,157 @@
+@model StudentManagement.Services.ViewModels.Ogretmen.NotGirViewModel
+@{
+    ViewData["Title"]      = "Not Gir";
+    ViewData["Breadcrumb"] = "Not Girişi";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Not Girişi</h1>
+        <p class="page-subtitle">
+            <strong>@Model.DersAdi</strong> (@Model.DersKodu) —
+            @Model.DonemAdi
+        </p>
+    </div>
+    <a href="/OgretmenPanel/DersDetay/@Model.DersAtamaId" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Geri
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <i class="fas fa-pen-to-square"></i>
+            Öğrenci Notları
+            <span class="badge badge-secondary" style="margin-left:8px;">@Model.Notlar.Count öğrenci</span>
+        </div>
+        <div style="font-size:.75rem; color:var(--color-gray-500);">
+            Genel Not = Vize × 0.40 + Final × 0.60
+        </div>
+    </div>
+    <div class="card-body" style="padding:0;">
+        <form asp-action="NotGir" asp-controller="OgretmenPanel" method="post" id="notForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="DersAtamaId" />
+
+            <div class="table-responsive">
+                <table class="ubys-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Öğrenci No</th>
+                            <th>Ad Soyad</th>
+                            <th>Vize (0–100)</th>
+                            <th>Final (0–100)</th>
+                            <th>Bütünleme</th>
+                            <th>Genel Not</th>
+                            <th>Harf</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Notlar.Count; i++)
+                        {
+                            var n = Model.Notlar[i];
+                            <tr>
+                                <td class="text-muted text-sm">@(i + 1)</td>
+                                <td>
+                                    <input type="hidden" name="Notlar[@i].OgrenciDersId" value="@n.OgrenciDersId" />
+                                    <code style="font-size:.76rem;">@n.OgrenciNo</code>
+                                </td>
+                                <td>
+                                    <div style="font-weight:700; font-size:.84rem;">@n.OgrenciAdi</div>
+                                </td>
+                                <td>
+                                    <input type="number" name="Notlar[@i].VizeNotu"
+                                           value="@n.VizeNotu" min="0" max="100" step="0.5"
+                                           class="form-control not-input"
+                                           style="width:80px;"
+                                           data-row="@i" data-type="vize"
+                                           placeholder="—" />
+                                </td>
+                                <td>
+                                    <input type="number" name="Notlar[@i].FinalNotu"
+                                           value="@n.FinalNotu" min="0" max="100" step="0.5"
+                                           class="form-control not-input"
+                                           style="width:80px;"
+                                           data-row="@i" data-type="final"
+                                           placeholder="—" />
+                                </td>
+                                <td>
+                                    <input type="number" name="Notlar[@i].ButunlemeNotu"
+                                           value="@n.ButunlemeNotu" min="0" max="100" step="0.5"
+                                           class="form-control not-input"
+                                           style="width:80px;"
+                                           data-row="@i" data-type="but"
+                                           placeholder="—" />
+                                </td>
+                                <td>
+                                    <strong id="genel-@i" style="font-size:.9rem;">
+                                        @(n.GenelNot.HasValue ? n.GenelNot.Value.ToString("F1") : "—")
+                                    </strong>
+                                </td>
+                                <td>
+                                    <span id="harf-@i" class="badge @(n.HarfNotuAdi != "-" ? $"badge-{n.HarfNotuAdi}" : "badge-secondary")">
+                                        @(n.HarfNotuAdi != "-" ? n.HarfNotuAdi : "—")
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer" style="display:flex; justify-content:flex-end; gap:10px;">
+                <a href="/OgretmenPanel/DersDetay/@Model.DersAtamaId" class="btn btn-outline-secondary">İptal</a>
+                <button type="submit" class="btn btn-primary" id="saveBtn">
+                    <i class="fas fa-save"></i> Notları Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Anlık not hesaplama
+        document.querySelectorAll(".not-input").forEach(input => {
+            input.addEventListener("input", function () {
+                const row = this.dataset.row;
+                const vize  = parseFloat(document.querySelector(`[data-row="${row}"][data-type="vize"]`)?.value)  || 0;
+                const final = parseFloat(document.querySelector(`[data-row="${row}"][data-type="final"]`)?.value) || 0;
+                const but   = parseFloat(document.querySelector(`[data-row="${row}"][data-type="but"]`)?.value)   || 0;
+
+                const gecerliFinali = but > 0 ? but : final;
+                const genel = vize * 0.4 + gecerliFinali * 0.6;
+
+                const genelEl = document.getElementById(`genel-${row}`);
+                const harfEl  = document.getElementById(`harf-${row}`);
+
+                if (vize > 0 || gecerliFinali > 0) {
+                    genelEl.textContent = genel.toFixed(1);
+                    const harf = hesaplaHarf(genel);
+                    harfEl.textContent = harf;
+                    harfEl.className = `badge badge-${harf}`;
+                } else {
+                    genelEl.textContent = "—";
+                    harfEl.textContent  = "—";
+                    harfEl.className    = "badge badge-secondary";
+                }
+            });
+        });
+
+        function hesaplaHarf(genel) {
+            if (genel >= 90) return "AA";
+            if (genel >= 85) return "BA";
+            if (genel >= 80) return "BB";
+            if (genel >= 75) return "CB";
+            if (genel >= 70) return "CC";
+            if (genel >= 60) return "DC";
+            if (genel >= 45) return "DD";
+            return "FF";
+        }
+
+        document.getElementById("notForm").addEventListener("submit", function () {
+            SMS.form.setLoading(this, true);
+        });
+    </script>
+}

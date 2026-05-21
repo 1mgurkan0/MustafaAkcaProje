@@ -1,0 +1,216 @@
+@model StudentManagement.Services.ViewModels.Auth.LoginViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Giriş Yap";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UBYS — Giriş Yap</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        /* Login'e özel küçük overrides */
+        .auth-right .btn-primary {
+            background: #4f46e5;
+            border-color: #4f46e5;
+        }
+        .auth-right .btn-primary:hover {
+            background: #4338ca;
+            border-color: #4338ca;
+        }
+        .auth-right .form-control:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+        }
+        .input-icon { position: relative; }
+        .input-icon i {
+            position: absolute;
+            left: 12px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray-400);
+            font-size: .85rem;
+            pointer-events: none;
+        }
+        .input-icon .form-control { padding-left: 36px; }
+        .input-icon .toggle-pass {
+            position: absolute;
+            right: 12px; top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            padding: 0;
+            font-size: .85rem;
+            transition: var(--transition);
+        }
+        .input-icon .toggle-pass:hover { color: var(--color-gray-700); }
+        .input-icon .form-control.has-toggle { padding-right: 36px; }
+    </style>
+</head>
+<body data-role="ogrenci">
+
+<div class="auth-wrapper">
+
+    <!-- Sol Panel -->
+    <div class="auth-left">
+        <div class="auth-logo">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+
+        <div class="auth-tagline">
+            <h1>Üniversite Bilgi<br>Yönetim Sistemi</h1>
+            <p>Akademik süreçlerinizi tek platformdan yönetin.
+               Ders kaydı, not takibi, belge talepleri ve daha fazlası.</p>
+        </div>
+
+        <div class="auth-features">
+            <div class="auth-feature">
+                <i class="fas fa-book-open"></i>
+                <span>Ders Kayıt &amp; Takip</span>
+            </div>
+            <div class="auth-feature">
+                <i class="fas fa-chart-line"></i>
+                <span>Not ve GANO Hesaplama</span>
+            </div>
+            <div class="auth-feature">
+                <i class="fas fa-calendar-check"></i>
+                <span>Yoklama ve Sınav Takvimi</span>
+            </div>
+            <div class="auth-feature">
+                <i class="fas fa-file-alt"></i>
+                <span>Online Belge Talepleri</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Panel — Form -->
+    <div class="auth-right">
+
+        <div class="auth-form-header">
+            <h2 class="auth-form-title">Hoş Geldiniz</h2>
+            <p class="auth-form-subtitle">Hesabınıza giriş yapın.</p>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" data-auto-dismiss="5000">
+                <i class="fas fa-exclamation-circle"></i>
+                <div class="alert-body">
+                    <div class="alert-title">Giriş Başarısız</div>
+                    <div asp-validation-summary="ModelOnly" class="alert-text"></div>
+                </div>
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] is string errMsg)
+        {
+            <div class="alert alert-danger" data-auto-dismiss="5000">
+                <i class="fas fa-exclamation-circle"></i>
+                <div class="alert-body alert-text">@errMsg</div>
+            </div>
+        }
+
+        <form asp-action="Login" asp-controller="Auth" method="post" id="loginForm" novalidate>
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label asp-for="KullaniciAdi" class="form-label">
+                    Kullanıcı Adı <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <input asp-for="KullaniciAdi"
+                           class="form-control"
+                           placeholder="kullanici.adi"
+                           autocomplete="username"
+                           autofocus />
+                </div>
+                <span asp-validation-for="KullaniciAdi" class="invalid-feedback"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Sifre" class="form-label">
+                    Şifre <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input asp-for="Sifre"
+                           class="form-control has-toggle"
+                           type="password"
+                           placeholder="••••••••"
+                           autocomplete="current-password"
+                           id="sifreInput" />
+                    <button type="button" class="toggle-pass" onclick="SMS.auth.togglePassword()">
+                        <i class="fas fa-eye" id="passEye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Sifre" class="invalid-feedback"></span>
+            </div>
+
+            <div class="d-flex items-center justify-between mb-3" style="margin-top: -8px;">
+                <label class="form-check" style="margin-bottom: 0;">
+                    <input type="checkbox" id="rememberMe" />
+                    <span style="font-size:.8rem; font-weight:600; color:var(--color-gray-600);">Beni hatırla</span>
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i>
+                Giriş Yap
+            </button>
+        </form>
+
+        <div class="auth-divider">veya</div>
+
+        <a asp-action="Register" asp-controller="Auth"
+           class="btn btn-outline-secondary w-100">
+            <i class="fas fa-user-plus"></i>
+            Yeni Hesap Oluştur
+        </a>
+
+        <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--color-gray-200);">
+            <p style="font-size:.72rem; color:var(--color-gray-400); text-align:center; line-height:1.8;">
+                <strong style="display:block; margin-bottom:6px; color:var(--color-gray-500);">Test Hesapları</strong>
+                Admin: <code>admin</code> / <code>Admin@12345</code><br>
+                Öğrenci: <code>ad.soyad001</code> / <code>Ogrenci@123</code>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    // Auth helper
+    SMS.auth = {
+        togglePassword() {
+            const input = document.getElementById("sifreInput");
+            const eye   = document.getElementById("passEye");
+            if (input.type === "password") {
+                input.type = "text";
+                eye.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                eye.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        },
+    };
+
+    // Form submit → loading
+    document.getElementById("loginForm").addEventListener("submit", function () {
+        SMS.form.setLoading(this, true);
+    });
+</script>
+</body>
+</html>

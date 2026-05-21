@@ -1,0 +1,23 @@
+@* jQuery Unobtrusive Validation *@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    // Validation hata sınıfını Bootstrap'ten UBYS'e adapte et
+    $.validator.setDefaults({
+        highlight: function (element) {
+            $(element).addClass("is-invalid").removeClass("is-valid");
+        },
+        unhighlight: function (element) {
+            $(element).removeClass("is-invalid").addClass("is-valid");
+        },
+        errorPlacement: function (error, element) {
+            const feedback = element.next(".invalid-feedback");
+            if (feedback.length) {
+                feedback.html(error.text());
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+</script>

@@ -1,0 +1,120 @@
+@model StudentManagement.Services.ViewModels.Ogretmen.OgretmenDashboardViewModel
+@{
+    ViewData["Title"]      = "Dashboard";
+    ViewData["Breadcrumb"] = "Öğretmen Paneli";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Hoş Geldiniz, @Model.UnvanliAd</h1>
+        <p class="page-subtitle">@Model.AktifDonemAdi — aktif dönem</p>
+    </div>
+</div>
+
+<!-- Stat Grid -->
+<div class="stat-grid">
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-chalkboard"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.AktifDersSayisi</div>
+            <div class="stat-label">Aktif Dersim</div>
+        </div>
+    </div>
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.ToplamOgrenciSayisi</div>
+            <div class="stat-label">Toplam Öğrencim</div>
+        </div>
+    </div>
+    <div class="stat-card yellow">
+        <div class="stat-icon"><i class="fas fa-file-pen"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.YaklasanSinavSayisi</div>
+            <div class="stat-label">Yaklaşan Sınav</div>
+        </div>
+    </div>
+    <div class="stat-card purple">
+        <div class="stat-icon"><i class="fas fa-bullhorn"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.DuyuruSayisi</div>
+            <div class="stat-label">Duyurum</div>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+
+    <!-- Derslerim -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-chalkboard"></i> Bu Dönem Derslerim</div>
+            <a href="/OgretmenPanel/Derslerim" class="btn btn-ghost btn-sm">Tümü <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card-body" style="padding:0;">
+            @if (Model.AktifDersler?.Any() == true)
+            {
+                <table class="ubys-table">
+                    <thead><tr><th>Ders</th><th>Gün/Saat</th><th>Kayıtlı</th></tr></thead>
+                    <tbody>
+                        @foreach (var d in Model.AktifDersler)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="primary">@d.DersAdi</div>
+                                    <div class="secondary">@d.DersKodu</div>
+                                </td>
+                                <td>
+                                    <div style="font-size:.8rem; font-weight:700;">@d.Gun</div>
+                                    <div class="secondary">@d.Saat · @d.Derslik</div>
+                                </td>
+                                <td><strong>@d.KayitliOgrenciSayisi</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state" style="padding:24px;">
+                    <div class="empty-state-icon"><i class="fas fa-chalkboard"></i></div>
+                    <div class="empty-state-title">Bu dönem atanmış ders yok</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Yaklaşan Sınavlar -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-clock"></i> Yaklaşan Sınavlar</div>
+            <a href="/OgretmenPanel/Sinavlar" class="btn btn-ghost btn-sm">Tümü <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card-body">
+            @if (Model.YaklasanSinavlar?.Any() == true)
+            {
+                <div class="activity-list">
+                    @foreach (var s in Model.YaklasanSinavlar)
+                    {
+                        <div class="activity-item">
+                            <div class="activity-dot" style="background:var(--color-role-light); color:var(--color-role);">
+                                <i class="fas fa-file-pen"></i>
+                            </div>
+                            <div class="activity-body">
+                                <div class="activity-text">@s.DersAdi — @s.SinavTurAdi</div>
+                                <div class="activity-time"><span data-datetime="@s.Tarih"></span> · @s.Yer</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="empty-state" style="padding:24px;">
+                    <div class="empty-state-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="empty-state-title">Yaklaşan sınav yok</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

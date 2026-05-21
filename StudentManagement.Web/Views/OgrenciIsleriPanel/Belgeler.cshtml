@@ -1,0 +1,78 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.OgrenciIsleri.BelgeTalebiViewModel>
+@{
+    ViewData["Title"]      = "Belge Talepleri";
+    ViewData["Breadcrumb"] = "Belge Talepleri";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Belge Talepleri</h1>
+        <p class="page-subtitle">
+            Bekleyen: <strong>@Model.Count(x => x.BelgeDurumAdi == "Beklemede")</strong>
+        </p>
+    </div>
+</div>
+
+<div class="card table-card">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Öğrenci veya belge ara..." data-table="belgeTbl" />
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="ubys-table" id="belgeTbl">
+            <thead>
+                <tr>
+                    <th>Öğrenci</th>
+                    <th>Belge Türü</th>
+                    <th>Talep Tarihi</th>
+                    <th>Durum</th>
+                    <th>İşlem Yap</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model.OrderByDescending(x => x.CreatedAt))
+                {
+                    var (cls, lbl) = b.BelgeDurumAdi switch {
+                        "Beklemede"    => ("badge-talep",      "Beklemede"),
+                        "Hazirlaniyor" => ("badge-info",       "Hazırlanıyor"),
+                        "Hazir"        => ("badge-success",    "Hazır"),
+                        "Teslim"       => ("badge-tamamlandi", "Teslim Edildi"),
+                        "Reddedildi"   => ("badge-reddedildi", "Reddedildi"),
+                        _              => ("badge-secondary",  b.BelgeDurumAdi)
+                    };
+                    <tr>
+                        <td>
+                            <div class="primary">@b.OgrenciAdi</div>
+                            <div class="secondary">@b.OgrenciNo</div>
+                        </td>
+                        <td><div class="primary">@b.BelgeTurAdi</div></td>
+                        <td><span data-date="@b.CreatedAt" style="font-size:.8rem;"></span></td>
+                        <td><span class="badge @cls">@lbl</span></td>
+                        <td>
+                            @if (b.BelgeDurumAdi != "Teslim" && b.BelgeDurumAdi != "Reddedildi")
+                            {
+                                <form asp-action="BelgeDurumGuncelle" asp-controller="OgrenciIsleriPanel"
+                                      method="post" style="display:inline-flex; gap:4px;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="BelgeTalebiId" value="@b.Id" />
+                                    <select name="YeniBelgeDurum" class="form-control"
+                                            style="width:140px; font-size:.75rem; padding:5px 8px;">
+                                        <option value="Hazirlaniyor">Hazırlanıyor</option>
+                                        <option value="Hazir">Hazır</option>
+                                        <option value="Teslim">Teslim Edildi</option>
+                                        <option value="Reddedildi">Reddedildi</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,443 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D4E5F6A7-B8C9-0123-DEF0-234567890123}|StudentManagement.Web\\StudentManagement.Web.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.web\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4E5F6A7-B8C9-0123-DEF0-234567890123}|StudentManagement.Web\\StudentManagement.Web.csproj|solutionrelative:studentmanagement.web\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4E5F6A7-B8C9-0123-DEF0-234567890123}|StudentManagement.Web\\StudentManagement.Web.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.web\\views\\ogrenciisleripanel\\duyuruolustur.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4E5F6A7-B8C9-0123-DEF0-234567890123}|StudentManagement.Web\\StudentManagement.Web.csproj|solutionrelative:studentmanagement.web\\views\\ogrenciisleripanel\\duyuruolustur.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\viewmodels\\common\\duyuruviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\viewmodels\\common\\duyuruviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\service\\ogretmenpanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\service\\ogretmenpanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\viewmodels\\ogretmenpanelviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\viewmodels\\ogretmenpanelviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\validators\\panelvalidators.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\validators\\panelvalidators.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\service\\auditlogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\service\\auditlogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\service\\ogrencipanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\service\\ogrencipanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\helpers\\datatables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\helpers\\datatables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\service\\adminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\service\\adminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\interfaces\\iauditlogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\interfaces\\iauditlogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\interfaces\\iauditlogwriter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\interfaces\\iauditlogwriter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\helpers\\auditlogwriter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\helpers\\auditlogwriter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\service\\ogrenciisleriservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\service\\ogrenciisleriservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\interfaces\\iogretmenpanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\interfaces\\iogretmenpanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\interfaces\\iogrenciisleriservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\interfaces\\iogrenciisleriservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\interfaces\\iogrencipanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\interfaces\\iogrencipanelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\viewmodels\\ogrenciisleri\\ogrenciisleriviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\viewmodels\\ogrenciisleri\\ogrenciisleriviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\viewmodels\\ogrencipanelviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\viewmodels\\ogrencipanelviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\viewmodels\\adminviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\viewmodels\\adminviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\viewmodels\\authviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\viewmodels\\authviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|c:\\users\\muham\\onedrive\\desktop\\studentmanagementsystem\\studentmanagement.services\\viewmodels\\admin\\dersatamaviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3D4E5F6-A7B8-9012-CDEF-123456789012}|StudentManagement.Services\\StudentManagement.Services.csproj|solutionrelative:studentmanagement.services\\viewmodels\\admin\\dersatamaviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Web\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "StudentManagement.Web\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Web\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "StudentManagement.Web\\Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-19T20:49:04.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DuyuruOlustur.cshtml",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Web\\Views\\OgrenciIsleriPanel\\DuyuruOlustur.cshtml",
+              "RelativeDocumentMoniker": "StudentManagement.Web\\Views\\OgrenciIsleriPanel\\DuyuruOlustur.cshtml",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Web\\Views\\OgrenciIsleriPanel\\DuyuruOlustur.cshtml",
+              "RelativeToolTip": "StudentManagement.Web\\Views\\OgrenciIsleriPanel\\DuyuruOlustur.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-19T20:48:16.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DuyuruViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\Common\\DuyuruViewModels.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\ViewModels\\Common\\DuyuruViewModels.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\Common\\DuyuruViewModels.cs",
+              "RelativeToolTip": "StudentManagement.Services\\ViewModels\\Common\\DuyuruViewModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T20:36:50.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IAuditLogService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IAuditLogService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Interfaces\\IAuditLogService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IAuditLogService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Interfaces\\IAuditLogService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T20:27:57.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AuditLogService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\AuditLogService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Service\\AuditLogService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\AuditLogService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Service\\AuditLogService.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwCkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T20:27:45.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DataTables.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Helpers\\DataTables.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Helpers\\DataTables.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Helpers\\DataTables.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Helpers\\DataTables.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAB/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T20:27:05.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PanelValidators.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Validators\\PanelValidators.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Validators\\PanelValidators.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Validators\\PanelValidators.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Validators\\PanelValidators.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAGAAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T20:24:40.402Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "OgrenciIsleriViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\OgrenciIsleri\\OgrenciIsleriViewModels.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\ViewModels\\OgrenciIsleri\\OgrenciIsleriViewModels.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\OgrenciIsleri\\OgrenciIsleriViewModels.cs",
+              "RelativeToolTip": "StudentManagement.Services\\ViewModels\\OgrenciIsleri\\OgrenciIsleriViewModels.cs",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAywJQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T19:55:53.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MappingProfile.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Mappings\\MappingProfile.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Mappings\\MappingProfile.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Mappings\\MappingProfile.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Mappings\\MappingProfile.cs",
+              "ViewState": "AgIAANAAAAAAAAAAAAAAAOgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T19:27:19.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "IAdminService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IAdminService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Interfaces\\IAdminService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IAdminService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Interfaces\\IAdminService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:18:02.07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IOgretmenPanelService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IOgretmenPanelService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Interfaces\\IOgretmenPanelService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IOgretmenPanelService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Interfaces\\IOgretmenPanelService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:17:54.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "IOgrenciPanelService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IOgrenciPanelService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Interfaces\\IOgrenciPanelService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IOgrenciPanelService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Interfaces\\IOgrenciPanelService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:17:35.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IOgrenciIsleriService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IOgrenciIsleriService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Interfaces\\IOgrenciIsleriService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IOgrenciIsleriService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Interfaces\\IOgrenciIsleriService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:17:23.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "OgretmenPanelService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\OgretmenPanelService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Service\\OgretmenPanelService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\OgretmenPanelService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Service\\OgretmenPanelService.cs",
+              "ViewState": "AgIAALUBAAAAAAAAAAAIwL8BAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:14:11.869Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OgrenciPanelService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\OgrenciPanelService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Service\\OgrenciPanelService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\OgrenciPanelService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Service\\OgrenciPanelService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:14:00.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OgrenciIsleriService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\OgrenciIsleriService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Service\\OgrenciIsleriService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\OgrenciIsleriService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Service\\OgrenciIsleriService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:13:36.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AdminService.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\AdminService.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Service\\AdminService.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Service\\AdminService.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Service\\AdminService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T13:12:28.005Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "OgretmenPanelViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\OgretmenPanelViewModels.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\ViewModels\\OgretmenPanelViewModels.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\OgretmenPanelViewModels.cs",
+              "RelativeToolTip": "StudentManagement.Services\\ViewModels\\OgretmenPanelViewModels.cs",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAtwI8AAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:54:26.124Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "OgrenciPanelViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\OgrenciPanelViewModels.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\ViewModels\\OgrenciPanelViewModels.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\OgrenciPanelViewModels.cs",
+              "RelativeToolTip": "StudentManagement.Services\\ViewModels\\OgrenciPanelViewModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:50:14.255Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "AuthViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\AuthViewModels.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\ViewModels\\AuthViewModels.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\AuthViewModels.cs",
+              "RelativeToolTip": "StudentManagement.Services\\ViewModels\\AuthViewModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:50:08.796Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "AdminViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\AdminViewModels.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\ViewModels\\AdminViewModels.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\AdminViewModels.cs",
+              "RelativeToolTip": "StudentManagement.Services\\ViewModels\\AdminViewModels.cs",
+              "ViewState": "AgIAAOMAAAAAAAAAAAA3wPQAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:49:19.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "DersAtamaViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\Admin\\DersAtamaViewModels.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\ViewModels\\Admin\\DersAtamaViewModels.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\ViewModels\\Admin\\DersAtamaViewModels.cs",
+              "RelativeToolTip": "StudentManagement.Services\\ViewModels\\Admin\\DersAtamaViewModels.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAcwD0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:48:09.015Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IAuditLogWriter.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IAuditLogWriter.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Interfaces\\IAuditLogWriter.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Interfaces\\IAuditLogWriter.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Interfaces\\IAuditLogWriter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:44:13.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AuditLogWriter.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Helpers\\AuditLogWriter.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\Helpers\\AuditLogWriter.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\Helpers\\AuditLogWriter.cs",
+              "RelativeToolTip": "StudentManagement.Services\\Helpers\\AuditLogWriter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:43:06.155Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "GlobalUsings.cs",
+              "DocumentMoniker": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\GlobalUsings.cs",
+              "RelativeDocumentMoniker": "StudentManagement.Services\\GlobalUsings.cs",
+              "ToolTip": "C:\\Users\\muham\\OneDrive\\Desktop\\StudentManagementSystem\\StudentManagement.Services\\GlobalUsings.cs",
+              "RelativeToolTip": "StudentManagement.Services\\GlobalUsings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T12:42:31.705Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

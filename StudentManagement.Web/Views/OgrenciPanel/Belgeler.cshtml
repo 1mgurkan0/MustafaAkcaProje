@@ -1,0 +1,118 @@
+@model StudentManagement.Services.ViewModels.Ogrenci.BelgelerViewModel
+@using StudentManagement.Core.Enums
+@{
+    ViewData["Title"]      = "Belgelerim";
+    ViewData["Breadcrumb"] = "Belgelerim";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Belgelerim</h1>
+        <p class="page-subtitle">Belge taleplerinizi buradan takip edebilirsiniz.</p>
+    </div>
+    <button class="btn btn-primary" onclick="SMS.modal.show('belgeTalebiModal')">
+        <i class="fas fa-plus"></i> Belge Talep Et
+    </button>
+</div>
+
+<div class="card table-card">
+    <div class="table-responsive">
+        <table class="ubys-table">
+            <thead>
+                <tr>
+                    <th>Belge Türü</th>
+                    <th>Talep Tarihi</th>
+                    <th>Durum</th>
+                    <th>İşlem Yapan</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model.Talepler.OrderByDescending(x => x.CreatedAt))
+                {
+                    var (cls, lbl) = b.BelgeDurumAdi switch {
+                        "Beklemede"   => ("badge-talep",      "Beklemede"),
+                        "Hazirlaniyor"=> ("badge-info",       "Hazırlanıyor"),
+                        "Hazir"       => ("badge-success",    "Hazır"),
+                        "Teslim"      => ("badge-tamamlandi", "Teslim Edildi"),
+                        "Reddedildi"  => ("badge-reddedildi", "Reddedildi"),
+                        _             => ("badge-secondary",  b.BelgeDurumAdi)
+                    };
+                    <tr>
+                        <td>
+                            <div class="primary">@b.BelgeTurAdi</div>
+                        </td>
+                        <td>
+                            <span data-date="@b.CreatedAt" style="font-size:.8rem;"></span>
+                        </td>
+                        <td><span class="badge @cls">@lbl</span></td>
+                        <td>
+                            <span style="font-size:.78rem;">
+                                @(string.IsNullOrEmpty(b.IslemYapanAdi) ? "—" : b.IslemYapanAdi)
+                            </span>
+                        </td>
+                        <td>
+                            <span style="font-size:.78rem; color:var(--color-gray-500);">
+                                @(string.IsNullOrEmpty(b.Aciklama) ? "—" : b.Aciklama)
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (!Model.Talepler.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="empty-state-title">Henüz belge talebiniz yok</div>
+            <div class="empty-state-text">Yeni belge talep etmek için "Belge Talep Et" butonunu kullanın.</div>
+        </div>
+    }
+</div>
+
+<!-- Belge Talep Modal -->
+<div class="modal-overlay" id="belgeTalebiModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span class="modal-title">Yeni Belge Talebi</span>
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form asp-action="BelgeTalepOlustur" asp-controller="OgrenciPanel"
+                  method="post" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label class="form-label">Belge Türü <span class="required">*</span></label>
+                    <select name="BelgeTur" class="form-control"
+                            asp-items="Html.GetEnumSelectList<BelgeTur>()">
+                        <option value="">— Belge türü seçiniz —</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Açıklama / Not</label>
+                    <textarea name="Aciklama" class="form-control" rows="3"
+                              maxlength="500"
+                              placeholder="Belge ile ilgili eklemek istediğiniz notlar..."></textarea>
+                </div>
+
+                <div class="alert alert-info" style="margin-bottom:0;">
+                    <i class="fas fa-circle-info"></i>
+                    <div class="alert-body alert-text">
+                        Belge talepleriniz öğrenci işleri tarafından işleme alınacaktır.
+                        Hazırlık süresi yaklaşık 5 iş günüdür.
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="padding:0; border:none; margin-top:14px;">
+                    <button type="button" class="btn btn-outline-secondary modal-close">İptal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Talep Gönder
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

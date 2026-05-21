@@ -1,0 +1,115 @@
+@model StudentManagement.Services.ViewModels.OgrenciIsleri.TalepDetayViewModel
+@{
+    ViewData["Title"]      = "Talep Detayı";
+    ViewData["Breadcrumb"] = "Talep Detayı";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Ders Kayıt Talebi</h1>
+        <p class="page-subtitle">@Model.OgrenciAdi · @Model.OgrenciNo</p>
+    </div>
+    <a href="/OgrenciIsleri/Talepler" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Geri
+    </a>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:800px;">
+
+    <!-- Öğrenci Bilgileri -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-user"></i> Öğrenci Bilgileri</div>
+        </div>
+        <div class="card-body">
+            @{
+                void Row(string label, string value) {
+                    <div style="display:flex; justify-content:space-between; padding:7px 0;
+                                border-bottom:1px solid var(--color-gray-100); font-size:.83rem;">
+                        <span style="color:var(--color-gray-500); font-weight:600;">@label</span>
+                        <span style="font-weight:700; color:var(--color-gray-800);">@value</span>
+                    </div>
+                }
+            }
+            @{ Row("Öğrenci No",  Model.OgrenciNo); }
+            @{ Row("Ad Soyad",    Model.OgrenciAdi); }
+            @{ Row("Bölüm",       Model.BolumAdi); }
+            @{ Row("GANO",        Model.Gano.ToString("F2")); }
+            @{ Row("Mevcut AKTS", Model.MevcutAktsYuku.ToString()); }
+        </div>
+    </div>
+
+    <!-- Ders Bilgileri -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-book"></i> Talep Edilen Ders</div>
+        </div>
+        <div class="card-body">
+            @{ Row("Ders Kodu",    Model.DersKodu); }
+            @{ Row("Ders Adı",     Model.DersAdi); }
+            @{ Row("Öğretmen",     Model.OgretmenAdi); }
+            @{ Row("AKTS",         Model.Akts.ToString()); }
+            @{ Row("Gün / Saat",   $"{Model.Gun} — {Model.Saat}"); }
+            @{ Row("Derslik",      Model.Derslik); }
+            @{ Row("Kontenjan",    $"{Model.KayitliSayisi} / {Model.MaxKontenjan}"); }
+        </div>
+    </div>
+</div>
+
+<!-- Onay / Red -->
+@if (Model.DurumAdi == "Talep")
+{
+    <div style="display:flex; gap:16px; margin-top:20px; max-width:800px;">
+
+        <!-- Onayla -->
+        <div class="card" style="flex:1;">
+            <div class="card-body" style="text-align:center;">
+                <i class="fas fa-check-circle" style="font-size:2rem; color:var(--color-success); margin-bottom:10px;"></i>
+                <h3 style="font-size:.95rem; font-weight:800; margin-bottom:6px;">Talebi Onayla</h3>
+                <p style="font-size:.8rem; color:var(--color-gray-500); margin-bottom:14px;">
+                    Öğrenci derse kayıt edilecek.
+                </p>
+                <form asp-action="Onayla" asp-controller="OgrenciIsleriPanel" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ogrenciDersId" value="@Model.OgrenciDersId" />
+                    <button type="submit" class="btn btn-success w-100"
+                            data-confirm="Bu talebi onaylamak istediğinize emin misiniz?"
+                            data-confirm-btn="Evet, Onayla">
+                        <i class="fas fa-check"></i> Onayla
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Reddet -->
+        <div class="card" style="flex:1;">
+            <div class="card-body" style="text-align:center;">
+                <i class="fas fa-times-circle" style="font-size:2rem; color:var(--color-danger); margin-bottom:10px;"></i>
+                <h3 style="font-size:.95rem; font-weight:800; margin-bottom:6px;">Talebi Reddet</h3>
+                <p style="font-size:.8rem; color:var(--color-gray-500); margin-bottom:14px;">
+                    Red nedeni belirtmeniz zorunludur.
+                </p>
+                <form asp-action="Reddet" asp-controller="OgrenciIsleriPanel" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="OgrenciDersId" value="@Model.OgrenciDersId" />
+                    <div class="form-group" style="text-align:left;">
+                        <textarea name="RedNedeni" class="form-control" rows="2"
+                                  placeholder="Red nedenini yazın..." required maxlength="500"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="fas fa-times"></i> Reddet
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info" style="max-width:800px; margin-top:20px;">
+        <i class="fas fa-circle-info"></i>
+        <div class="alert-body alert-text">
+            Bu talep <strong>@Model.DurumAdi</strong> durumunda. İşlem yapılamaz.
+        </div>
+    </div>
+}

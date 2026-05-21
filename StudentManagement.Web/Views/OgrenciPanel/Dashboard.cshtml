@@ -1,0 +1,170 @@
+@model StudentManagement.Services.ViewModels.Ogrenci.OgrenciDashboardViewModel
+@{
+    ViewData["Title"]      = "Dashboard";
+    ViewData["Breadcrumb"] = "Öğrenci Paneli";
+    var ganoClass = Model.Gano >= 3.0 ? "excellent" : Model.Gano >= 2.0 ? "good" : Model.Gano >= 1.0 ? "average" : "poor";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Hoş Geldiniz, @Model.TamAd</h1>
+        <p class="page-subtitle">@Model.OgrenciNo · @Model.BolumAdi · @Model.AktifDonemAdi</p>
+    </div>
+</div>
+
+<!-- Stat Grid -->
+<div class="stat-grid">
+    <div class="stat-card role">
+        <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.AktifDersSayisi</div>
+            <div class="stat-label">Aktif Ders</div>
+            <div class="stat-change neutral">@Model.AktifAktsYuku AKTS</div>
+        </div>
+    </div>
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.Gano.ToString("F2")</div>
+            <div class="stat-label">GANO</div>
+            <div class="stat-change @(Model.Gano >= 2.0 ? "up" : "down")">
+                @(Model.Gano >= 2.0 ? "Geçer durum" : "Geçer sınırın altında")
+            </div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.TamamlananAkts</div>
+            <div class="stat-label">Tamamlanan AKTS</div>
+        </div>
+    </div>
+    <div class="stat-card yellow">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.YaklasanSinavSayisi</div>
+            <div class="stat-label">Yaklaşan Sınav</div>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:2fr 1fr; gap:20px;">
+
+    <!-- Aktif Dersler -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-book-open"></i> Bu Dönem Derslerim</div>
+            <a href="/OgrenciPanel/Derslerim" class="btn btn-ghost btn-sm">Tümü <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card-body" style="padding:0;">
+            @if (Model.AktifDersler?.Any() == true)
+            {
+                <table class="ubys-table">
+                    <thead>
+                        <tr><th>Ders</th><th>Öğretmen</th><th>Gün/Saat</th><th>Durum</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in Model.AktifDersler)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="primary">@d.DersAdi</div>
+                                    <div class="secondary">@d.DersKodu · @d.Akts AKTS</div>
+                                </td>
+                                <td><span style="font-size:.8rem;">@d.OgretmenAdi</span></td>
+                                <td>
+                                    <div style="font-size:.78rem; font-weight:700;">@d.Gun</div>
+                                    <div class="secondary">@d.Saat · @d.Derslik</div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-devam">Devam</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state" style="padding:28px;">
+                    <div class="empty-state-icon"><i class="fas fa-book"></i></div>
+                    <div class="empty-state-title">Aktif ders kaydınız yok</div>
+                    <div class="empty-state-text">Ders kayıt döneminde yeni dersler ekleyebilirsiniz.</div>
+                    <div style="margin-top:16px;">
+                        <a href="/OgrenciPanel/DersKayit" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Ders Kaydı Yap
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Sağ Panel -->
+    <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- GANO Göstergesi -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-chart-line"></i> Akademik Durum</div>
+            </div>
+            <div class="card-body" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
+                <div class="gano-circle @ganoClass">
+                    <div class="gano-value">@Model.Gano.ToString("F2")</div>
+                    <div class="gano-label">GANO</div>
+                </div>
+                <div style="width:100%;">
+                    <div class="d-flex items-center justify-between mb-1">
+                        <span style="font-size:.75rem; font-weight:700; color:var(--color-gray-600);">Mezuniyet İlerlemesi</span>
+                        <span style="font-size:.72rem; color:var(--color-gray-400);">
+                            @Model.TamamlananAkts / @Model.MinMezuniyetAkts
+                        </span>
+                    </div>
+                    @{
+                        var mezIlerleme = Model.MinMezuniyetAkts > 0
+                            ? Math.Min(100, (int)((double)Model.TamamlananAkts / Model.MinMezuniyetAkts * 100))
+                            : 0;
+                    }
+                    <div class="progress">
+                        <div class="progress-bar @(mezIlerleme >= 100 ? "success" : "")"
+                             style="width:@mezIlerleme%"></div>
+                    </div>
+                    <div style="font-size:.7rem; color:var(--color-gray-400); margin-top:4px; text-align:right;">
+                        %@mezIlerleme tamamlandı
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yaklaşan Sınavlar -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-calendar-check"></i> Yaklaşan Sınavlar</div>
+                <a href="/OgrenciPanel/SinavTakvimi" class="btn btn-ghost btn-sm">Tümü</a>
+            </div>
+            <div class="card-body" style="padding:8px 12px;">
+                @if (Model.YaklasanSinavlar?.Any() == true)
+                {
+                    @foreach (var s in Model.YaklasanSinavlar)
+                    {
+                        <div style="display:flex; justify-content:space-between; align-items:center;
+                                    padding:8px 0; border-bottom:1px solid var(--color-gray-100);">
+                            <div>
+                                <div style="font-size:.8rem; font-weight:700;">@s.DersAdi</div>
+                                <div style="font-size:.72rem; color:var(--color-gray-400);">@s.SinavTurAdi</div>
+                            </div>
+                            <span style="font-size:.72rem; font-weight:700; color:var(--color-role);"
+                                  data-date="@s.SinavTarihi"></span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="font-size:.8rem; color:var(--color-gray-400); text-align:center; padding:12px 0;">
+                        Yaklaşan sınav yok
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\StudentManagement.Core",
+    "\\StudentManagement.Core\\Interfaces",
+    "\\StudentManagement.Core\\Interfaces\\Repositories",
+    "\\StudentManagement.Services",
+    "\\StudentManagement.Services\\Interfaces",
+    "\\StudentManagement.Web",
+    "\\StudentManagement.Web\\Controllers"
+  ],
+  "SelectedNode": "\\StudentManagement.Core\\Interfaces\\Repositories\\IGenericRepository.cs",
+  "PreviewInSolutionExplorer": false
+}

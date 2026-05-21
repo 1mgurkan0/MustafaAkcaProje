@@ -1,0 +1,80 @@
+@model StudentManagement.Services.ViewModels.Ogrenci.SinavTakvimiViewModel
+@{
+    ViewData["Title"]      = "Sınav Takvimi";
+    ViewData["Breadcrumb"] = "Sınav Takvimi";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Sınav Takvimi</h1>
+        <p class="page-subtitle">@Model.DonemAdi — tüm sınavlarınız.</p>
+    </div>
+</div>
+
+<div class="card table-card">
+    <div class="table-responsive">
+        <table class="ubys-table">
+            <thead>
+                <tr>
+                    <th>Ders</th>
+                    <th>Sınav Türü</th>
+                    <th>Tarih / Saat</th>
+                    <th>Yer</th>
+                    <th>Kalan Süre</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model.Sinavlar.OrderBy(x => x.Tarih))
+                {
+                    var gecti   = s.Tarih < DateTime.Now;
+                    var kalanGun = (s.Tarih - DateTime.Now).Days;
+                    var turClass = s.SinavTurAdi switch {
+                        "Vize"      => "badge-warning",
+                        "Final"     => "badge-danger",
+                        "Butunleme" => "badge-info",
+                        _           => "badge-secondary"
+                    };
+                    <tr style="@(gecti ? "opacity:.6;" : "")">
+                        <td>
+                            <div class="primary">@s.DersAdi</div>
+                            <div class="secondary">@s.DersKodu</div>
+                        </td>
+                        <td><span class="badge @turClass">@s.SinavTurAdi</span></td>
+                        <td>
+                            <div style="font-weight:700; font-size:.83rem;"
+                                 data-datetime="@s.Tarih"></div>
+                        </td>
+                        <td>@(string.IsNullOrEmpty(s.Yer) ? "—" : s.Yer)</td>
+                        <td>
+                            @if (gecti)
+                            {
+                                <span style="font-size:.75rem; color:var(--color-gray-400);">Geçti</span>
+                            }
+                            else if (kalanGun == 0)
+                            {
+                                <span class="badge badge-danger">Bugün!</span>
+                            }
+                            else if (kalanGun <= 3)
+                            {
+                                <span class="badge badge-warning">@kalanGun gün kaldı</span>
+                            }
+                            else
+                            {
+                                <span style="font-size:.78rem; font-weight:700; color:var(--color-gray-600);">
+                                    @kalanGun gün
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (!Model.Sinavlar.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-calendar-check"></i></div>
+            <div class="empty-state-title">Bu dönem sınav bilgisi girilmemiş</div>
+        </div>
+    }
+</div>

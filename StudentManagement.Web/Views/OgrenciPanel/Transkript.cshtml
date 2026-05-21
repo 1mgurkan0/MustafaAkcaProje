@@ -1,0 +1,118 @@
+@model StudentManagement.Services.ViewModels.Ogrenci.TranskriptViewModel
+@{
+    ViewData["Title"]      = "Transkript";
+    ViewData["Breadcrumb"] = "Transkript";
+    var ganoClass = Model.Gano >= 3.0 ? "excellent" : Model.Gano >= 2.0 ? "good" : Model.Gano >= 1.0 ? "average" : "poor";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Transkript</h1>
+        <p class="page-subtitle">@Model.TamAd · @Model.OgrenciNo</p>
+    </div>
+    <button onclick="window.print()" class="btn btn-outline-secondary">
+        <i class="fas fa-print"></i> Yazdır
+    </button>
+</div>
+
+<!-- Özet Bilgiler -->
+<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px;">
+    <div class="stat-card role">
+        <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.Gano.ToString("F2")</div>
+            <div class="stat-label">GANO</div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-check"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.TamamlananAkts</div>
+            <div class="stat-label">Tamamlanan AKTS</div>
+        </div>
+    </div>
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-book"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.TamamlananDersSayisi</div>
+            <div class="stat-label">Tamamlanan Ders</div>
+        </div>
+    </div>
+    <div class="stat-card" style="--stat-color:#8b5cf6; --stat-color-light:#f5f3ff;">
+        <div class="stat-icon"><i class="fas fa-building-columns"></i></div>
+        <div class="stat-body">
+            <div class="stat-value" style="font-size:1rem;">@Model.BolumAdi</div>
+            <div class="stat-label">Bölüm</div>
+        </div>
+    </div>
+</div>
+
+<!-- Dönem Dönem Dersler -->
+@if (Model.DonemGruplari?.Any() == true)
+{
+    @foreach (var grup in Model.DonemGruplari)
+    {
+        <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-calendar"></i>
+                    @grup.DonemAdi
+                </div>
+                <div style="display:flex; gap:16px; font-size:.78rem; font-weight:700; color:var(--color-gray-500);">
+                    <span>@grup.ToplamAkts AKTS</span>
+                    <span>DÖNGano: <strong style="color:var(--color-gray-800);">@grup.DonemGanosu.ToString("F2")</strong></span>
+                </div>
+            </div>
+            <div class="card-body" style="padding:0;">
+                <table class="ubys-table">
+                    <thead>
+                        <tr>
+                            <th>Ders Kodu</th>
+                            <th>Ders Adı</th>
+                            <th>AKTS</th>
+                            <th>Vize</th>
+                            <th>Final</th>
+                            <th>Genel</th>
+                            <th>Harf</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in grup.Dersler)
+                        {
+                            <tr>
+                                <td><span class="badge badge-secondary">@d.DersKodu</span></td>
+                                <td><div class="primary">@d.DersAdi</div></td>
+                                <td><strong>@d.Akts</strong></td>
+                                <td>@(d.VizeNotu.HasValue ? d.VizeNotu.Value.ToString("F1") : "—")</td>
+                                <td>@(d.FinalNotu.HasValue ? d.FinalNotu.Value.ToString("F1") : "—")</td>
+                                <td>
+                                    <strong>@(d.GenelNot.HasValue ? d.GenelNot.Value.ToString("F1") : "—")</strong>
+                                </td>
+                                <td>
+                                    @if (d.HarfNotuAdi != "-" && d.HarfNotuAdi != "—")
+                                    {
+                                        <span class="badge badge-@d.HarfNotuAdi">@d.HarfNotuAdi</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-secondary">—</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-scroll"></i></div>
+            <div class="empty-state-title">Henüz tamamlanmış ders yok</div>
+            <div class="empty-state-text">Derslerinizi tamamladıkça transkriptiniz burada görünecektir.</div>
+        </div>
+    </div>
+}

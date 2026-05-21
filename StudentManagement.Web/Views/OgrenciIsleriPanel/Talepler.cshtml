@@ -1,0 +1,145 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.OgrenciIsleri.TalepViewModel>
+@{
+    ViewData["Title"]      = "Ders Kayıt Talepleri";
+    ViewData["Breadcrumb"] = "Talepler";
+    var bekleyenler = Model.Where(t => t.DurumAdi == "Talep").ToList();
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Ders Kayıt Talepleri</h1>
+        <p class="page-subtitle">Onay bekleyen: <strong>@bekleyenler.Count</strong> talep</p>
+    </div>
+    @if (bekleyenler.Any())
+    {
+        <form asp-action="TopluOnayla" asp-controller="OgrenciIsleriPanel" method="post" id="topluForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="secilenIdler" id="secilenIdlerInput" />
+            <button type="submit" class="btn btn-success" id="topluOnayBtn"
+                    data-confirm="Seçili talepleri toplu onaylamak istediğinize emin misiniz?"
+                    data-confirm-title="Toplu Onay"
+                    data-confirm-btn="Evet, Onayla">
+                <i class="fas fa-check-double"></i>
+                Seçilileri Onayla (<span id="secilenSayi">0</span>)
+            </button>
+        </form>
+    }
+</div>
+
+<div class="card table-card">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Öğrenci veya ders ara..." data-table="talepTbl" />
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+            @if (bekleyenler.Any())
+            {
+                <label class="form-check" style="margin:0; font-size:.8rem;">
+                    <input type="checkbox" id="tumunuSec" />
+                    <span>Tümünü Seç</span>
+                </label>
+            }
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="ubys-table" id="talepTbl">
+            <thead>
+                <tr>
+                    <th style="width:36px;"></th>
+                    <th>Öğrenci</th>
+                    <th>Ders</th>
+                    <th>Öğretmen</th>
+                    <th>Talep Tarihi</th>
+                    <th>Durum</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model.OrderByDescending(x => x.TalepTarihi))
+                {
+                    var isBekleyen = t.DurumAdi == "Talep";
+                    <tr>
+                        <td>
+                            @if (isBekleyen)
+                            {
+                                <input type="checkbox" class="talep-checkbox form-check-input"
+                                       value="@t.OgrenciDersId" />
+                            }
+                        </td>
+                        <td>
+                            <div class="primary">@t.OgrenciAdi</div>
+                            <div class="secondary">@t.OgrenciNo · @t.BolumKodu</div>
+                        </td>
+                        <td>
+                            <div class="primary">@t.DersAdi</div>
+                            <div class="secondary">@t.DersKodu · @t.Akts AKTS</div>
+                        </td>
+                        <td><span style="font-size:.8rem;">@t.OgretmenAdi</span></td>
+                        <td><span data-date="@t.TalepTarihi" style="font-size:.8rem;"></span></td>
+                        <td>
+                            @{
+                                var (cls, lbl) = t.DurumAdi switch {
+                                    "Talep"      => ("badge-talep",      "Bekliyor"),
+                                    "Devam"      => ("badge-devam",      "Onaylandı"),
+                                    "Reddedildi" => ("badge-reddedildi", "Reddedildi"),
+                                    _            => ("badge-secondary",  t.DurumAdi)
+                                };
+                            }
+                            <span class="badge @cls">@lbl</span>
+                        </td>
+                        <td>
+                            @if (isBekleyen)
+                            {
+                                <div class="table-actions">
+                                    <form asp-action="Onayla" asp-controller="OgrenciIsleriPanel" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="ogrenciDersId" value="@t.OgrenciDersId" />
+                                        <button type="submit" class="btn btn-success btn-sm"
+                                                data-confirm="Bu dersi onaylamak istediğinize emin misiniz?"
+                                                data-confirm-btn="Onayla">
+                                            <i class="fas fa-check"></i> Onayla
+                                        </button>
+                                    </form>
+                                    <a href="/OgrenciIsleri/TalepDetay/@t.OgrenciDersId"
+                                       class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-times"></i> Red
+                                    </a>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const checkboxes  = () => document.querySelectorAll(".talep-checkbox");
+        const sayi        = () => document.querySelectorAll(".talep-checkbox:checked").length;
+        const saziEl      = document.getElementById("secilenSayi");
+        const inputEl     = document.getElementById("secilenIdlerInput");
+        const tumunuSec   = document.getElementById("tumunuSec");
+
+        function updateSayi() {
+            const n = sayi();
+            if (saziEl)   saziEl.textContent = n;
+            if (inputEl)  inputEl.value = [...checkboxes()]
+                .filter(c => c.checked).map(c => c.value).join(",");
+        }
+
+        checkboxes().forEach(cb => cb.addEventListener("change", updateSayi));
+
+        if (tumunuSec) {
+            tumunuSec.addEventListener("change", function () {
+                checkboxes().forEach(cb => cb.checked = this.checked);
+                updateSayi();
+            });
+        }
+
+        updateSayi();
+    </script>
+}

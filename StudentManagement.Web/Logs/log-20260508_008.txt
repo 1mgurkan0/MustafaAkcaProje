@@ -1,0 +1,15 @@
+[2026-05-08 11:48:33 INF] Veritabanı migration ve seed tamamlandı.
+[2026-05-08 11:48:50 WRN] Failed to determine the https port for redirect.
+[2026-05-08 11:48:50 WRN] Failed to determine the https port for redirect.
+[2026-05-08 11:49:04 INF] Giriş başarılı. KullaniciAdi:admin
+[2026-05-08 11:49:04 INF] Session oluşturuldu. UserId:1
+2026-05-08 14:39:59.242 +03:00 [INF] Veritabanı migration ve seed tamamlandı.
+2026-05-08 14:40:09.730 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-08 14:40:09.735 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-08 14:40:38.243 +03:00 [INF] Giriş başarılı. KullaniciAdi:admin
+2026-05-08 14:40:38.247 +03:00 [INF] Session oluşturuldu. UserId:1
+2026-05-08 14:49:40.932 +03:00 [INF] Giriş başarılı. KullaniciAdi:selin.gunes
+2026-05-08 14:49:40.940 +03:00 [INF] Session oluşturuldu. UserId:15
+2026-05-08 14:50:09.889 +03:00 [WRN] Başarısız giriş. KullaniciAdi:ahmet.yilmaz001 IP:::1
+2026-05-08 14:50:09.919 +03:00 [WRN] Başarısız giriş. KullaniciAdi:ahmet.yilmaz001 IP:::1
+2026-05-08 14:50:28.284 +03:00 [WRN] Başarısız giriş. KullaniciAdi:mehmet.demir003 IP:::1

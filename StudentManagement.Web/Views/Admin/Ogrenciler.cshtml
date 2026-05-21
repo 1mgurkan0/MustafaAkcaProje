@@ -1,0 +1,124 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.Admin.OgrenciViewModel>
+    @{
+        ViewData["Title"] = "Öğrenciler";
+        ViewData["Breadcrumb"] = "Öğrenciler";
+    }
+
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Öğrenciler</h1>
+            <p class="page-subtitle">Tüm öğrenci hesaplarını görüntüleyin ve yönetin.</p>
+        </div>
+    </div>
+
+    <div class="card table-card">
+        <div class="table-toolbar">
+            <div class="table-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Öğrenci ara..." data-table="ogrenciTbl" />
+            </div>
+            <div style="font-size:.78rem; color:var(--color-gray-400);">
+                Toplam <strong>@Model.Count()</strong> öğrenci
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="ubys-table" id="ogrenciTbl">
+                <thead>
+                    <tr>
+                        <th>Öğrenci No</th>
+                        <th>Ad Soyad</th>
+                        <th>E-posta</th>
+                        <th>Bölüm</th>
+                        <th>GANO</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in Model)
+                    {
+                        // Nullable decimal çözümü eklendi
+                        double currentGano = o.Gano.HasValue ? (double)o.Gano.Value : 0;
+
+                        <tr>
+                            <td><code style="font-size:.78rem;">@o.OgrenciNo</code></td>
+                            <td>
+                                <div class="primary">@o.TamAd</div>
+                            </td>
+                            <td><span class="text-sm text-muted">@o.Email</span></td>
+                            <td><span class="badge badge-secondary">@o.BolumKodu</span></td>
+                            <td>
+                                <span style="font-weight:800; font-size:.88rem;"
+                                      class="text-@(currentGano >= 2.0 ? "success" : "danger")">
+                                    @(o.Gano?.ToString("F2") ?? "0.00")
+                                </span>
+                            </td>
+                            <td>
+                                @{
+                                    var durumCls = "badge-secondary";
+                                    var durumLbl = o.OgrenciDurumAdi;
+
+                                    if (o.OgrenciDurumAdi == "Aktif") { durumCls = "badge-success"; durumLbl = "Aktif"; }
+                                    else if (o.OgrenciDurumAdi == "Dondurulmus") { durumCls = "badge-warning"; durumLbl = "Dondurulmuş"; }
+                                    else if (o.OgrenciDurumAdi == "Mezun") { durumCls = "badge-info"; durumLbl = "Mezun"; }
+                                    else if (o.OgrenciDurumAdi == "IliskiKesik") { durumCls = "badge-danger"; durumLbl = "İlişkisi Kesildi"; }
+                                    else if (o.OgrenciDurumAdi == "Izinli") { durumCls = "badge-secondary"; durumLbl = "İzinli"; }
+                                }
+                                <span class="badge @durumCls">@durumLbl</span>
+                            </td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="btn btn-outline-secondary btn-icon btn-sm"
+                                            onclick="openDurumModal(@o.OgrenciId, '@o.TamAd', '@o.OgrenciDurumAdi')"
+                                            title="Durum Değiştir">
+                                        <i class="fas fa-sliders"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="durumModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span class="modal-title">Öğrenci Durumu Güncelle</span>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalOgrenciAdi" style="font-weight:700; margin-bottom:16px; color:var(--color-gray-800);"></p>
+                <form asp-action="OgrenciDurumGuncelle" asp-controller="Admin" method="post" id="durumForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ogrenciId" id="modalOgrenciId" />
+                    <div class="form-group">
+                        <label class="form-label">Yeni Durum <span class="required">*</span></label>
+                        <select name="yeniDurum" id="modalDurum" class="form-control">
+                            <option value="Aktif">Aktif</option>
+                            <option value="Dondurulmus">Dondurulmuş</option>
+                            <option value="Mezun">Mezun</option>
+                            <option value="IliskiKesik">İlişkisi Kesildi</option>
+                            <option value="Izinli">İzinli</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer" style="padding:0; border:none; margin-top:8px;">
+                        <button type="button" class="btn btn-outline-secondary modal-close">İptal</button>
+                        <button type="submit" class="btn btn-primary">Güncelle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            function openDurumModal(id, ad, durum) {
+                document.getElementById("modalOgrenciId").value = id;
+                document.getElementById("modalOgrenciAdi").textContent = ad;
+                document.getElementById("modalDurum").value = durum;
+                SMS.modal.show("durumModal");
+            }
+        </script>
+    }

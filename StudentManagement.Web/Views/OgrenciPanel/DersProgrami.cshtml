@@ -1,0 +1,115 @@
+@model StudentManagement.Services.ViewModels.Ogrenci.DersProgramiViewModel
+@{
+    ViewData["Title"]      = "Ders Programı";
+    ViewData["Breadcrumb"] = "Ders Programı";
+    var gunler = new[] { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi" };
+    var saatler = new[] { "08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00" };
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Ders Programı</h1>
+        <p class="page-subtitle">@Model.DonemAdi haftalık ders programınız.</p>
+    </div>
+</div>
+
+<!-- Haftalık Grid -->
+<div class="card" style="overflow:auto;">
+    <div class="card-body" style="padding:0; overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; min-width:700px;">
+            <thead>
+                <tr style="background:var(--color-gray-50);">
+                    <th style="width:80px; padding:10px 14px; font-size:.7rem; font-weight:700;
+                               text-transform:uppercase; letter-spacing:.6px; color:var(--color-gray-500);
+                               border-bottom:2px solid var(--color-gray-200); text-align:center;">
+                        SAAT
+                    </th>
+                    @foreach (var gun in gunler)
+                    {
+                        <th style="padding:10px 14px; font-size:.75rem; font-weight:700;
+                                   text-transform:uppercase; letter-spacing:.5px; color:var(--color-gray-700);
+                                   border-bottom:2px solid var(--color-gray-200); text-align:center;
+                                   border-left:1px solid var(--color-gray-200);">
+                            @gun
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var saat in saatler)
+                {
+                    <tr style="border-bottom:1px solid var(--color-gray-100);">
+                        <td style="padding:8px 14px; font-size:.75rem; font-weight:700;
+                                   color:var(--color-gray-400); text-align:center;
+                                   background:var(--color-gray-50); white-space:nowrap;">
+                            @saat
+                        </td>
+                        @for (int g = 1; g <= 6; g++)
+                        {
+                            var ders = Model.Dersler?.FirstOrDefault(d =>
+                                d.Gun == g.ToString() ||
+                                (g == 1 && d.Gun == "Pazartesi") ||
+                                (g == 2 && d.Gun == "Salı") ||
+                                (g == 3 && d.Gun == "Çarşamba") ||
+                                (g == 4 && d.Gun == "Perşembe") ||
+                                (g == 5 && d.Gun == "Cuma") ||
+                                (g == 6 && d.Gun == "Cumartesi"));
+
+                            var dersVarBuSaatte = ders != null && ders.Saat == saat;
+
+                            <td style="padding:6px 8px; vertical-align:top; min-width:120px;
+                                       border-left:1px solid var(--color-gray-200);">
+                                @if (dersVarBuSaatte && ders != null)
+                                {
+                                    <div style="background:var(--color-role-light);
+                                                border-left:3px solid var(--color-role);
+                                                border-radius:6px; padding:6px 8px;">
+                                        <div style="font-size:.75rem; font-weight:800;
+                                                    color:var(--color-role-dark); line-height:1.3;">
+                                            @ders.DersAdi
+                                        </div>
+                                        <div style="font-size:.68rem; color:var(--color-gray-500); margin-top:2px;">
+                                            @ders.Derslik
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Liste Görünümü -->
+@if (Model.Dersler?.Any() == true)
+{
+    <div class="card" style="margin-top:20px;">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-list"></i> Ders Listesi</div>
+        </div>
+        <div class="card-body" style="padding:0;">
+            <table class="ubys-table">
+                <thead>
+                    <tr><th>Ders</th><th>Öğretmen</th><th>Gün</th><th>Saat</th><th>Derslik</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.Dersler.OrderBy(x => x.GunSiraNo).ThenBy(x => x.Saat))
+                    {
+                        <tr>
+                            <td>
+                                <div class="primary">@d.DersAdi</div>
+                                <div class="secondary">@d.DersKodu · @d.Akts AKTS</div>
+                            </td>
+                            <td><span style="font-size:.8rem;">@d.OgretmenAdi</span></td>
+                            <td><strong>@d.Gun</strong></td>
+                            <td>@($"{d.BaslangicSaati:hh\\:mm} - {d.BitisSaati:hh\\:mm}")</td>
+                            <td>@d.Derslik</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

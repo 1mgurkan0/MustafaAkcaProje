@@ -1,0 +1,94 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.Admin.DersAtamaViewModel>
+@{
+    ViewData["Title"]      = "Ders Atamaları";
+    ViewData["Breadcrumb"] = "Ders Atamaları";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Ders Atamaları</h1>
+        <p class="page-subtitle">Aktif dönem için ders-öğretmen atamaları.</p>
+    </div>
+    <a href="/Admin/DersAtamaOlustur" class="btn btn-primary"><i class="fas fa-plus"></i> Yeni Atama</a>
+</div>
+
+<div class="card table-card">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Ders veya öğretmen ara..." data-table="atamaTbl" />
+        </div>
+        <div style="font-size:.78rem; color:var(--color-gray-400);">
+            <strong>@Model.Count()</strong> atama
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="ubys-table" id="atamaTbl">
+            <thead>
+                <tr>
+                    <th>Ders</th>
+                    <th>Öğretmen</th>
+                    <th>Dönem</th>
+                    <th>Gün / Saat</th>
+                    <th>Derslik</th>
+                    <th>Doluluk</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    var oran = (int)a.DolulukOrani;
+                    var oranClass = a.DolulukOrani >= 90 ? "danger" : a.DolulukOrani >= 60 ? "warning" : "success";
+                    <tr>
+                        <td>
+                            <div class="primary">@a.DersAdi</div>
+                            <div class="secondary">@a.DersKodu · @a.Akts AKTS</div>
+                        </td>
+                        <td>
+                            <div class="primary">@a.OgretmenUnvanliAd</div>
+                        </td>
+                        <td>
+                            <span class="badge badge-secondary">@a.DonemAdi</span>
+                        </td>
+                        <td>
+                            <div style="font-size:.8rem; font-weight:700;">@a.GunAdi</div>
+                            <div class="secondary">@a.BaslangicSaati?.ToString(@"hh\:mm") - @a.BitisSaati?.ToString(@"hh\:mm")</div>
+                        </td>
+                        <td><span style="font-size:.82rem;">@a.Derslik</span></td>
+                        <td>
+                            <div style="min-width:80px;">
+                                <div class="d-flex items-center justify-between mb-1">
+                                    <span style="font-size:.7rem; font-weight:700;">@a.KayitliOgrenciSayisi/@a.MaxKontenjan</span>
+                                    <span style="font-size:.7rem; color:var(--color-gray-400);">%@oran</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar @oranClass" style="width:@oran%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="/Admin/DersAtamaDetay/@a.Id"
+                                   class="btn btn-outline-secondary btn-icon btn-sm" title="Detay">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <form asp-action="DersAtamaSil" asp-controller="Admin"
+                                      asp-route-id="@a.Id" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit"
+                                            class="btn btn-outline-danger btn-icon btn-sm"
+                                            data-confirm="Bu ders atamasını silmek istediğinize emin misiniz?"
+                                            data-confirm-type="danger"
+                                            data-confirm-btn="Evet, Sil">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

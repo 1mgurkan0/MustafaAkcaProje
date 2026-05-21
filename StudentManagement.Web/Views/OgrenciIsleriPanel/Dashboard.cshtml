@@ -1,0 +1,125 @@
+@model StudentManagement.Services.ViewModels.OgrenciIsleri.OgrenciIsleriDashboardViewModel
+@{
+    ViewData["Title"]      = "Dashboard";
+    ViewData["Breadcrumb"] = "Öğrenci İşleri Paneli";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Öğrenci İşleri Paneli</h1>
+        <p class="page-subtitle">@Model.AktifDonemAdi — aktif dönem işlemleri</p>
+    </div>
+</div>
+
+<div class="stat-grid">
+    <div class="stat-card cyan">
+        <div class="stat-icon"><i class="fas fa-inbox"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.BekleyenTalepSayisi</div>
+            <div class="stat-label">Bekleyen Talep</div>
+            <div class="stat-change @(Model.BekleyenTalepSayisi > 0 ? "up" : "neutral")">
+                @(Model.BekleyenTalepSayisi > 0 ? "Onay bekliyor" : "Temiz")
+            </div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.BugunkuOnaylananSayisi</div>
+            <div class="stat-label">Bugün Onaylanan</div>
+        </div>
+    </div>
+    <div class="stat-card yellow">
+        <div class="stat-icon"><i class="fas fa-file-circle-check"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.BekleyenBelgeSayisi</div>
+            <div class="stat-label">Bekleyen Belge</div>
+        </div>
+    </div>
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.ToplamAktifOgrenci</div>
+            <div class="stat-label">Aktif Öğrenci</div>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+
+    <!-- Son Talepler -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-inbox"></i> Bekleyen Ders Kayıt Talepleri</div>
+            <a href="/OgrenciIsleri/Talepler" class="btn btn-ghost btn-sm">Tümü <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card-body" style="padding:0;">
+            @if (Model.SonTalepler?.Any() == true)
+            {
+                <table class="ubys-table">
+                    <thead><tr><th>Öğrenci</th><th>Ders</th><th>Tarih</th><th></th></tr></thead>
+                    <tbody>
+                        @foreach (var t in Model.SonTalepler)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="primary">@t.OgrenciAdi</div>
+                                    <div class="secondary">@t.OgrenciNo</div>
+                                </td>
+                                <td>
+                                    <div class="primary">@t.DersAdi</div>
+                                    <div class="secondary">@t.DersKodu</div>
+                                </td>
+                                <td><span data-date="@t.TalepTarihi" style="font-size:.78rem;"></span></td>
+                                <td>
+                                    <a href="/OgrenciIsleri/TalepDetay/@t.OgrenciDersId"
+                                       class="btn btn-outline-secondary btn-xs">
+                                        İncele
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state" style="padding:28px;">
+                    <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                    <div class="empty-state-title">Bekleyen talep yok</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Hızlı Erişim -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"><i class="fas fa-bolt"></i> Hızlı İşlemler</div>
+        </div>
+        <div class="card-body" style="display:flex; flex-direction:column; gap:8px;">
+            <a href="/OgrenciIsleri/Talepler" class="btn btn-outline-secondary w-100" style="justify-content:flex-start;">
+                <i class="fas fa-inbox" style="color:var(--color-role);"></i>
+                Tüm Talepleri Gör
+                @if (Model.BekleyenTalepSayisi > 0)
+                {
+                    <span class="badge badge-danger" style="margin-left:auto;">@Model.BekleyenTalepSayisi</span>
+                }
+            </a>
+            <a href="/OgrenciIsleri/OgrenciAra" class="btn btn-outline-secondary w-100" style="justify-content:flex-start;">
+                <i class="fas fa-magnifying-glass" style="color:var(--color-role);"></i> Öğrenci Ara
+            </a>
+            <a href="/OgrenciIsleri/Belgeler" class="btn btn-outline-secondary w-100" style="justify-content:flex-start;">
+                <i class="fas fa-file-alt" style="color:var(--color-role);"></i> Belge Talepleri
+                @if (Model.BekleyenBelgeSayisi > 0)
+                {
+                    <span class="badge badge-warning" style="margin-left:auto;">@Model.BekleyenBelgeSayisi</span>
+                }
+            </a>
+            <a href="/OgrenciIsleri/DuyuruOlustur" class="btn btn-outline-secondary w-100" style="justify-content:flex-start;">
+                <i class="fas fa-bullhorn" style="color:var(--color-role);"></i> Duyuru Yayınla
+            </a>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,84 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.Admin.DersViewModel>
+@{
+    ViewData["Title"]      = "Ders Kataloğu";
+    ViewData["Breadcrumb"] = "Ders Kataloğu";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Ders Kataloğu</h1>
+        <p class="page-subtitle">Tüm dersleri yönetin. Dersler bölümlere atanır.</p>
+    </div>
+    <a href="/Admin/DersOlustur" class="btn btn-primary"><i class="fas fa-plus"></i> Yeni Ders</a>
+</div>
+
+<div class="card table-card">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Ders ara..." data-table="dersTable" />
+        </div>
+        <div style="font-size:.78rem; color:var(--color-gray-400);">
+            Toplam <strong>@Model.Count()</strong> ders
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="ubys-table" id="dersTable">
+            <thead>
+                <tr>
+                    <th>Ders Kodu</th>
+                    <th>Ders Adı</th>
+                    <th>Bölüm</th>
+                    <th>AKTS</th>
+                    <th>Kontenjan</th>
+                    <th>Durum</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td><span class="badge badge-role">@d.DersKodu</span></td>
+                        <td>
+                            <div class="primary">@d.DersAdi</div>
+                        </td>
+                        <td>
+                            <span class="badge badge-secondary">@d.BolumKodu</span>
+                            <div class="secondary">@d.BolumAdi</div>
+                        </td>
+                        <td><strong>@d.Akts</strong></td>
+                        <td>@d.MaxKontenjan</td>
+                        <td>
+                            @if (d.IsActive)
+                            {
+                                <span class="badge badge-success"><i class="fas fa-circle" style="font-size:.5rem;"></i> Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Pasif</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="/Admin/DersDuzenle/@d.Id" class="btn btn-outline-secondary btn-icon btn-sm" title="Düzenle">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <form asp-action="DersSil" asp-controller="Admin" asp-route-id="@d.Id" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit"
+                                            class="btn btn-outline-danger btn-icon btn-sm"
+                                            data-confirm="@d.DersAdi dersini silmek istediğinize emin misiniz?"
+                                            data-confirm-type="danger"
+                                            data-confirm-btn="Evet, Sil">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

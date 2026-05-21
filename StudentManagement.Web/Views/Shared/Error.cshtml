@@ -1,0 +1,69 @@
+@model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary
+@{
+    Layout = null;
+    var requestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+    var code = Context.Response.StatusCode;
+    var (icon, title, subtitle) = code switch {
+        404 => ("fa-compass", "Sayfa Bulunamadı", "Aradığınız sayfa mevcut değil veya taşınmış olabilir."),
+        403 => ("fa-lock", "Erişim Reddedildi", "Bu sayfayı görüntülemek için yetkiniz bulunmamaktadır."),
+        401 => ("fa-user-lock", "Giriş Gerekli", "Bu sayfayı görüntülemek için giriş yapmanız gerekmektedir."),
+        500 => ("fa-triangle-exclamation", "Sunucu Hatası", "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyin."),
+        _   => ("fa-circle-exclamation", "Bir Hata Oluştu", "Beklenmeyen bir hata meydana geldi.")
+    };
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@code — UBYS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body { display:flex; align-items:center; justify-content:center; min-height:100vh; background:var(--color-gray-100); }
+        .error-box {
+            background:white; border-radius:16px; padding:48px;
+            text-align:center; max-width:480px; width:100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,.08);
+        }
+        .error-icon {
+            width:80px; height:80px; border-radius:50%;
+            background:var(--color-danger-bg);
+            color:var(--color-danger);
+            font-size:2rem;
+            display:inline-flex; align-items:center; justify-content:center;
+            margin-bottom:20px;
+        }
+        .error-code { font-size:4rem; font-weight:900; color:var(--color-gray-200); line-height:1; margin-bottom:8px; }
+        .error-title { font-size:1.3rem; font-weight:800; color:var(--color-gray-900); margin-bottom:8px; }
+        .error-sub { font-size:.85rem; color:var(--color-gray-500); line-height:1.7; margin-bottom:28px; }
+        .error-trace { font-size:.7rem; color:var(--color-gray-400); margin-top:20px; font-family:monospace; }
+    </style>
+</head>
+<body>
+<div class="error-box animate-fade">
+    <div class="error-icon">
+        <i class="fas @icon"></i>
+    </div>
+    <div class="error-code">@code</div>
+    <h1 class="error-title">@title</h1>
+    <p class="error-sub">@subtitle</p>
+
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Geri Dön
+        </a>
+        <a href="/" class="btn btn-primary">
+            <i class="fas fa-home"></i> Ana Sayfa
+        </a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(requestId))
+    {
+        <p class="error-trace">Hata Kimliği: @requestId</p>
+    }
+</div>
+</body>
+</html>

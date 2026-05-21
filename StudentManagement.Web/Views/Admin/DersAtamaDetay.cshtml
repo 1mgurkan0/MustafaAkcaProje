@@ -1,0 +1,138 @@
+@model StudentManagement.Services.ViewModels.Admin.DersAtamaDetayViewModel
+@{
+    ViewData["Title"]      = "Ders Atama Detay";
+    ViewData["Breadcrumb"] = "Ders Atama Detayı";
+    var oran      = Model.MaxKontenjan > 0 ? (int)((double)Model.KayitliOgrenciSayisi / Model.MaxKontenjan * 100) : 0;
+    var oranClass = oran >= 90 ? "danger" : oran >= 60 ? "warning" : "success";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Model.DersAdi</h1>
+        <p class="page-subtitle">@Model.DersKodu · @Model.DonemAdi · @Model.OgretmenUnvanliAd</p>
+    </div>
+    <a href="/Admin/DersAtamalar" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Geri
+    </a>
+</div>
+
+<!-- Üst Bilgi Kartları -->
+<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px;">
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.KayitliOgrenciSayisi</div>
+            <div class="stat-label">Kayıtlı Öğrenci</div>
+            <div class="stat-change neutral">/ @Model.MaxKontenjan kontenjan</div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-book"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.Akts</div>
+            <div class="stat-label">AKTS</div>
+        </div>
+    </div>
+    <div class="stat-card yellow">
+        <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+        <div class="stat-body">
+            <div class="stat-value" style="font-size:1rem;">@Model.GunAdi</div>
+            <div class="stat-label">Ders Günü</div>
+            <div class="stat-change neutral">@Model.Saat · @Model.Derslik</div>
+        </div>
+    </div>
+    <div class="stat-card @oranClass">
+        <div class="stat-icon"><i class="fas fa-chart-pie"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">%@oran</div>
+            <div class="stat-label">Doluluk</div>
+        </div>
+    </div>
+</div>
+
+<!-- Kontenjan Göstergesi -->
+<div class="card" style="margin-bottom:20px; padding:16px 20px;">
+    <div class="d-flex items-center justify-between mb-2">
+        <span style="font-size:.85rem; font-weight:700;">Kontenjan Doluluk Oranı</span>
+        <span style="font-size:.82rem; font-weight:700;">@Model.KayitliOgrenciSayisi / @Model.MaxKontenjan</span>
+    </div>
+    <div class="progress" style="height:10px;">
+        <div class="progress-bar @oranClass" style="width:@oran%"></div>
+    </div>
+</div>
+
+<!-- Kayıtlı Öğrenciler Tablosu -->
+<div class="card table-card">
+    <div class="card-header">
+        <div class="card-title">
+            <i class="fas fa-users"></i> Kayıtlı Öğrenciler
+        </div>
+        <div class="table-search" style="max-width:240px;">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Öğrenci ara..." data-table="ogrenciTbl" />
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="ubys-table" id="ogrenciTbl">
+            <thead>
+                <tr>
+                    <th>Öğrenci No</th>
+                    <th>Ad Soyad</th>
+                    <th>Bölüm</th>
+                    <th>Vize</th>
+                    <th>Final</th>
+                    <th>Genel Not</th>
+                    <th>Harf</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model.KayitliOgrenciler)
+                {
+                    <tr>
+                        <td><code style="font-size:.76rem;">@o.OgrenciNo</code></td>
+                        <td><div class="primary">@o.OgrenciAdi</div></td>
+                        <td><span class="badge badge-secondary">@o.BolumKodu</span></td>
+                        <td>@(o.VizeNotu.HasValue  ? o.VizeNotu.Value.ToString("F1")  : "—")</td>
+                        <td>@(o.FinalNotu.HasValue ? o.FinalNotu.Value.ToString("F1") : "—")</td>
+                        <td>
+                            <strong>@(o.GenelNot.HasValue ? o.GenelNot.Value.ToString("F1") : "—")</strong>
+                        </td>
+                        <td>
+                            @if (o.HarfNotuAdi != "-" && o.HarfNotuAdi != "—")
+                            {
+                                <span class="badge badge-@o.HarfNotuAdi">@o.HarfNotuAdi</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">—</span>
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var (cls, lbl) = o.DurumAdi switch {
+                                    "Devam"      => ("badge-devam",      "Devam"),
+                                    "Tamamlandi" => ("badge-tamamlandi", "Tamamlandı"),
+                                    "Cekildi"    => ("badge-cekildi",    "Çekildi"),
+                                    "Talep"      => ("badge-talep",      "Talep"),
+                                    "Reddedildi" => ("badge-reddedildi", "Reddedildi"),
+                                    _            => ("badge-secondary",  o.DurumAdi)
+                                };
+                            }
+                            <span class="badge @cls">@lbl</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.KayitliOgrenciler.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-users"></i></div>
+            <div class="empty-state-title">Kayıtlı öğrenci yok</div>
+            <div class="empty-state-text">Bu derse henüz hiç öğrenci kaydolmamış.</div>
+        </div>
+    }
+</div>

@@ -1,0 +1,4 @@
+2026-05-15 10:47:53.733 +03:00 [WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-15 10:47:54.785 +03:00 [INF] Veritabanı migration ve seed tamamlandı.
+2026-05-15 10:48:00.977 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 10:48:00.983 +03:00 [WRN] Failed to determine the https port for redirect.

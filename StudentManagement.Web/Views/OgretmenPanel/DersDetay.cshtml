@@ -1,0 +1,121 @@
+@model StudentManagement.Services.ViewModels.Ogretmen.DersDetayViewModel
+@{
+    ViewData["Title"]      = "Ders Detay";
+    ViewData["Breadcrumb"] = Model.DersAdi;
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Model.DersAdi</h1>
+        <p class="page-subtitle">@Model.DersKodu · @Model.DonemAdi · @Model.Derslik</p>
+    </div>
+    <div class="page-actions">
+        <a href="/OgretmenPanel/NotGir?dersAtamaId=@Model.DersAtamaId"
+           class="btn btn-primary">
+            <i class="fas fa-pen-to-square"></i> Not Gir
+        </a>
+        <a href="/OgretmenPanel/Yoklama?dersAtamaId=@Model.DersAtamaId"
+           class="btn btn-outline-secondary">
+            <i class="fas fa-clipboard-check"></i> Yoklama Al
+        </a>
+        <a href="/OgretmenPanel/Derslerim" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+</div>
+
+<!-- Stat Row -->
+<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px;">
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.KayitliOgrenciSayisi</div>
+            <div class="stat-label">Kayıtlı</div>
+        </div>
+    </div>
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.YoklamaSayisi</div>
+            <div class="stat-label">Yoklama</div>
+        </div>
+    </div>
+    <div class="stat-card yellow">
+        <div class="stat-icon"><i class="fas fa-file-pen"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.SinavSayisi</div>
+            <div class="stat-label">Sınav</div>
+        </div>
+    </div>
+    <div class="stat-card purple">
+        <div class="stat-icon"><i class="fas fa-bullhorn"></i></div>
+        <div class="stat-body">
+            <div class="stat-value">@Model.DuyuruSayisi</div>
+            <div class="stat-label">Duyuru</div>
+        </div>
+    </div>
+</div>
+
+<!-- Öğrenci Listesi -->
+<div class="card table-card">
+    <div class="card-header">
+        <div class="card-title"><i class="fas fa-users"></i> Öğrenci Listesi</div>
+        <div class="table-search" style="max-width:220px;">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Öğrenci ara..." data-table="ogrTbl" />
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="ubys-table" id="ogrTbl">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Öğrenci No</th>
+                    <th>Ad Soyad</th>
+                    <th>Vize</th>
+                    <th>Final</th>
+                    <th>Genel</th>
+                    <th>Harf</th>
+                    <th>Devam %</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Ogrenciler.Count; i++)
+                {
+                    var o = Model.Ogrenciler[i];
+                    var devamClass = o.DevamYuzdesi >= 70 ? "success" : "danger";
+                    <tr>
+                        <td class="text-muted text-sm">@(i + 1)</td>
+                        <td><code style="font-size:.76rem;">@o.OgrenciNo</code></td>
+                        <td><div class="primary">@o.OgrenciAdi</div></td>
+                        <td>@(o.VizeNotu.HasValue  ? o.VizeNotu.Value.ToString("F1")  : "—")</td>
+                        <td>@(o.FinalNotu.HasValue ? o.FinalNotu.Value.ToString("F1") : "—")</td>
+                        <td><strong>@(o.GenelNot.HasValue ? o.GenelNot.Value.ToString("F1") : "—")</strong></td>
+                        <td>
+                            @if (o.HarfNotuAdi is { Length: > 0 } h && h != "-")
+                            {
+                                <span class="badge badge-@h">@h</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">—</span>
+                            }
+                        </td>
+                        <td>
+                            <span style="font-weight:700; color:var(--color-@devamClass);">
+                                %@o.DevamYuzdesi.ToString("F0")
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (!Model.Ogrenciler.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-users"></i></div>
+            <div class="empty-state-title">Bu derse kayıtlı öğrenci yok</div>
+        </div>
+    }
+</div>

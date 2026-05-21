@@ -1,0 +1,16 @@
+[2026-05-15 13:52:27 WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-15 13:52:28 INF] Veritabanı migration ve seed tamamlandı.
+[2026-05-15 13:52:30 WRN] Failed to determine the https port for redirect.
+[2026-05-15 13:52:30 WRN] Failed to determine the https port for redirect.
+[2026-05-15 13:52:54 INF] Giriş başarılı. KullaniciAdi:admin
+[2026-05-15 13:52:54 INF] Session oluşturuldu. UserId:1
+2026-05-15 14:44:39.810 +03:00 [WRN] Entity 'Ogrenci' has a global query filter defined and is the required end of a relationship with the entity 'OgrenciYoklama'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-15 14:44:40.759 +03:00 [INF] Veritabanı migration ve seed tamamlandı.
+2026-05-15 14:44:48.723 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 14:44:48.728 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-05-15 14:44:57.119 +03:00 [INF] Giriş başarılı. KullaniciAdi:admin
+2026-05-15 14:44:57.125 +03:00 [INF] Session oluşturuldu. UserId:1
+2026-05-15 15:10:31.547 +03:00 [INF] Giriş başarılı. KullaniciAdi:ogr.isleri1
+2026-05-15 15:10:31.560 +03:00 [INF] Session oluşturuldu. UserId:2
+2026-05-15 15:11:44.331 +03:00 [INF] Giriş başarılı. KullaniciAdi:ahmet.yilmaz
+2026-05-15 15:11:44.338 +03:00 [INF] Session oluşturuldu. UserId:4

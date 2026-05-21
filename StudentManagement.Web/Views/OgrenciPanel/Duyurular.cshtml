@@ -1,0 +1,62 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.Common.DuyuruOlusturViewModel>
+@{
+    ViewData["Title"]      = "Duyurular";
+    ViewData["Breadcrumb"] = "Duyurular";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Duyurular</h1>
+        <p class="page-subtitle">Size yönelik tüm duyurular.</p>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <div style="display:flex; flex-direction:column; gap:14px;">
+        @foreach (var d in Model.OrderByDescending(x => x.CreatedAt))
+        {
+            var borderColor = d.Onemli ? "var(--color-danger)" : "var(--color-role)";
+            <div class="card" style="border-left:4px solid @borderColor;">
+                <div class="card-body">
+                    <div class="d-flex items-center justify-between mb-2">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            @if (d.Onemli)
+                            {
+                                <span class="badge badge-danger">
+                                    <i class="fas fa-exclamation"></i> Önemli
+                                </span>
+                            }
+                            <span class="badge badge-secondary">@d.HedefAdi</span>
+                            @if (!string.IsNullOrEmpty(d.DersAdi))
+                            {
+                                <span class="badge badge-role">@d.DersAdi</span>
+                            }
+                        </div>
+                        <span style="font-size:.73rem; color:var(--color-gray-400);"
+                              data-datetime="@d.CreatedAt"></span>
+                    </div>
+                    <h3 style="font-size:1rem; font-weight:800; color:var(--color-gray-900); margin-bottom:8px;">
+                        @d.Baslik
+                    </h3>
+                    <p style="font-size:.84rem; color:var(--color-gray-600); line-height:1.7; margin:0;">
+                        @d.Icerik
+                    </p>
+                    <div style="margin-top:10px; font-size:.72rem; color:var(--color-gray-400);">
+                        <i class="fas fa-user"></i> @d.YayinlayanAdi
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-bell-slash"></i></div>
+            <div class="empty-state-title">Henüz duyuru yok</div>
+            <div class="empty-state-text">Yeni duyurular burada görünecek.</div>
+        </div>
+    </div>
+}

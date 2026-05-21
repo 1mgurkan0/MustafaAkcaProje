@@ -1,0 +1,275 @@
+@model StudentManagement.Services.ViewModels.Auth.RegisterViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Kayıt Ol";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UBYS — Kayıt Ol</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        .auth-right .btn-primary { background:#4f46e5; border-color:#4f46e5; }
+        .auth-right .btn-primary:hover { background:#4338ca; border-color:#4338ca; }
+        .auth-right .form-control:focus { border-color:#4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,.12); }
+        .input-icon { position: relative; }
+        .input-icon i.icon {
+            position: absolute; left:12px; top:50%;
+            transform: translateY(-50%);
+            color: var(--color-gray-400); font-size:.85rem; pointer-events:none;
+        }
+        .input-icon .form-control { padding-left: 36px; }
+        .input-icon .toggle-pass {
+            position:absolute; right:12px; top:50%; transform:translateY(-50%);
+            background:none; border:none; color:var(--color-gray-400);
+            cursor:pointer; padding:0; font-size:.85rem; transition:var(--transition);
+        }
+        .input-icon .toggle-pass:hover { color:var(--color-gray-700); }
+        .input-icon .form-control.has-toggle { padding-right:36px; }
+        /* Şifre güç göstergesi */
+        .pass-strength { display:flex; gap:4px; margin-top:8px; }
+        .pass-strength-bar { flex:1; height:3px; border-radius:10px; background:var(--color-gray-200); transition:.3s; }
+        .pass-strength-bar.active-weak   { background:var(--color-danger); }
+        .pass-strength-bar.active-medium { background:var(--color-warning); }
+        .pass-strength-bar.active-strong { background:var(--color-success); }
+        .pass-strength-label { font-size:.7rem; color:var(--color-gray-400); margin-top:4px; font-weight:600; }
+        /* Scroll */
+        .auth-right { overflow-y: auto; }
+    </style>
+</head>
+<body data-role="ogrenci">
+
+<div class="auth-wrapper">
+
+    <!-- Sol Panel -->
+    <div class="auth-left">
+        <div class="auth-logo">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="auth-tagline">
+            <h1>UBYS'e<br>Katılın</h1>
+            <p>Öğrenci hesabınızı oluşturun ve akademik süreçlerinizi dijital ortamda yönetmeye başlayın.</p>
+        </div>
+        <div class="auth-features">
+            <div class="auth-feature">
+                <i class="fas fa-shield-halved"></i>
+                <span>Güvenli Kayıt</span>
+            </div>
+            <div class="auth-feature">
+                <i class="fas fa-bolt"></i>
+                <span>Anında Erişim</span>
+            </div>
+            <div class="auth-feature">
+                <i class="fas fa-mobile-screen"></i>
+                <span>Her Cihazdan Ulaşım</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Panel — Form -->
+    <div class="auth-right">
+
+        <div class="auth-form-header">
+            <h2 class="auth-form-title">Hesap Oluştur</h2>
+            <p class="auth-form-subtitle">Tüm alanları doldurun, hesabınız hemen aktif edilsin.</p>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>
+                <div class="alert-body">
+                    <div class="alert-title">Lütfen hataları düzeltin</div>
+                    <div asp-validation-summary="ModelOnly" class="alert-text"></div>
+                </div>
+            </div>
+        }
+
+        <form asp-action="Register" asp-controller="Auth" method="post" id="registerForm" novalidate>
+            @Html.AntiForgeryToken()
+
+            <!-- Ad / Soyad -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Ad" class="form-label">Ad <span class="required">*</span></label>
+                    <div class="input-icon">
+                        <i class="fas fa-user icon"></i>
+                        <input asp-for="Ad" class="form-control" placeholder="Adınız" autocomplete="given-name" />
+                    </div>
+                    <span asp-validation-for="Ad" class="invalid-feedback"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Soyad" class="form-label">Soyad <span class="required">*</span></label>
+                    <div class="input-icon">
+                        <i class="fas fa-user icon"></i>
+                        <input asp-for="Soyad" class="form-control" placeholder="Soyadınız" autocomplete="family-name" />
+                    </div>
+                    <span asp-validation-for="Soyad" class="invalid-feedback"></span>
+                </div>
+            </div>
+
+            <!-- Kullanıcı Adı -->
+            <div class="form-group">
+                <label asp-for="KullaniciAdi" class="form-label">
+                    Kullanıcı Adı <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-at icon"></i>
+                    <input asp-for="KullaniciAdi" class="form-control"
+                           placeholder="kullanici.adi"
+                           autocomplete="username" autofocus />
+                </div>
+                <span asp-validation-for="KullaniciAdi" class="invalid-feedback"></span>
+                <div class="form-text">Harf, rakam, nokta ve alt çizgi kullanabilirsiniz.</div>
+            </div>
+
+            <!-- E-posta -->
+            <div class="form-group">
+                <label asp-for="Email" class="form-label">
+                    E-posta <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-envelope icon"></i>
+                    <input asp-for="Email" class="form-control" type="email"
+                           placeholder="ornek@universite.edu.tr"
+                           autocomplete="email" />
+                </div>
+                <span asp-validation-for="Email" class="invalid-feedback"></span>
+            </div>
+
+            <!-- Bölüm -->
+            <div class="form-group">
+                <label asp-for="BolumId" class="form-label">
+                    Bölüm <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-building-columns icon"></i>
+                    <select asp-for="BolumId" class="form-control"
+                            asp-items="ViewBag.Bolumler">
+                        <option value="">— Bölüm seçiniz —</option>
+                    </select>
+                </div>
+                <span asp-validation-for="BolumId" class="invalid-feedback"></span>
+            </div>
+
+            <!-- Şifre -->
+            <div class="form-group">
+                <label asp-for="Sifre" class="form-label">
+                    Şifre <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-lock icon"></i>
+                    <input asp-for="Sifre" type="password" class="form-control has-toggle"
+                           placeholder="Min. 8 karakter"
+                           autocomplete="new-password"
+                           id="sifreInput"
+                           oninput="SMS.auth.checkPasswordStrength(this.value)" />
+                    <button type="button" class="toggle-pass"
+                            onclick="SMS.auth.togglePassword('sifreInput','passEye1')">
+                        <i class="fas fa-eye" id="passEye1"></i>
+                    </button>
+                </div>
+                <!-- Güç göstergesi -->
+                <div class="pass-strength" id="passStrength">
+                    <div class="pass-strength-bar" id="bar1"></div>
+                    <div class="pass-strength-bar" id="bar2"></div>
+                    <div class="pass-strength-bar" id="bar3"></div>
+                    <div class="pass-strength-bar" id="bar4"></div>
+                </div>
+                <div class="pass-strength-label" id="passLabel"></div>
+                <span asp-validation-for="Sifre" class="invalid-feedback"></span>
+            </div>
+
+            <!-- Şifre Tekrar -->
+            <div class="form-group">
+                <label asp-for="SifreTekrar" class="form-label">
+                    Şifre Tekrar <span class="required">*</span>
+                </label>
+                <div class="input-icon">
+                    <i class="fas fa-lock icon"></i>
+                    <input asp-for="SifreTekrar" type="password" class="form-control has-toggle"
+                           placeholder="Şifreyi tekrar girin"
+                           autocomplete="new-password"
+                           id="sifreTekrarInput" />
+                    <button type="button" class="toggle-pass"
+                            onclick="SMS.auth.togglePassword('sifreTekrarInput','passEye2')">
+                        <i class="fas fa-eye" id="passEye2"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="SifreTekrar" class="invalid-feedback"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg" id="registerBtn">
+                <i class="fas fa-user-plus"></i>
+                Hesap Oluştur
+            </button>
+        </form>
+
+        <div class="auth-divider">zaten hesabınız var mı?</div>
+
+        <a asp-action="Login" asp-controller="Auth" class="btn btn-outline-secondary w-100">
+            <i class="fas fa-sign-in-alt"></i>
+            Giriş Yap
+        </a>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    SMS.auth = {
+        togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const eye   = document.getElementById(iconId);
+            if (input.type === "password") {
+                input.type = "text";
+                eye.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                eye.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        },
+
+        checkPasswordStrength(val) {
+            const bars  = [1,2,3,4].map(i => document.getElementById("bar" + i));
+            const label = document.getElementById("passLabel");
+            let score = 0;
+
+            if (val.length >= 8)           score++;
+            if (/[A-Z]/.test(val))         score++;
+            if (/[0-9]/.test(val))         score++;
+            if (/[^A-Za-z0-9]/.test(val))  score++;
+
+            bars.forEach((b, i) => {
+                b.className = "pass-strength-bar";
+                if (i < score) {
+                    if (score <= 1)      b.classList.add("active-weak");
+                    else if (score <= 2) b.classList.add("active-medium");
+                    else                 b.classList.add("active-strong");
+                }
+            });
+
+            const labels = ["", "Zayıf", "Orta", "İyi", "Güçlü"];
+            const colors = ["", "#ef4444", "#f59e0b", "#10b981", "#10b981"];
+            label.textContent = val ? labels[score] || "Güçlü" : "";
+            label.style.color = colors[score] || "#10b981";
+        },
+    };
+
+    document.getElementById("registerForm").addEventListener("submit", function () {
+        SMS.form.setLoading(this, true);
+    });
+</script>
+</body>
+</html>

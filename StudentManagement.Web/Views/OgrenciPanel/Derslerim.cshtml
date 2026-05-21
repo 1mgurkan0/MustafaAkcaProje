@@ -1,0 +1,110 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.Ogrenci.OgrenciDersViewModel>
+@{
+    ViewData["Title"]      = "Derslerim";
+    ViewData["Breadcrumb"] = "Derslerim";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Derslerim</h1>
+        <p class="page-subtitle">Bu dönem kayıtlı olduğunuz dersler.</p>
+    </div>
+    <a href="/OgrenciPanel/DersKayit" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Ders Kaydı Yap
+    </a>
+</div>
+
+<div class="card table-card">
+    <div class="table-toolbar">
+        <div class="table-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Ders ara..." data-table="derslerimTbl" />
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="ubys-table" id="derslerimTbl">
+            <thead>
+                <tr>
+                    <th>Ders</th>
+                    <th>Öğretmen</th>
+                    <th>Gün / Saat</th>
+                    <th>AKTS</th>
+                    <th>Vize</th>
+                    <th>Final</th>
+                    <th>Genel</th>
+                    <th>Harf</th>
+                    <th>Durum</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="primary">@d.DersAdi</div>
+                            <div class="secondary">@d.DersKodu</div>
+                        </td>
+                        <td><span style="font-size:.8rem;">@d.OgretmenAdi</span></td>
+                        <td>
+                            <div style="font-size:.8rem; font-weight:700;">@d.Gun</div>
+                            <div class="secondary">@d.Saat · @d.Derslik</div>
+                        </td>
+                        <td><strong>@d.Akts</strong></td>
+                        <td>@(d.VizeNotu.HasValue  ? d.VizeNotu.Value.ToString("F1")  : "—")</td>
+                        <td>@(d.FinalNotu.HasValue ? d.FinalNotu.Value.ToString("F1") : "—")</td>
+                        <td><strong>@(d.GenelNot.HasValue ? d.GenelNot.Value.ToString("F1") : "—")</strong></td>
+                        <td>
+                            @if (d.HarfNotuAdi is { Length: > 0 } h && h != "-")
+                            {
+                                <span class="badge badge-@h">@h</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">—</span>
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var (cls, lbl) = d.DurumAdi switch {
+                                    "Devam"      => ("badge-devam",      "Devam"),
+                                    "Tamamlandi" => ("badge-tamamlandi", "Tamamlandı"),
+                                    "Cekildi"    => ("badge-cekildi",    "Çekildi"),
+                                    "Talep"      => ("badge-talep",      "Onay Bekleniyor"),
+                                    "Reddedildi" => ("badge-reddedildi", "Reddedildi"),
+                                    _            => ("badge-secondary",  d.DurumAdi)
+                                };
+                            }
+                            <span class="badge @cls">@lbl</span>
+                        </td>
+                        <td>
+                            @if (d.DurumAdi == "Devam")
+                            {
+                                <form asp-action="DersBirak" asp-controller="OgrenciPanel"
+                                      method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="DersAtamaId" value="@d.DersAtamaId" />
+                                    <button type="submit"
+                                            class="btn btn-outline-danger btn-xs"
+                                            data-confirm="@d.DersAdi dersinden çekilmek istiyor musunuz?"
+                                            data-confirm-type="danger"
+                                            data-confirm-btn="Evet, Bırak">
+                                        Bırak
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-book-open"></i></div>
+            <div class="empty-state-title">Bu dönem kayıtlı dersınız yok</div>
+            <div class="empty-state-text">Ders kayıt döneminde yeni ders ekleyebilirsiniz.</div>
+        </div>
+    }
+</div>
