@@ -51,11 +51,11 @@ public class OgrenciIsleriPanelController : BaseController
     /// <summary>Tek talep onayla (GET → onay sayfası, POST → işlem)</summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Onayla(int id)
+    public async Task<IActionResult> Onayla(int ogrenciDersId)
     {
         try
         {
-            await _service.TalepOnaylaAsync(id, CurrentUserId);
+            await _service.TalepOnaylaAsync(ogrenciDersId, CurrentUserId);
             SetSuccessMessage("Kayıt talebi onaylandı.");
         }
         catch (Exception ex)
@@ -66,20 +66,19 @@ public class OgrenciIsleriPanelController : BaseController
         return RedirectToAction(nameof(Talepler));
     }
 
-    /// <summary>Tek talep red (POST)</summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Reddet(int id, string redNedeni)
+    public async Task<IActionResult> Reddet(int OgrenciDersId, string RedNedeni)
     {
-        if (string.IsNullOrWhiteSpace(redNedeni))
+        if (string.IsNullOrWhiteSpace(RedNedeni))
         {
             SetErrorMessage("Red nedeni boş bırakılamaz.");
-            return RedirectToAction(nameof(TalepDetay), new { id });
+            return RedirectToAction(nameof(TalepDetay), new { id = OgrenciDersId });
         }
 
         try
         {
-            await _service.TalepReddetAsync(id, redNedeni, CurrentUserId);
+            await _service.TalepReddetAsync(OgrenciDersId, RedNedeni, CurrentUserId);
             SetSuccessMessage("Kayıt talebi reddedildi.");
         }
         catch (Exception ex)
@@ -153,10 +152,18 @@ public class OgrenciIsleriPanelController : BaseController
 
     public async Task<IActionResult> OgrenciAra(string? arama, int? bolumId)
     {
-        // View büyük ihtimalle OgrenciAraViewModel bekliyor ama interface List<OgrenciViewModel> dönüyor
-        // Eğer arayüz ve view uyuşmazlığı varsa bunu OgrenciAraViewModel içinde sarmalaman gerekebilir.
-        // Şimdilik listeyi view'a dönüyoruz. Eğer hata verirse View dosyasının `@model` tipini `List<StudentManagement.Services.ViewModels.Admin.OgrenciViewModel>` yap.
-        var vm = await _service.OgrenciAraAsync(arama, bolumId);
+        var sonuclar = await _service.OgrenciAraAsync(arama, bolumId);
+        var bolumler = await _service.GetBolumSelectListAsync();
+
+        ViewBag.Bolumler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(
+            bolumler, "Id", "DisplayText", bolumId);
+
+        var vm = new OgrenciAraViewModel
+        {
+            Arama    = arama,
+            BolumId  = bolumId,
+            Sonuclar = sonuclar
+        };
         return View(vm);
     }
 

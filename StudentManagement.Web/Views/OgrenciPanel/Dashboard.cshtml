@@ -2,7 +2,8 @@
 @{
     ViewData["Title"]      = "Dashboard";
     ViewData["Breadcrumb"] = "Öğrenci Paneli";
-    var ganoClass = Model.Gano >= 3.0 ? "excellent" : Model.Gano >= 2.0 ? "good" : Model.Gano >= 1.0 ? "average" : "poor";
+    var ganoVal   = Model.Gano.HasValue ? (double)Model.Gano.Value : 0.0;
+    var ganoClass  = ganoVal >= 3.0 ? "excellent" : ganoVal >= 2.0 ? "good" : ganoVal >= 1.0 ? "average" : "poor";
 }
 
 <div class="page-header">
@@ -25,10 +26,10 @@
     <div class="stat-card blue">
         <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
         <div class="stat-body">
-            <div class="stat-value">@Model.Gano.ToString("F2")</div>
+            <div class="stat-value">@(Model.Gano.HasValue ? Model.Gano.Value.ToString("F2") : "—")</div>
             <div class="stat-label">GANO</div>
-            <div class="stat-change @(Model.Gano >= 2.0 ? "up" : "down")">
-                @(Model.Gano >= 2.0 ? "Geçer durum" : "Geçer sınırın altında")
+            <div class="stat-change @(ganoVal >= 2.0 ? "up" : "down")">
+                @(ganoVal >= 2.0 ? "Geçer durum" : "Geçer sınırın altında")
             </div>
         </div>
     </div>
@@ -74,7 +75,7 @@
                                 <td><span style="font-size:.8rem;">@d.OgretmenAdi</span></td>
                                 <td>
                                     <div style="font-size:.78rem; font-weight:700;">@d.Gun</div>
-                                    <div class="secondary">@d.Saat · @d.Derslik</div>
+                                    <div class="secondary">@(d.BaslangicSaati.HasValue ? d.BaslangicSaati.Value.ToString(@"hh\:mm") : "—") · @d.Derslik</div>
                                 </td>
                                 <td>
                                     <span class="badge badge-devam">Devam</span>
@@ -110,7 +111,7 @@
             </div>
             <div class="card-body" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
                 <div class="gano-circle @ganoClass">
-                    <div class="gano-value">@Model.Gano.ToString("F2")</div>
+                    <div class="gano-value">@(Model.Gano.HasValue ? Model.Gano.Value.ToString("F2") : "—")</div>
                     <div class="gano-label">GANO</div>
                 </div>
                 <div style="width:100%;">

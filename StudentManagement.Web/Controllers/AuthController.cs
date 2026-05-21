@@ -30,22 +30,36 @@ public class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
     {
+        Console.WriteLine("\n\n==========================================");
+        Console.WriteLine($"[DEBUG] LOGIN POST İSTEĞİ GELDİ! KULLANICI: {model.KullaniciAdi}");
+        Console.WriteLine("==========================================\n\n");
+
+        TempData["DebugMessage"] = $"POST İsteği Ulaştı: {model.KullaniciAdi}. ";
+
         if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            TempData["DebugMessage"] += "HATA: Form eksik veya geçersiz! -> " + string.Join(", ", errors);
+            ModelState.AddModelError(string.Empty, "Lütfen alanları eksiksiz doldurun: " + string.Join(", ", errors));
             return View(model);
+        }
 
         var result = await _authService.LoginAsync(model, HttpContext.Connection.RemoteIpAddress?.ToString());
 
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
-            ModelState.AddModelError(string.Empty, result.Message);
-            _logger.LogWarning("Başarısız giriş: {Username}", model.KullaniciAdi);
+            TempData["DebugMessage"] += "GİRİŞ BAŞARISIZ: " + result.Message;
+            ModelState.AddModelError(string.Empty, "Giriş Başarısız: " + result.Message);
+            _logger.LogWarning("Başarısız giriş: {Username} - Neden: {Reason}", model.KullaniciAdi, result.Message);
             return View(model);
         }
+
+        TempData["DebugMessage"] += "GİRİŞ BAŞARILI! Yönlendiriliyor...";
 
         // Session'a yaz
         HttpContext.Session.SetInt32(AppConstants.Session.UserId,    result.Data!.UserId);
         HttpContext.Session.SetString(AppConstants.Session.Username,  result.Data.Username);
-        HttpContext.Session.SetString(AppConstants.Session.UserRole,  result.Data.Role.ToString());
+        HttpContext.Session.SetString(AppConstants.Session.UserRole,  result.Data.Role);
         HttpContext.Session.SetString(AppConstants.Session.FullName,  result.Data.FullName);
 
         if (result.Data.OgrenciId.HasValue)
@@ -62,11 +76,11 @@ public class AuthController : Controller
 
         return result.Data.Role switch
         {
-            KullaniciRol.Admin         => Redirect(AppConstants.Routes.AdminBase),
-            KullaniciRol.Ogretmen      => Redirect(AppConstants.Routes.OgretmenBase),
-            KullaniciRol.Ogrenci       => Redirect(AppConstants.Routes.OgrenciBase),
-            KullaniciRol.OgrenciIsleri => Redirect(AppConstants.Routes.OgrenciIsleriBase),
-            _                          => Redirect(AppConstants.Routes.Login)
+            nameof(KullaniciRol.Admin)         => Redirect(AppConstants.Routes.AdminBase),
+            nameof(KullaniciRol.Ogretmen)      => Redirect(AppConstants.Routes.OgretmenBase),
+            nameof(KullaniciRol.Ogrenci)       => Redirect(AppConstants.Routes.OgrenciBase),
+            nameof(KullaniciRol.OgrenciIsleri) => Redirect(AppConstants.Routes.OgrenciIsleriBase),
+            _                                  => Redirect(AppConstants.Routes.Login)
         };
     }
 
@@ -79,7 +93,7 @@ public class AuthController : Controller
             .Select(b => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
             {
                 Value = b.Id.ToString(),
-                Text  = $"{b.BolumKodu} — {b.BolumAdi}"
+                Text  = b.DisplayText
             })
             .ToList();
 
@@ -99,7 +113,7 @@ public class AuthController : Controller
 
         var result = await _authService.RegisterAsync(model);
 
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             ModelState.AddModelError(string.Empty, result.Message);
             await RepopulateBolumler();
@@ -129,7 +143,7 @@ public class AuthController : Controller
             .Select(b => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
             {
                 Value = b.Id.ToString(),
-                Text  = $"{b.BolumKodu} — {b.BolumAdi}"
+                Text  = b.DisplayText
             })
             .ToList();
     }

@@ -55,7 +55,9 @@
                                 (g == 5 && d.Gun == "Cuma") ||
                                 (g == 6 && d.Gun == "Cumartesi"));
 
-                            var dersVarBuSaatte = ders != null && ders.Saat == saat;
+                            var saatStr = ders?.BaslangicSaati.HasValue == true
+                                ? ders.BaslangicSaati.Value.ToString(@"hh\:mm") : "";
+                            var dersVarBuSaatte = ders != null && saatStr == saat;
 
                             <td style="padding:6px 8px; vertical-align:top; min-width:120px;
                                        border-left:1px solid var(--color-gray-200);">
@@ -95,7 +97,7 @@
                     <tr><th>Ders</th><th>Öğretmen</th><th>Gün</th><th>Saat</th><th>Derslik</th></tr>
                 </thead>
                 <tbody>
-                    @foreach (var d in Model.Dersler.OrderBy(x => x.GunSiraNo).ThenBy(x => x.Saat))
+                    @foreach (var d in Model.Dersler.OrderBy(x => x.GunSiraNo).ThenBy(x => x.BaslangicSaati))
                     {
                         <tr>
                             <td>

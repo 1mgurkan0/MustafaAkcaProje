@@ -19,11 +19,13 @@ public class OgrenciYoklamaConfiguration : IEntityTypeConfiguration<OgrenciYokla
         builder.HasOne(oy => oy.Yoklama)
                .WithMany(y => y.OgrenciYoklamalar)
                .HasForeignKey(oy => oy.YoklamaId)
+               .IsRequired(false)
                .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(oy => oy.Ogrenci)
                .WithMany()
                .HasForeignKey(oy => oy.OgrenciId)
+               .IsRequired(false)
                .OnDelete(DeleteBehavior.Restrict);
     }
 }

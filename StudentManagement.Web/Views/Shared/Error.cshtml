@@ -1,7 +1,7 @@
 @model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary
 @{
     Layout = null;
-    var requestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+    var requestId = System.Diagnostics.Activity.Current?.Id ?? Context.TraceIdentifier;
     var code = Context.Response.StatusCode;
     var (icon, title, subtitle) = code switch {
         404 => ("fa-compass", "Sayfa Bulunamadı", "Aradığınız sayfa mevcut değil veya taşınmış olabilir."),

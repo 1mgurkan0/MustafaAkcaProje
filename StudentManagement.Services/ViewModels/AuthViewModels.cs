@@ -1,8 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace StudentManagement.Services.ViewModels.Auth;
 
 public class LoginViewModel
 {
+    [Required(ErrorMessage = "Kullanıcı adı zorunludur.")]
     public string KullaniciAdi { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Şifre zorunludur.")]
     public string Sifre        { get; set; } = string.Empty;
 }
 

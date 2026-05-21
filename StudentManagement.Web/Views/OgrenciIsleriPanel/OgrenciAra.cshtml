@@ -18,7 +18,7 @@
                     <label class="form-label">Ad Soyad / Öğrenci No / E-posta</label>
                     <div class="input-icon">
                         <i class="fas fa-search"></i>
-                        <input name="q" class="form-control" value="@Model.AramaTermi"
+                        <input name="q" class="form-control" value="@Model.Arama"
                                placeholder="Arama yapın..." autofocus />
                     </div>
                 </div>
@@ -71,27 +71,33 @@
                     {
                         <tr>
                             <td><code style="font-size:.76rem;">@o.OgrenciNo</code></td>
-                            <td><div class="primary">@o.TamAd</div></td>
+                            <td><div class="primary">@o.AdSoyad</div></td>
                             <td><span class="text-sm text-muted">@o.Email</span></td>
-                            <td><span class="badge badge-secondary">@o.BolumKodu</span></td>
+                            <td><span class="badge badge-secondary">@o.BolumAdi</span></td>
                             <td>
-                                <strong style="color:@(o.Gano >= 2.0 ? "var(--color-success)" : "var(--color-danger)");">
-                                    @o.Gano.ToString("F2")
+                                @{
+                                    var ganoRenk = (o.Gano.HasValue && (double)o.Gano.Value >= 2.0)
+                                        ? "var(--color-success)" : "var(--color-danger)";
+                                }
+                                <strong style="color:@ganoRenk;">
+                                    @(o.Gano.HasValue ? o.Gano.Value.ToString("F2") : "—")
                                 </strong>
                             </td>
                             <td>
                                 @{
-                                    var (cls, lbl) = o.OgrenciDurumAdi switch {
-                                        "Aktif"       => ("badge-success",   "Aktif"),
-                                        "Mezun"       => ("badge-info",      "Mezun"),
-                                        "Dondurulmus" => ("badge-warning",   "Dondurulmuş"),
-                                        _             => ("badge-secondary", o.OgrenciDurumAdi)
-                                    };
+                                    var durumStr = o.Durum.ToString();
+                                    string cls2, lbl2;
+                                    switch (durumStr) {
+                                        case "Aktif":        cls2 = "badge-success";   lbl2 = "Aktif"; break;
+                                        case "Mezun":        cls2 = "badge-info";      lbl2 = "Mezun"; break;
+                                        case "Dondurulmus":  cls2 = "badge-warning";   lbl2 = "Dondurulmuş"; break;
+                                        default:             cls2 = "badge-secondary"; lbl2 = durumStr; break;
+                                    }
                                 }
-                                <span class="badge @cls">@lbl</span>
+                                <span class="badge @cls2">@lbl2</span>
                             </td>
                             <td>
-                                <a href="/OgrenciIsleri/OgrenciDetay/@o.OgrenciId"
+                                <a href="/OgrenciIsleriPanel/OgrenciAra/@o.OgrenciId"
                                    class="btn btn-outline-secondary btn-xs">
                                     Detay
                                 </a>

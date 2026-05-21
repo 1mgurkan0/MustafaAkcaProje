@@ -11,6 +11,10 @@ public abstract class BaseController : Controller
 {
     protected int CurrentUserId =>
         HttpContext.Session.GetInt32(AppConstants.Session.UserId) ?? 0;
+    protected int CurrentOgrenciId =>
+        HttpContext.Session.GetInt32(AppConstants.Session.OgrenciId) ?? 0;
+    protected int CurrentBolumId =>
+        HttpContext.Session.GetInt32(AppConstants.Session.BolumId) ?? 0;
     protected string CurrentUsername =>
         HttpContext.Session.GetString(AppConstants.Session.Username) ?? string.Empty;
     protected string CurrentFullName =>

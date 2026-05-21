@@ -67,9 +67,8 @@
         </div>
 
         <div class="auth-tagline">
-            <h1>Üniversite Bilgi<br>Yönetim Sistemi</h1>
-            <p>Akademik süreçlerinizi tek platformdan yönetin.
-               Ders kaydı, not takibi, belge talepleri ve daha fazlası.</p>
+            <h1>UBYS GÜNCEL<br>(TEST MODU)</h1>
+            <p>Eğer bu yazıyı görüyorsanız tarayıcı önbelleği temizlenmiş ve son güncellemeler alınmıştır.</p>
         </div>
 
         <div class="auth-features">
@@ -99,6 +98,13 @@
             <h2 class="auth-form-title">Hoş Geldiniz</h2>
             <p class="auth-form-subtitle">Hesabınıza giriş yapın.</p>
         </div>
+
+        @if (TempData["DebugMessage"] != null)
+        {
+            <div class="alert alert-warning" style="background-color:#fef08a; color:#854d0e; padding:15px; font-weight:bold; border-radius:8px; margin-bottom:20px; font-size:1.1rem; border:2px solid #eab308;">
+                <i class="fas fa-radar"></i> SİSTEM RADARI: <br/> @TempData["DebugMessage"]
+            </div>
+        }
 
         @if (!ViewData.ModelState.IsValid)
         {
@@ -180,8 +186,10 @@
         <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--color-gray-200);">
             <p style="font-size:.72rem; color:var(--color-gray-400); text-align:center; line-height:1.8;">
                 <strong style="display:block; margin-bottom:6px; color:var(--color-gray-500);">Test Hesapları</strong>
-                Admin: <code>admin</code> / <code>Admin@12345</code><br>
-                Öğrenci: <code>ad.soyad001</code> / <code>Ogrenci@123</code>
+                Admin: <code>admin</code> / <code>Admin123!!</code><br>
+                Öğretmen: <code>ahmet.yilmaz</code> / <code>Ogretmen@123</code><br>
+                Öğrenci: <code>ahmet.yilmaz001</code> / <code>Ogrenci@123</code><br>
+                Öğrenci İşleri: <code>ogr.isleri1</code> / <code>OgrIsleri@123</code>
             </p>
         </div>
     </div>
@@ -189,7 +197,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-<partial name="_ValidationScriptsPartial" />
+<!-- Client-side validation kaldırıldı, işlem doğrudan server'a gidecek -->
 
 <script>
     // Auth helper
@@ -204,13 +212,9 @@
                 input.type = "password";
                 eye.classList.replace("fa-eye-slash", "fa-eye");
             }
-        },
+        }
     };
-
-    // Form submit → loading
-    document.getElementById("loginForm").addEventListener("submit", function () {
-        SMS.form.setLoading(this, true);
-    });
+    // Buton kilitleme (setLoading) JS çakışmalarını önlemek için kaldırıldı.
 </script>
 </body>
 </html>

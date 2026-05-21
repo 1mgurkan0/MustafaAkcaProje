@@ -39,13 +39,11 @@ try
         opts.IdleTimeout = TimeSpan.FromMinutes(30);
         opts.Cookie.HttpOnly = true;
         opts.Cookie.IsEssential = true;
-        opts.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-        opts.Cookie.SameSite = SameSiteMode.Strict;
         opts.Cookie.Name = "UBYS.Session";
     });
 
     services.AddHttpContextAccessor();
-    services.AddAutoMapper(typeof(MappingProfile));
+    services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
     services.AddScoped<SessionAuthFilter>();
     services.AddDataServices(connString);
     services.AddUbysServices();
@@ -68,7 +66,7 @@ try
     app.UseStaticFiles();
     app.UseRouting();
     app.UseSession();
-    app.UseMiddleware<StudentManagement.Web.Middlewares.SessionValidationMiddleware>();
+    // app.UseMiddleware<StudentManagement.Web.Middlewares.SessionValidationMiddleware>(); // Sorun yaratan gizli duvar kapatıldı
 
     app.MapControllerRoute(name: "admin", pattern: "Admin/{action=Dashboard}/{id?}", defaults: new { controller = "Admin" });
     app.MapControllerRoute(name: "ogretmenPanel", pattern: "OgretmenPanel/{action=Dashboard}/{id?}", defaults: new { controller = "OgretmenPanel" });

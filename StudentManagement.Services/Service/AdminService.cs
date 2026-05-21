@@ -91,7 +91,7 @@ public class AdminService : IAdminService
                 Id = b.Id,
                 BolumAdi = b.BolumAdi,
                 BolumKodu = b.BolumKodu,
-                OgrenciSayisi = b.Ogrenciler != null ? b.Ogrenciler.Count(o => o.IsActive) : 0
+                OgrenciSayisi = b.Ogrenciler.Count(o => o.IsActive)
             })
             .OrderByDescending(b => b.OgrenciSayisi)
             .ToListAsync();
@@ -103,8 +103,6 @@ public class AdminService : IAdminService
     public async Task<IEnumerable<BolumViewModel>> GetBolumlerAsync()
     {
         return await _db.Bolumler
-            .Include(b => b.Ogrenciler)
-            .Include(b => b.Dersler)
             .OrderBy(b => b.BolumAdi)
             .Select(b => new BolumViewModel
             {
@@ -112,8 +110,8 @@ public class AdminService : IAdminService
                 BolumKodu = b.BolumKodu,
                 BolumAdi = b.BolumAdi,
                 MinMezuniyetAkts = b.MinMezuniyetAkts,
-                OgrenciSayisi = b.Ogrenciler != null ? b.Ogrenciler.Count(o => o.IsActive) : 0,
-                DersSayisi = b.Dersler != null ? b.Dersler.Count(d => d.IsActive) : 0,
+                OgrenciSayisi = b.Ogrenciler.Count(o => o.IsActive),
+                DersSayisi = b.Dersler.Count(d => d.IsActive),
                 IsActive = b.IsActive
             })
             .ToListAsync();

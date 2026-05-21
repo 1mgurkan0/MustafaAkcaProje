@@ -1,4 +1,4 @@
-﻿
+
 using StudentManagement.Services.ViewModels.OgrenciIsleri;
 
 namespace StudentManagement.Services.Interfaces
@@ -12,7 +12,7 @@ namespace StudentManagement.Services.Interfaces
         Task<OgrenciIsleriDashboardViewModel> GetDashboardAsync();
         Task<ServiceResult<TalepDetayViewModel>> GetTalepDetayAsync(int ogrenciDersId);
         Task<IEnumerable<TalepDetayViewModel>> GetTaleplerAsync();
-        Task<List<OgrenciViewModel>> OgrenciAraAsync(string q, int? bolumId);
+        Task<List<OgrenciIsleriOgrenciViewModel>> OgrenciAraAsync(string? q, int? bolumId);
         Task<ServiceResult<ViewModels.Admin.OgrenciDetayViewModel>> OgrenciDetayAsync(int ogrenciId);
         Task<ServiceResult> TalepOnaylaAsync(int ogrenciDersId, int userId);
         Task<ServiceResult> TalepReddetAsync(int ogrenciDersId, string redNedeni, int userId);

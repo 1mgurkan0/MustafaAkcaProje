@@ -15,3 +15,4 @@ C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Data\o
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Data\obj\Debug\net8.0\StudentManagement.Data.pdb
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Data\obj\Debug\net8.0\StudentManagement.Data.genruntimeconfig.cache
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Data\obj\Debug\net8.0\ref\StudentManagement.Data.dll
+C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Data\obj\Debug\net8.0\StudentManagement.Data.sourcelink.json

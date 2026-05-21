@@ -15,3 +15,4 @@ C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Servic
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Services\obj\Debug\net8.0\refint\StudentManagement.Services.dll
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Services\obj\Debug\net8.0\StudentManagement.Services.pdb
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Services\obj\Debug\net8.0\ref\StudentManagement.Services.dll
+C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Services\obj\Debug\net8.0\StudentManagement.Services.sourcelink.json

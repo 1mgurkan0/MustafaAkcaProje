@@ -38,7 +38,7 @@
         <div class="stat-body">
             <div class="stat-value" style="font-size:1rem;">@Model.GunAdi</div>
             <div class="stat-label">Ders Günü</div>
-            <div class="stat-change neutral">@Model.Saat · @Model.Derslik</div>
+            <div class="stat-change neutral">@(Model.BaslangicSaati.HasValue ? Model.BaslangicSaati.Value.ToString(@"hh\:mm") : "—") · @Model.Derslik</div>
         </div>
     </div>
     <div class="stat-card @oranClass">

@@ -2,7 +2,8 @@
 @{
     ViewData["Title"]      = "Transkript";
     ViewData["Breadcrumb"] = "Transkript";
-    var ganoClass = Model.Gano >= 3.0 ? "excellent" : Model.Gano >= 2.0 ? "good" : Model.Gano >= 1.0 ? "average" : "poor";
+    var ganoVal2   = Model.Gano.HasValue ? (double)Model.Gano.Value : 0.0;
+    var ganoClass2 = ganoVal2 >= 3.0 ? "excellent" : ganoVal2 >= 2.0 ? "good" : ganoVal2 >= 1.0 ? "average" : "poor";
 }
 
 <div class="page-header">
@@ -20,7 +21,7 @@
     <div class="stat-card role">
         <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
         <div class="stat-body">
-            <div class="stat-value">@Model.Gano.ToString("F2")</div>
+            <div class="stat-value">@(Model.Gano.HasValue ? Model.Gano.Value.ToString("F2") : "—")</div>
             <div class="stat-label">GANO</div>
         </div>
     </div>
@@ -60,7 +61,7 @@
                 </div>
                 <div style="display:flex; gap:16px; font-size:.78rem; font-weight:700; color:var(--color-gray-500);">
                     <span>@grup.ToplamAkts AKTS</span>
-                    <span>DÖNGano: <strong style="color:var(--color-gray-800);">@grup.DonemGanosu.ToString("F2")</strong></span>
+                    <span>DÖNGANO: <strong style="color:var(--color-gray-800);">@(grup.DonemGanosu.HasValue ? grup.DonemGanosu.Value.ToString("F2") : "—")</strong></span>
                 </div>
             </div>
             <div class="card-body" style="padding:0;">

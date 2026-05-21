@@ -713,14 +713,17 @@ table.ubys-table {
 }
 
 .invalid-feedback {
-    display: block;
+    display: none;
     font-size: .75rem;
     color: var(--color-danger);
     margin-top: 5px;
     font-weight: 600;
-    display: flex;
     align-items: center;
     gap: 4px;
+}
+.invalid-feedback.field-validation-error,
+.form-control.is-invalid ~ .invalid-feedback {
+    display: flex;
 }
 .invalid-feedback::before { content: '\f071'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: .65rem; }
 

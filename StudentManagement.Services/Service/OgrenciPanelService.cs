@@ -10,7 +10,6 @@ using StudentManagement.Services.ViewModels.Ogrenci;
 using StudentManagement.Services.ViewModels.Ogretmen;
 using StudentManagement.Services.Helpers;
 
-public class BelgeTalebiCreateViewModel : BelgeTalebiOlusturViewModel { }
 
 public class OgrenciPanelService : IOgrenciPanelService
 {

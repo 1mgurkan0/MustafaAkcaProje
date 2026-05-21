@@ -9,3 +9,4 @@ C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Core\o
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Core\obj\Debug\net8.0\refint\StudentManagement.Core.dll
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Core\obj\Debug\net8.0\StudentManagement.Core.pdb
 C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Core\obj\Debug\net8.0\ref\StudentManagement.Core.dll
+C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Core\obj\Debug\net8.0\StudentManagement.Core.sourcelink.json

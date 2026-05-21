@@ -14,7 +14,6 @@
     {
         <form asp-action="TopluOnayla" asp-controller="OgrenciIsleriPanel" method="post" id="topluForm">
             @Html.AntiForgeryToken()
-            <input type="hidden" name="secilenIdler" id="secilenIdlerInput" />
             <button type="submit" class="btn btn-success" id="topluOnayBtn"
                     data-confirm="Seçili talepleri toplu onaylamak istediğinize emin misiniz?"
                     data-confirm-title="Toplu Onay"
@@ -74,9 +73,9 @@
                         </td>
                         <td>
                             <div class="primary">@t.DersAdi</div>
-                            <div class="secondary">@t.DersKodu · @t.Akts AKTS</div>
+                            <div class="secondary">@t.DersKodu &middot; @t.DonemAdi</div>
                         </td>
-                        <td><span style="font-size:.8rem;">@t.OgretmenAdi</span></td>
+                        <td><span style="font-size:.8rem;">@t.DonemAdi</span></td>
                         <td><span data-date="@t.TalepTarihi" style="font-size:.8rem;"></span></td>
                         <td>
                             @{
@@ -121,14 +120,12 @@
         const checkboxes  = () => document.querySelectorAll(".talep-checkbox");
         const sayi        = () => document.querySelectorAll(".talep-checkbox:checked").length;
         const saziEl      = document.getElementById("secilenSayi");
-        const inputEl     = document.getElementById("secilenIdlerInput");
+        const formEl      = document.getElementById("topluForm");
         const tumunuSec   = document.getElementById("tumunuSec");
 
         function updateSayi() {
             const n = sayi();
-            if (saziEl)   saziEl.textContent = n;
-            if (inputEl)  inputEl.value = [...checkboxes()]
-                .filter(c => c.checked).map(c => c.value).join(",");
+            if (saziEl) saziEl.textContent = n;
         }
 
         checkboxes().forEach(cb => cb.addEventListener("change", updateSayi));
@@ -137,6 +134,22 @@
             tumunuSec.addEventListener("change", function () {
                 checkboxes().forEach(cb => cb.checked = this.checked);
                 updateSayi();
+            });
+        }
+
+        // Form submit: seçili ID'leri hidden input olarak ekle
+        if (formEl) {
+            formEl.addEventListener("submit", function (e) {
+                // Önce eski hidden input'ları temizle
+                formEl.querySelectorAll("input[name='secilenIds']").forEach(el => el.remove());
+                // Seçilileri ekle
+                document.querySelectorAll(".talep-checkbox:checked").forEach(cb => {
+                    const input = document.createElement("input");
+                    input.type  = "hidden";
+                    input.name  = "secilenIds";
+                    input.value = cb.value;
+                    formEl.appendChild(input);
+                });
             });
         }
 

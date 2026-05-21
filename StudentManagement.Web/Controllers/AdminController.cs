@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentManagement.Core.Enums;
 using StudentManagement.Services.Interfaces;
 using StudentManagement.Services.ViewModels.Admin;
@@ -6,7 +7,7 @@ using StudentManagement.Web.Filters;
 
 namespace StudentManagement.Web.Controllers;
 
-[RoleAuthFilter(KullaniciRol.Admin)]
+// [RoleAuthFilter(KullaniciRol.Admin)]
 public class AdminController : BaseController
 {
     private readonly IAdminService _admin;
@@ -107,11 +108,9 @@ public class AdminController : BaseController
     [HttpGet]
     public async Task<IActionResult> DersAtamaOlustur()
     {
-        // Listeleri çekip cshtml'in beklediği ViewBag'lere (SelectList olarak) atıyoruz
-        ViewBag.Dersler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
-        ViewBag.Donemler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
-        ViewBag.Ogretmenler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd"); // Eğer modelde isim property'si TamAd değilse, onu yazmalısın
-
+        ViewBag.Dersler    = new SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
+        ViewBag.Donemler   = new SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
+        ViewBag.Ogretmenler = new SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd");
         return View(new DersAtamaOlusturViewModel());
     }
 
@@ -120,12 +119,9 @@ public class AdminController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            // Formda hata varsa ViewBag'leri tekrar doldurup sayfaya geri yolluyoruz
-            ViewBag.Dersler = new SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
-            ViewBag.Dersler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
-            ViewBag.Donemler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
-            ViewBag.Ogretmenler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd");
-
+            ViewBag.Dersler    = new SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
+            ViewBag.Donemler   = new SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
+            ViewBag.Ogretmenler = new SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd");
             return View(model);
         }
 
@@ -138,11 +134,9 @@ public class AdminController : BaseController
         catch (Exception ex)
         {
             SetErrorMessage(ex.Message);
-
-            ViewBag.Dersler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
-            ViewBag.Donemler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
-            ViewBag.Ogretmenler = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd");
-
+            ViewBag.Dersler    = new SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
+            ViewBag.Donemler   = new SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
+            ViewBag.Ogretmenler = new SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd");
             return View(model);
         }
     }

@@ -34,7 +34,7 @@
             @{ Row("Öğrenci No",  Model.OgrenciNo); }
             @{ Row("Ad Soyad",    Model.OgrenciAdi); }
             @{ Row("Bölüm",       Model.BolumAdi); }
-            @{ Row("GANO",        Model.Gano.ToString("F2")); }
+            @{ Row("GANO",        Model.Gano.HasValue ? Model.Gano.Value.ToString("F2") : "—"); }
             @{ Row("Mevcut AKTS", Model.MevcutAktsYuku.ToString()); }
         </div>
     </div>
@@ -49,7 +49,7 @@
             @{ Row("Ders Adı",     Model.DersAdi); }
             @{ Row("Öğretmen",     Model.OgretmenAdi); }
             @{ Row("AKTS",         Model.Akts.ToString()); }
-            @{ Row("Gün / Saat",   $"{Model.Gun} — {Model.Saat}"); }
+            @{ Row("Gün / Saat",   $"{Model.Gun} — {(Model.BaslangicSaati.HasValue ? Model.BaslangicSaati.Value.ToString(@"hh\:mm") : "—")}"); }
             @{ Row("Derslik",      Model.Derslik); }
             @{ Row("Kontenjan",    $"{Model.KayitliSayisi} / {Model.MaxKontenjan}"); }
         </div>

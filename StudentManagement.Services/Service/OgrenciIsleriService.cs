@@ -10,7 +10,7 @@ using StudentManagement.Services.ViewModels.Admin;
 using StudentManagement.Services.ViewModels.OgrenciIsleri;
 
 
-namespace StudentManagement.Services.ViewModels.OgrenciIsleri;
+namespace StudentManagement.Services.Service;
 
 public class OgrenciIsleriService : IOgrenciIsleriService
 {
@@ -263,9 +263,9 @@ public class OgrenciIsleriService : IOgrenciIsleriService
     }
 
     // ─── ÖĞRENCİ ARA ─────────────────────────────────────────────────────────
-    public async Task<List<OgrenciViewModel>> OgrenciAraAsync(string q, int? bolumId)
+    public async Task<List<OgrenciIsleriOgrenciViewModel>> OgrenciAraAsync(string? q, int? bolumId)
     {
-        q = q.ToLower().Trim();
+        q = (q ?? string.Empty).ToLower().Trim();
 
         var query = _db.Ogrenciler
             .Where(o => o.IsActive)
@@ -273,28 +273,29 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             .Include(o => o.Bolum)
             .AsQueryable();
 
-        if (bolumId.HasValue && bolumId > 0)
-            query = query.Where(o => o.BolumId == bolumId);
-
-        return await query
-            .Where(o =>
+        if (!string.IsNullOrEmpty(q))
+            query = query.Where(o =>
                 o.OgrenciNo.Contains(q) ||
                 o.Kullanici!.Ad.ToLower().Contains(q) ||
                 o.Kullanici.Soyad.ToLower().Contains(q) ||
                 o.Kullanici.Email.ToLower().Contains(q) ||
-                (o.Kullanici.Ad.ToLower() + " " + o.Kullanici.Soyad.ToLower()).Contains(q))
+                (o.Kullanici.Ad.ToLower() + " " + o.Kullanici.Soyad.ToLower()).Contains(q));
+
+        if (bolumId.HasValue && bolumId > 0)
+            query = query.Where(o => o.BolumId == bolumId);
+
+        return await query
             .OrderBy(o => o.Kullanici!.Soyad)
             .Take(50)
-            .Select(o => new OgrenciViewModel
+            .Select(o => new OgrenciIsleriOgrenciViewModel
             {
-                OgrenciId = o.Id,
-                OgrenciNo = o.OgrenciNo,
-                TamAd = o.Kullanici!.TamAd,
-                Email = o.Kullanici.Email,
-                BolumAdi = o.Bolum != null ? o.Bolum.BolumAdi : string.Empty,
-                BolumKodu = o.Bolum != null ? o.Bolum.BolumKodu : string.Empty,
-                Gano = o.Gano,
-                DurumAdi = o.Durum.ToString()
+                OgrenciId    = o.Id,
+                OgrenciNo    = o.OgrenciNo,
+                AdSoyad      = o.Kullanici!.TamAd,
+                Email        = o.Kullanici.Email,
+                BolumAdi     = o.Bolum != null ? o.Bolum.BolumAdi : string.Empty,
+                Gano         = o.Gano,
+                Durum        = o.Durum
             })
             .ToListAsync();
     }
@@ -359,5 +360,4 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             })
             .ToListAsync();
     }
-    public class OgrenciAraViewModel : OgrenciAramaViewModel { }
 }
