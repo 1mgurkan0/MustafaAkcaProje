@@ -439,10 +439,22 @@ public class OgretmenPanelService : IOgretmenPanelService
 
     public async Task<IEnumerable<DuyuruOlusturViewModel>> GetDuyurularAsync(int ogretmenId)
     {
+        var ogretmenDersAtamaIdler = await _db.DersAtamalar
+            .Where(da => da.OgretmenId == ogretmenId && da.IsActive)
+            .Select(da => da.Id)
+            .ToListAsync();
+
         return await _db.Duyurular
-            .Where(d => d.YayinlayanId == ogretmenId && d.IsActive)
+            .Where(d => d.IsActive && (
+                d.Hedef == DuyuruHedef.Herkes ||
+                d.Hedef == DuyuruHedef.Ogretmenler ||
+                (d.Hedef == DuyuruHedef.DersOzeli && d.HedefDersAtamaId.HasValue
+                    && ogretmenDersAtamaIdler.Contains(d.HedefDersAtamaId.Value))
+            ))
+            .Include(d => d.Yayinlayan)
             .Include(d => d.HedefDersAtama).ThenInclude(da => da!.Ders)
-            .OrderByDescending(d => d.CreatedAt)
+            .OrderByDescending(d => d.Onemli)
+            .ThenByDescending(d => d.CreatedAt)
             .Select(d => new DuyuruOlusturViewModel
             {
                 Id = d.Id,
@@ -450,9 +462,9 @@ public class OgretmenPanelService : IOgretmenPanelService
                 Icerik = d.Icerik,
                 HedefAdi = d.Hedef.ToString(),
                 Onemli = d.Onemli,
+                YayinlayanAdi = d.Yayinlayan != null ? d.Yayinlayan.TamAd : string.Empty,
                 DersAdi = d.HedefDersAtama != null && d.HedefDersAtama.Ders != null
                     ? d.HedefDersAtama.Ders.DersAdi : string.Empty,
-                YayinlayanAdi = string.Empty,
                 CreatedAt = d.CreatedAt
             })
             .ToListAsync();

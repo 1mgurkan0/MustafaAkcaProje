@@ -28,6 +28,12 @@ public class Ogrenci : BaseEntity
 
     public OgrenciDurum Durum { get; set; } = OgrenciDurum.Aktif;
 
+    [MaxLength(11)]
+    public string? TcKimlikNo { get; set; }
+
+    [MaxLength(500)]
+    public string? ProfilFotoUrl { get; set; }
+
     public DateTime DogumTarihi { get; set; }
 
     [MaxLength(10)]

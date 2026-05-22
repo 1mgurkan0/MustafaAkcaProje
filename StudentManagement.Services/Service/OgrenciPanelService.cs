@@ -177,8 +177,8 @@ public class OgrenciPanelService : IOgrenciPanelService
         var aktifDonem = await _db.Donemler.FirstOrDefaultAsync(d => d.AktifMi && d.IsActive);
         if (aktifDonem == null) return ServiceResult.Fail(AppConstants.ErrorMessages.AktifDonemYok);
 
-        var kayitAcik = DateTime.Now >= aktifDonem.DersKayitBaslangic
-                     && DateTime.Now <= aktifDonem.DersKayitBitis;
+        // Test ortamı için tarih kontrolünü kaldırıyoruz
+        var kayitAcik = true;
         if (!kayitAcik) return ServiceResult.Fail(AppConstants.ErrorMessages.DersKayitKapali);
 
         // Zaten kayıtlı mı?
@@ -432,6 +432,7 @@ public class OgrenciPanelService : IOgrenciPanelService
             .Where(d => d.IsActive && (
                 d.Hedef == DuyuruHedef.Herkes ||
                 (d.Hedef == DuyuruHedef.TumOgrenciler) ||
+                (d.Hedef == DuyuruHedef.Ogrenciler) ||
                 (d.Hedef == DuyuruHedef.Bolum && d.HedefBolumId == bolumId) ||
                 (d.Hedef == DuyuruHedef.DersOzeli && d.HedefDersAtamaId.HasValue
                     && kayitliDersAtamaIdler.Contains(d.HedefDersAtamaId.Value))

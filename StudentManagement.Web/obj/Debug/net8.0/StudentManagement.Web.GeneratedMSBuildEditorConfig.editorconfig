@@ -112,6 +112,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaUlzbGVyaVBhbmVsXE9ncmVuY2lBcmEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciIsleriPanel/OgrenciDetay.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaUlzbGVyaVBhbmVsXE9ncmVuY2lEZXRheS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciIsleriPanel/TalepDetay.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaUlzbGVyaVBhbmVsXFRhbGVwRGV0YXkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -144,6 +148,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVBhbmVsXER1eXVydWxhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciPanel/Profil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVBhbmVsXFByb2ZpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciPanel/SinavTakvimi.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVBhbmVsXFNpbmF2VGFrdmltaS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -162,6 +170,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgretmenPanel/Derslerim.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5QYW5lbFxEZXJzbGVyaW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgretmenPanel/Duyurular.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5QYW5lbFxEdXl1cnVsYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgretmenPanel/DuyuruYayinla.cshtml]

@@ -1,0 +1,39 @@
+@model StudentManagement.Services.ViewModels.OgrenciIsleri.OgrenciDetayViewModel
+@{
+    ViewData["Title"] = "Öğrenci Detay";
+    ViewData["Breadcrumb"] = "Öğrenci Detay";
+}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Öğrenci Detay</h1>
+        <p class="page-subtitle">@Model.AdSoyad — @Model.OgrenciNo</p>
+    </div>
+    <a href="/OgrenciIsleri/OgrenciAra" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Geri
+    </a>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fas fa-user"></i> Kişisel Bilgiler</div></div>
+        <div class="card-body">
+            <div style="display:flex; flex-direction:column; gap:14px;">
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">Öğrenci No</span><strong>@Model.OgrenciNo</strong></div>
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">Ad Soyad</span><strong>@Model.AdSoyad</strong></div>
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">E-posta</span><span>@Model.Email</span></div>
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">Durum</span><span class="badge badge-success">@Model.Durum.ToString()</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fas fa-graduation-cap"></i> Akademik Bilgiler</div></div>
+        <div class="card-body">
+            <div style="display:flex; flex-direction:column; gap:14px;">
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">Bölüm</span><strong>@Model.BolumAdi</strong></div>
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">GANO</span><strong style="font-size:1.2rem; color:var(--color-role);">@(Model.Gano.HasValue ? Model.Gano.Value.ToString("F2") : "—")</strong></div>
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">Tamamlanan AKTS</span><strong>@Model.TamamlananAkts</strong></div>
+                <div><span style="font-size:.75rem; color:var(--color-gray-400); display:block;">Sınıf Seviyesi</span><strong>@Model.SinifSeviyesi. Sınıf</strong></div>
+            </div>
+        </div>
+    </div>
+</div>

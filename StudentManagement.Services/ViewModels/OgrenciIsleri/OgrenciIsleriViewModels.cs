@@ -146,3 +146,9 @@ public class BelgeDurumGuncelleViewModel : BelgeTalepGuncelleViewModel { }
 public class OgrenciDetayViewModel : OgrenciIsleriOgrenciViewModel { }
 
 public class OgrenciAraViewModel : OgrenciAramaViewModel { }
+
+public class TumTaleplerViewModel
+{
+    public IEnumerable<TalepDetayViewModel> DersKayitTalepleri { get; set; } = new List<TalepDetayViewModel>();
+    public IEnumerable<BelgeTalebiViewModel> BelgeTalepleri { get; set; } = new List<BelgeTalebiViewModel>();
+}

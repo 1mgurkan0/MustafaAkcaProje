@@ -18,7 +18,7 @@
                     <label class="form-label">Ad Soyad / Öğrenci No / E-posta</label>
                     <div class="input-icon">
                         <i class="fas fa-search"></i>
-                        <input name="q" class="form-control" value="@Model.Arama"
+                        <input name="arama" class="form-control" value="@Model.Arama"
                                placeholder="Arama yapın..." autofocus />
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                                 <span class="badge @cls2">@lbl2</span>
                             </td>
                             <td>
-                                <a href="/OgrenciIsleriPanel/OgrenciAra/@o.OgrenciId"
+                                <a href="/OgrenciIsleri/OgrenciDetay/@o.OgrenciId"
                                    class="btn btn-outline-secondary btn-xs">
                                     Detay
                                 </a>

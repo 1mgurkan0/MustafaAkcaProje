@@ -99,9 +99,6 @@ public class DonemViewModel
 
 public class DonemOlusturViewModel
 {
-    public List<StudentManagement.Services.ViewModels.Admin.DersSelectViewModel> DersListesi { get; set; } = new();
-    public List<StudentManagement.Services.ViewModels.Admin.DonemSelectViewModel> DonemListesi { get; set; } = new();
-    public List<StudentManagement.Services.ViewModels.Admin.KullaniciOzetViewModel> OgretmenListesi { get; set; } = new();
     public string   DonemKodu          { get; set; } = string.Empty;
     public int      Yil                { get; set; } = DateTime.Now.Year;
     public DonemTur DonemTur           { get; set; }

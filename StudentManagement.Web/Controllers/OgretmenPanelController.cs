@@ -72,6 +72,7 @@ public class OgretmenPanelController : BaseController
         return RedirectToAction(nameof(DersDetay), new { id = dersAtamaId });
     }
 
+    public async Task<IActionResult> Duyurular() => View(await _service.GetDuyurularAsync(CurrentUserId));
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> DuyuruYayinla(DuyuruOlusturViewModel model)
     {

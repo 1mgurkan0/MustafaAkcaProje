@@ -1,0 +1,77 @@
+@model IEnumerable<StudentManagement.Services.ViewModels.Ogretmen.DuyuruOlusturViewModel>
+@{
+    ViewData["Title"] = "Duyurular";
+    ViewData["Breadcrumb"] = "Duyurular";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Duyurular</h1>
+        <p class="page-subtitle">Yayınladığınız duyurular ve bilgilendirmeler</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <i class="fas fa-bullhorn"></i>
+            Geçmiş Duyurularınız
+            <span class="badge badge-secondary" style="margin-left:8px;">@Model.Count() Adet</span>
+        </div>
+    </div>
+    <div class="card-body" style="padding:0;">
+        @if (!Model.Any())
+        {
+            <div style="padding:40px 20px; text-align:center; color:var(--color-gray-500);">
+                <i class="fas fa-bell-slash" style="font-size:3rem; margin-bottom:16px; color:var(--color-gray-300);"></i>
+                <p>Henüz bir duyuru yayınlamadınız.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="ubys-table">
+                    <thead>
+                        <tr>
+                            <th>Önem</th>
+                            <th>Başlık</th>
+                            <th>Hedef Kitle / Ders</th>
+                            <th>Tarih</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in Model)
+                        {
+                            <tr>
+                                <td style="width:60px; text-align:center;">
+                                    @if (d.Onemli)
+                                    {
+                                        <i class="fas fa-exclamation-circle text-danger" title="Önemli"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-info-circle text-info"></i>
+                                    }
+                                </td>
+                                <td>
+                                    <strong style="display:block; font-size:.95rem; color:var(--color-gray-900);">@d.Baslik</strong>
+                                    <span style="font-size:.8rem; color:var(--color-gray-500);">@d.Icerik</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-secondary">@d.HedefAdi</span>
+                                    @if (!string.IsNullOrEmpty(d.DersAdi))
+                                    {
+                                        <div style="font-size:.75rem; color:var(--color-gray-500); margin-top:4px;">@d.DersAdi</div>
+                                    }
+                                </td>
+                                <td style="font-size:.85rem; color:var(--color-gray-500);">
+                                    @d.CreatedAt.ToString("dd MMM yyyy HH:mm")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

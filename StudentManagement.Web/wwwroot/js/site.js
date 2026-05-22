@@ -495,6 +495,59 @@ const SMS = (() => {
                 return "success";
             },
         },
+
+        // ── Anti-Forgery Token ──────────────────────────────────────────
+        getAntiForgeryToken() {
+            const el = document.querySelector("input[name='__RequestVerificationToken']");
+            return el ? el.value : "";
+        },
+
+        // ── Server-Side AJAX DataTable ──────────────────────────────────
+        /**
+         * Server-side AJAX DataTable başlatır.
+         * @param {string} tableId   - Tablo DOM id'si
+         * @param {string} url       - POST edilecek endpoint
+         * @param {Array}  columns   - DataTables columns dizisi
+         * @param {string} token     - Anti-forgery token
+         * @param {object} extraOpts - Ek DataTables opsiyonları
+         */
+        initDataTable(tableId, url, columns, token, extraOpts = {}) {
+            if (typeof $.fn.DataTable === "undefined") return null;
+
+            const defaults = {
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: url,
+                    type: "POST",
+                    contentType: "application/json",
+                    headers: token ? { "RequestVerificationToken": token } : {},
+                    data: function (d) {
+                        return JSON.stringify({
+                            draw: d.draw,
+                            start: d.start,
+                            length: d.length,
+                            search: d.search?.value || ""
+                        });
+                    },
+                    dataSrc: function (json) {
+                        return json.data || [];
+                    }
+                },
+                columns: columns,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/tr.json",
+                    emptyTable: "Kayıt bulunamadı",
+                    zeroRecords: "Eşleşen kayıt bulunamadı",
+                    processing: "<i class='fas fa-spinner fa-spin me-2'></i>Yükleniyor...",
+                },
+                pageLength: _cfg.tablePageLen,
+                responsive: true,
+                autoWidth: false,
+            };
+
+            return $(`#${tableId}`).DataTable({ ...defaults, ...extraOpts });
+        },
     };
 })();
 

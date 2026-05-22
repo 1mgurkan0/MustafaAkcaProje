@@ -21,6 +21,11 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
     {
+        // Zaten giriş yapmış kullanıcıyı paneline yönlendir
+        var role = HttpContext.Session.GetString(AppConstants.Session.UserRole);
+        if (!string.IsNullOrEmpty(role))
+            return RedirectToAction("Index", "Home");
+
         ViewData["ReturnUrl"] = returnUrl;
         return View(new LoginViewModel());
     }
@@ -88,6 +93,11 @@ public class AuthController : Controller
     [HttpGet]
     public async Task<IActionResult> Register()
     {
+        // Zaten giriş yapmış kullanıcıyı paneline yönlendir
+        var role = HttpContext.Session.GetString(AppConstants.Session.UserRole);
+        if (!string.IsNullOrEmpty(role))
+            return RedirectToAction("Index", "Home");
+
         var bolumler = await _authService.GetBolumlerAsync();
         ViewBag.Bolumler = bolumler
             .Select(b => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem

@@ -80,8 +80,13 @@ public class OgrenciPanelController : BaseController
     public async Task<IActionResult> Duyurular()
         => View(await _service.GetDuyurularAsync(CurrentOgrenciId, CurrentBolumId));
 
-    public async Task<IActionResult> Belgeler()
-        => View(await _service.GetBelgelerAsync(CurrentOgrenciId));
+    public async Task<IActionResult> Belgeler() => View(await _service.GetBelgelerAsync(CurrentOgrenciId));
+
+    public async Task<IActionResult> Profil()
+    {
+        var dashboard = await _service.GetDashboardAsync(CurrentOgrenciId);
+        return View(dashboard);
+    }
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> BelgeTalepOlustur(BelgeTalebiOlusturViewModel model)

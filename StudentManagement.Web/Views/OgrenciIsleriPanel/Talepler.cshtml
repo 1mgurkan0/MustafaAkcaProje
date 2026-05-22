@@ -1,16 +1,163 @@
-@model IEnumerable<StudentManagement.Services.ViewModels.OgrenciIsleri.TalepViewModel>
+@model StudentManagement.Services.ViewModels.OgrenciIsleri.TumTaleplerViewModel
 @{
-    ViewData["Title"]      = "Ders Kayıt Talepleri";
+    ViewData["Title"]      = "Tüm Talepler";
     ViewData["Breadcrumb"] = "Talepler";
-    var bekleyenler = Model.Where(t => t.DurumAdi == "Talep").ToList();
+    var bekleyenDersler = Model.DersKayitTalepleri.Where(t => t.DurumAdi == "Talep").ToList();
 }
+
+<style>
+    /* Pagination Tasarımı */
+    .dataTables_wrapper .dataTables_paginate {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-top: 20px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 14px !important;
+        margin: 0 5px !important;
+        border-radius: 8px !important;
+        border: 1px solid var(--color-gray-200) !important;
+        background: white !important;
+        color: var(--color-gray-600) !important;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: var(--color-gray-50) !important;
+        color: var(--color-role) !important;
+        border-color: var(--color-role) !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--color-role) !important;
+        color: white !important;
+        border-color: var(--color-role) !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Modern Arama Çubuğu */
+    .table-toolbar-modern {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        background: white;
+        border-bottom: 1px solid var(--color-gray-100);
+        border-radius: 8px 8px 0 0;
+    }
+    .table-search-modern {
+        position: relative;
+        width: 320px;
+    }
+    .table-search-modern i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--color-gray-400);
+    }
+    .table-search-modern input {
+        width: 100%;
+        padding: 10px 16px 10px 40px;
+        border: 1px solid var(--color-gray-200);
+        border-radius: 30px;
+        font-size: 0.85rem;
+        outline: none;
+        transition: all 0.3s;
+        background: var(--color-gray-50);
+    }
+    .table-search-modern input:focus {
+        border-color: var(--color-role);
+        background: white;
+    }
+
+    /* İç Öğrenci Okları (Child Row) */
+    td.details-control {
+        text-align: center;
+        color: var(--color-role);
+        cursor: pointer;
+        width: 40px;
+    }
+    td.details-control i {
+        transition: transform 0.3s ease;
+    }
+    tr.shown td.details-control i {
+        transform: rotate(180deg);
+    }
+    .child-row-container {
+        padding: 16px 24px;
+        background: var(--color-gray-50);
+        border-radius: 8px;
+        border-left: 4px solid var(--color-role);
+        margin: 8px 0;
+    }
+
+    /* ANA BAŞLIK SATIRLARI (Yeni Yapı) */
+    .main-category-container {
+        border: 1px solid var(--color-gray-200);
+        border-radius: 12px;
+        margin-bottom: 16px;
+        background: white;
+        overflow: hidden;
+    }
+    .main-category-header {
+        display: flex;
+        align-items: center;
+        padding: 18px 24px;
+        background: white;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .main-category-header:hover {
+        background: var(--color-gray-50);
+    }
+    .main-category-arrow {
+        width: 40px;
+        text-align: center;
+        color: var(--color-role);
+        font-size: 1.1rem;
+        transition: transform 0.3s ease;
+    }
+    .main-category-title {
+        flex: 1;
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--color-gray-900);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .main-category-title i {
+        color: var(--color-role);
+        background: rgba(var(--color-role-rgb), 0.1);
+        padding: 8px;
+        border-radius: 8px;
+    }
+    .main-category-body {
+        display: none; /* Default Kapalı */
+        background: #f8f9fa;
+        border-top: 1px solid var(--color-gray-200);
+    }
+</style>
 
 <div class="page-header">
     <div>
-        <h1 class="page-title">Ders Kayıt Talepleri</h1>
-        <p class="page-subtitle">Onay bekleyen: <strong>@bekleyenler.Count</strong> talep</p>
+        <h1 class="page-title">Tüm Talepler</h1>
+        <p class="page-subtitle">Sistemdeki Ders Kayıt ve Belge taleplerini inceleyin.</p>
     </div>
-    @if (bekleyenler.Any())
+    @if (bekleyenDersler.Any())
     {
         <form asp-action="TopluOnayla" asp-controller="OgrenciIsleriPanel" method="post" id="topluForm">
             @Html.AntiForgeryToken()
@@ -25,134 +172,296 @@
     }
 </div>
 
-<div class="card table-card">
-    <div class="table-toolbar">
-        <div class="table-search">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Öğrenci veya ders ara..." data-table="talepTbl" />
+<!-- DERS KAYIT TALEPLERİ ANA SATIRI -->
+<div class="main-category-container">
+    <div class="main-category-header">
+        <div class="main-category-arrow">
+            <i class="fas fa-chevron-down"></i>
         </div>
-        <div style="display:flex; gap:8px; align-items:center;">
-            @if (bekleyenler.Any())
+        <div class="main-category-title">
+            <i class="fas fa-book-open"></i>
+            Ders Kayıt Talepleri
+        </div>
+        <div>
+            <span class="badge badge-danger" style="padding:6px 12px; font-size:0.8rem;">@bekleyenDersler.Count Bekleyen</span>
+        </div>
+    </div>
+    <div class="main-category-body">
+        <div class="table-toolbar-modern">
+            <div class="table-search-modern">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Öğrenci veya ders araması yapın..." id="searchDers" />
+            </div>
+            <div style="font-size:0.85rem; color:var(--color-gray-500);">
+                <i class="fas fa-layer-group"></i> 50 Kayıt / Sayfa
+            </div>
+        </div>
+        <div class="table-responsive" style="background: white;">
+            <table class="ubys-table" id="talepTbl" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th style="width:36px;">
+                            @if (bekleyenDersler.Any())
+                            {
+                                <input type="checkbox" id="tumunuSec" />
+                            }
+                        </th>
+                        <th style="width:40px;"></th>
+                        <th>Öğrenci</th>
+                        <th>Ders</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in Model.DersKayitTalepleri.OrderByDescending(x => x.TalepTarihi))
+                    {
+                        var isBekleyen = t.DurumAdi == "Talep";
+                        var badgeCls = isBekleyen ? "badge-talep" :
+                                       (t.DurumAdi == "Devam" || t.DurumAdi == "Onaylandi" ? "badge-success" : "badge-secondary");
+
+                        <tr>
+                            <td>
+                                @if (isBekleyen)
+                                {
+                                    <input type="checkbox" class="talep-chk" value="@t.OgrenciDersId" form="topluForm" name="idler" />
+                                }
+                            </td>
+                            <td class="details-control">
+                                <i class="fas fa-chevron-down toggle-student"></i>
+                                <div class="row-details d-none">
+                                    <div class="child-row-container">
+                                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                            <div>
+                                                <div style="font-size:0.85rem; color:var(--color-gray-500); margin-bottom:4px;">Bölüm: <strong style="color:var(--color-gray-900);">@t.BolumAdi</strong></div>
+                                                <div style="font-size:0.85rem; color:var(--color-gray-500);">Talep Tarihi: <strong style="color:var(--color-gray-900);">@t.TalepTarihi.ToString("dd MMM yyyy HH:mm")</strong></div>
+                                            </div>
+                                            @if (isBekleyen)
+                                            {
+                                                <div style="display:flex; gap:8px;">
+                                                    <form asp-action="Onayla" asp-controller="OgrenciIsleriPanel" method="post" style="display:inline;">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="ogrenciDersId" value="@t.OgrenciDersId" />
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class="fas fa-check"></i> Onayla
+                                                        </button>
+                                                    </form>
+                                                    <a href="/OgrenciIsleri/TalepDetay/@t.OgrenciDersId" class="btn btn-outline-danger btn-sm">
+                                                        <i class="fas fa-times"></i> Reddet
+                                                    </a>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="primary">@t.OgrenciAdi</div>
+                                <div class="secondary">@t.OgrenciNo</div>
+                            </td>
+                            <td>
+                                <div class="primary">@t.DersAdi</div>
+                                <div class="secondary">@t.DersKodu</div>
+                            </td>
+                            <td>
+                                <span class="badge @badgeCls">@(isBekleyen ? "Bekliyor" : t.DurumAdi)</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (!Model.DersKayitTalepleri.Any())
             {
-                <label class="form-check" style="margin:0; font-size:.8rem;">
-                    <input type="checkbox" id="tumunuSec" />
-                    <span>Tümünü Seç</span>
-                </label>
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                    <div class="empty-state-title">Bekleyen ders kayıt talebi yok</div>
+                </div>
             }
         </div>
     </div>
+</div>
 
-    <div class="table-responsive">
-        <table class="ubys-table" id="talepTbl">
-            <thead>
-                <tr>
-                    <th style="width:36px;"></th>
-                    <th>Öğrenci</th>
-                    <th>Ders</th>
-                    <th>Öğretmen</th>
-                    <th>Talep Tarihi</th>
-                    <th>Durum</th>
-                    <th>İşlemler</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var t in Model.OrderByDescending(x => x.TalepTarihi))
-                {
-                    var isBekleyen = t.DurumAdi == "Talep";
+<!-- BELGE TALEPLERİ ANA SATIRI -->
+<div class="main-category-container">
+    <div class="main-category-header">
+        <div class="main-category-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="main-category-title">
+            <i class="fas fa-file-alt"></i>
+            Belge Talepleri
+        </div>
+        <div>
+            <span class="badge badge-warning" style="padding:6px 12px; font-size:0.8rem;">@Model.BelgeTalepleri.Count(x => x.BelgeDurumAdi == "Beklemede") Bekleyen</span>
+        </div>
+    </div>
+    <div class="main-category-body">
+        <div class="table-toolbar-modern">
+            <div class="table-search-modern">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Öğrenci veya belge araması yapın..." id="searchBelge" />
+            </div>
+            <div style="font-size:0.85rem; color:var(--color-gray-500);">
+                <i class="fas fa-layer-group"></i> 50 Kayıt / Sayfa
+            </div>
+        </div>
+        <div class="table-responsive" style="background: white;">
+            <table class="ubys-table" id="belgeTbl" style="width:100%;">
+                <thead>
                     <tr>
-                        <td>
-                            @if (isBekleyen)
-                            {
-                                <input type="checkbox" class="talep-checkbox form-check-input"
-                                       value="@t.OgrenciDersId" />
-                            }
-                        </td>
-                        <td>
-                            <div class="primary">@t.OgrenciAdi</div>
-                            <div class="secondary">@t.OgrenciNo · @t.BolumKodu</div>
-                        </td>
-                        <td>
-                            <div class="primary">@t.DersAdi</div>
-                            <div class="secondary">@t.DersKodu &middot; @t.DonemAdi</div>
-                        </td>
-                        <td><span style="font-size:.8rem;">@t.DonemAdi</span></td>
-                        <td><span data-date="@t.TalepTarihi" style="font-size:.8rem;"></span></td>
-                        <td>
-                            @{
-                                var (cls, lbl) = t.DurumAdi switch {
-                                    "Talep"      => ("badge-talep",      "Bekliyor"),
-                                    "Devam"      => ("badge-devam",      "Onaylandı"),
-                                    "Reddedildi" => ("badge-reddedildi", "Reddedildi"),
-                                    _            => ("badge-secondary",  t.DurumAdi)
-                                };
-                            }
-                            <span class="badge @cls">@lbl</span>
-                        </td>
-                        <td>
-                            @if (isBekleyen)
-                            {
-                                <div class="table-actions">
-                                    <form asp-action="Onayla" asp-controller="OgrenciIsleriPanel" method="post" style="display:inline;">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="ogrenciDersId" value="@t.OgrenciDersId" />
-                                        <button type="submit" class="btn btn-success btn-sm"
-                                                data-confirm="Bu dersi onaylamak istediğinize emin misiniz?"
-                                                data-confirm-btn="Onayla">
-                                            <i class="fas fa-check"></i> Onayla
-                                        </button>
-                                    </form>
-                                    <a href="/OgrenciIsleri/TalepDetay/@t.OgrenciDersId"
-                                       class="btn btn-outline-danger btn-sm">
-                                        <i class="fas fa-times"></i> Red
-                                    </a>
-                                </div>
-                            }
-                        </td>
+                        <th style="width:40px;"></th>
+                        <th>Öğrenci</th>
+                        <th>Belge Türü</th>
+                        <th>Durum</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var b in Model.BelgeTalepleri.OrderByDescending(x => x.CreatedAt))
+                    {
+                        var (cls, lbl) = b.BelgeDurumAdi switch {
+                            "Beklemede"    => ("badge-talep",      "Beklemede"),
+                            "Hazirlaniyor" => ("badge-info",       "Hazırlanıyor"),
+                            "Hazir"        => ("badge-success",    "Hazır"),
+                            "Teslim"       => ("badge-tamamlandi", "Teslim Edildi"),
+                            "Reddedildi"   => ("badge-reddedildi", "Reddedildi"),
+                            _              => ("badge-secondary",  b.BelgeDurumAdi)
+                        };
+                        <tr>
+                            <td class="details-control">
+                                <i class="fas fa-chevron-down toggle-student"></i>
+                                <div class="row-details d-none">
+                                    <div class="child-row-container">
+                                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                            <div>
+                                                <div style="font-size:0.85rem; color:var(--color-gray-500); margin-bottom:4px;">Talep Tarihi: <strong style="color:var(--color-gray-900);">@b.CreatedAt.ToString("dd MMM yyyy HH:mm")</strong></div>
+                                                <div style="font-size:0.85rem; color:var(--color-gray-500);">Açıklama: <strong style="color:var(--color-gray-900);">@(string.IsNullOrEmpty(b.Aciklama) ? "Belirtilmemiş" : b.Aciklama)</strong></div>
+                                            </div>
+                                            @if (b.BelgeDurumAdi != "Teslim" && b.BelgeDurumAdi != "Reddedildi")
+                                            {
+                                                <div>
+                                                    <form asp-action="BelgeDurumGuncelle" asp-controller="OgrenciIsleriPanel" method="post" style="display:inline-flex; gap:8px;">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="BelgeTalebiId" value="@b.Id" />
+                                                        <select name="YeniBelgeDurum" class="form-control" style="width:160px; font-size:.85rem; border-radius:6px;">
+                                                            <option value="Hazirlaniyor">Hazırlanıyor</option>
+                                                            <option value="Hazir">Hazır</option>
+                                                            <option value="Teslim">Teslim Edildi</option>
+                                                            <option value="Reddedildi">Reddedildi</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-primary btn-sm" style="border-radius:6px;">
+                                                            <i class="fas fa-save"></i> Güncelle
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="primary">@b.OgrenciAdi</div>
+                                <div class="secondary">@b.OgrenciNo</div>
+                            </td>
+                            <td><div class="primary">@b.BelgeTurAdi</div></td>
+                            <td><span class="badge @cls">@lbl</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (!Model.BelgeTalepleri.Any())
+            {
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="empty-state-title">Bekleyen belge talebi yok</div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <script>
-        const checkboxes  = () => document.querySelectorAll(".talep-checkbox");
-        const sayi        = () => document.querySelectorAll(".talep-checkbox:checked").length;
-        const saziEl      = document.getElementById("secilenSayi");
-        const formEl      = document.getElementById("topluForm");
-        const tumunuSec   = document.getElementById("tumunuSec");
-
-        function updateSayi() {
-            const n = sayi();
-            if (saziEl) saziEl.textContent = n;
-        }
-
-        checkboxes().forEach(cb => cb.addEventListener("change", updateSayi));
-
-        if (tumunuSec) {
-            tumunuSec.addEventListener("change", function () {
-                checkboxes().forEach(cb => cb.checked = this.checked);
-                updateSayi();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ana Başlık (Kategori) Açılır/Kapanır Ok Mekanizması
+            $('.main-category-header').on('click', function() {
+                var body = $(this).next('.main-category-body');
+                var icon = $(this).find('.main-category-arrow i');
+                
+                if (body.is(':visible')) {
+                    body.slideUp(300);
+                    icon.css('transform', 'rotate(0deg)');
+                } else {
+                    body.slideDown(300, function() {
+                        // DataTables kapalı div içinde yüklendiğinde sütun genişliklerini yanlış hesaplar (Kayma yapar).
+                        // Sekme açıldığında tabloları yeniden boyutlandırarak kaymayı düzeltiyoruz.
+                        $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+                    });
+                    icon.css('transform', 'rotate(180deg)');
+                }
             });
-        }
 
-        // Form submit: seçili ID'leri hidden input olarak ekle
-        if (formEl) {
-            formEl.addEventListener("submit", function (e) {
-                // Önce eski hidden input'ları temizle
-                formEl.querySelectorAll("input[name='secilenIds']").forEach(el => el.remove());
-                // Seçilileri ekle
-                document.querySelectorAll(".talep-checkbox:checked").forEach(cb => {
-                    const input = document.createElement("input");
-                    input.type  = "hidden";
-                    input.name  = "secilenIds";
-                    input.value = cb.value;
-                    formEl.appendChild(input);
+            // Toplu Onay Mekanizması
+            const selectAll = document.getElementById('tumunuSec');
+            const chkBoxes = document.querySelectorAll('.talep-chk');
+            const btn = document.getElementById('topluOnayBtn');
+            const span = document.getElementById('secilenSayi');
+
+            function updateBtn() {
+                if(!btn) return;
+                const count = document.querySelectorAll('.talep-chk:checked').length;
+                span.textContent = count;
+                if(count > 0) {
+                    btn.style.display = 'inline-flex';
+                } else {
+                    btn.style.display = 'none';
+                }
+            }
+
+            if(selectAll) {
+                selectAll.addEventListener('change', function() {
+                    chkBoxes.forEach(c => c.checked = this.checked);
+                    updateBtn();
                 });
-            });
-        }
+            }
+            chkBoxes.forEach(c => c.addEventListener('change', updateBtn));
+            updateBtn();
 
-        updateSayi();
+            // DataTable Kurulumu
+            var tableDers = $('#talepTbl').DataTable({
+                pageLength: 50,
+                dom: 'rt<"d-flex justify-content-center w-100 mt-4 mb-4"p>',
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.8/i18n/tr.json' },
+                order: [], 
+                columnDefs: [ { orderable: false, targets: [0, 1] } ]
+            });
+            $('#searchDers').on('keyup', function() { tableDers.search(this.value).draw(); });
+
+            var tableBelge = $('#belgeTbl').DataTable({
+                pageLength: 50,
+                dom: 'rt<"d-flex justify-content-center w-100 mt-4 mb-4"p>',
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.8/i18n/tr.json' },
+                order: [],
+                columnDefs: [ { orderable: false, targets: [0] } ]
+            });
+            $('#searchBelge').on('keyup', function() { tableBelge.search(this.value).draw(); });
+
+            // Öğrenci Satırı Açılır/Kapanır Ok Mekanizması (Child Rows)
+            $('#talepTbl tbody, #belgeTbl tbody').on('click', 'td.details-control', function (e) {
+                if(e.target.tagName.toLowerCase() === 'input') return;
+
+                var tr = $(this).closest('tr');
+                var tableApi = $(this).closest('table').attr('id') === 'talepTbl' ? tableDers : tableBelge;
+                var row = tableApi.row(tr);
+
+                if (row.child.isShown()) {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    var detailHtml = tr.find('.row-details').html();
+                    row.child(detailHtml).show();
+                    tr.addClass('shown');
+                }
+            });
+
+        });
     </script>
 }

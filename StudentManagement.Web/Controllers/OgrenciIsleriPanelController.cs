@@ -31,8 +31,14 @@ public class OgrenciIsleriPanelController : BaseController
     /// <summary>Bekleyen tüm kayıt talepleri (filtreli)</summary>
     public async Task<IActionResult> Talepler(int? donemId, int? bolumId)
     {
-        // Interface'te filtre parametresi yoksa GetTaleplerAsync() çağırılır.
-        var vm = await _service.GetTaleplerAsync();
+        var dersTalepleri = await _service.GetTaleplerAsync();
+        var belgeTalepleri = await _service.GetBelgeTalepleriAsync();
+
+        var vm = new TumTaleplerViewModel
+        {
+            DersKayitTalepleri = dersTalepleri,
+            BelgeTalepleri = belgeTalepleri
+        };
         return View(vm);
     }
 
@@ -165,6 +171,21 @@ public class OgrenciIsleriPanelController : BaseController
             Sonuclar = sonuclar
         };
         return View(vm);
+    }
+
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // ÖĞRENCİ DETAY
+    // ═══════════════════════════════════════════════════════════════════════
+    public async Task<IActionResult> OgrenciDetay(int id)
+    {
+        var result = await _service.OgrenciDetayAsync(id);
+        if (result == null || result.Data == null)
+        {
+            SetErrorMessage("Öğrenci bulunamadı.");
+            return RedirectToAction(nameof(OgrenciAra));
+        }
+        return View(result.Data);
     }
 
     // ═══════════════════════════════════════════════════════════════════════
