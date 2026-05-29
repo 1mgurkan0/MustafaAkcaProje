@@ -241,25 +241,95 @@ public class OgrenciIsleriService : IOgrenciIsleriService
                 BelgeDurumAdi = bt.Durum.ToString(),
                 Aciklama = bt.Aciklama,
                 IslemYapanAdi = bt.IslemYapan != null ? bt.IslemYapan.TamAd : string.Empty,
-                CreatedAt = bt.CreatedAt
+                CreatedAt = bt.CreatedAt,
+                BelgeDosyaYolu = bt.BelgeDosyaYolu,
+                BelgeDosyaAdi = bt.BelgeDosyaAdi
             })
             .ToListAsync();
     }
 
     public async Task<ServiceResult> BelgeDurumGuncelleAsync(BelgeDurumGuncelleViewModel model, int userId)
     {
-        var bt = await _db.BelgeTalepleri.FindAsync(model.Id);
+        // BelgeTalebiId kullan (view'den bu isimle gönderiliyor)
+        var talepId = model.BelgeTalebiId > 0 ? model.BelgeTalebiId : model.Id;
+        var bt = await _db.BelgeTalepleri.FindAsync(talepId);
         if (bt == null) return ServiceResult.Fail(AppConstants.ErrorMessages.KayitBulunamadi);
 
-        bt.Durum = model.Durum;
+        // YeniBelgeDurum string'ini parse et
+        if (Enum.TryParse<BelgeDurum>(model.YeniBelgeDurum, true, out var yeniDurum))
+            bt.Durum = yeniDurum;
+        else
+            bt.Durum = model.Durum;
+
+        bt.SonucNotu = model.SonucNotu;
         bt.IslemYapanId = userId;
         bt.UpdatedAt = DateTime.UtcNow;
         bt.UpdatedBy = userId;
 
+        // Dosya yükleme işlemi (BelgeDosyasi varsa)
+        if (model.BelgeDosyasi != null && model.BelgeDosyasi.Length > 0)
+        {
+            var uploadResult = await KaydedilmisDosyaOlusturAsync(model.BelgeDosyasi, talepId);
+            if (!uploadResult.IsSuccess) return uploadResult;
+            bt.BelgeDosyaYolu = uploadResult.Data;
+            bt.BelgeDosyaAdi  = model.BelgeDosyasi.FileName;
+        }
+
         await _db.SaveChangesAsync();
         await _audit.WriteAsync(userId, AuditAction.Update, "BelgeTalebi", bt.Id,
-            aciklama: $"Durum: {model.Durum}");
+            aciklama: $"Durum: {bt.Durum}");
         return ServiceResult.Ok();
+    }
+
+    public async Task<ServiceResult> BelgeYukleAsync(int belgeTalebiId, Microsoft.AspNetCore.Http.IFormFile dosya, int userId)
+    {
+        var bt = await _db.BelgeTalepleri.FindAsync(belgeTalebiId);
+        if (bt == null) return ServiceResult.Fail(AppConstants.ErrorMessages.KayitBulunamadi);
+
+        var uploadResult = await KaydedilmisDosyaOlusturAsync(dosya, belgeTalebiId);
+        if (!uploadResult.IsSuccess) return uploadResult;
+
+        bt.BelgeDosyaYolu = uploadResult.Data;
+        bt.BelgeDosyaAdi  = dosya.FileName;
+        bt.IslemYapanId   = userId;
+        bt.UpdatedAt      = DateTime.UtcNow;
+        bt.UpdatedBy      = userId;
+
+        // Durum otomatik Hazir'a geç (dosya yüklendi)
+        if (bt.Durum == BelgeDurum.Beklemede || bt.Durum == BelgeDurum.Hazirlaniyor)
+            bt.Durum = BelgeDurum.Hazir;
+
+        await _db.SaveChangesAsync();
+        await _audit.WriteAsync(userId, AuditAction.Update, "BelgeTalebi", bt.Id,
+            aciklama: $"Belge yüklendi: {dosya.FileName}");
+        return ServiceResult.Ok();
+    }
+
+    // ─── YARDIMCI: Dosya kaydet ───────────────────────────────────────────────
+    private async Task<ServiceResult<string>> KaydedilmisDosyaOlusturAsync(
+        Microsoft.AspNetCore.Http.IFormFile dosya, int belgeTalebiId)
+    {
+        // İzin verilen uzantılar
+        var izinliUzantilar = new[] { ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png" };
+        var uzanti = Path.GetExtension(dosya.FileName).ToLowerInvariant();
+        if (!izinliUzantilar.Contains(uzanti))
+            return ServiceResult<string>.Fail("Desteklenmeyen dosya formatı. PDF, Word veya resim dosyası yükleyiniz.");
+
+        // Maksimum 10 MB
+        if (dosya.Length > 10 * 1024 * 1024)
+            return ServiceResult<string>.Fail("Dosya boyutu 10 MB'ı aşamaz.");
+
+        var klasor = Path.Combine("wwwroot", "uploads", "belgeler");
+        Directory.CreateDirectory(klasor);
+
+        var dosyaAdi = $"belge_{belgeTalebiId}_{DateTime.UtcNow:yyyyMMddHHmmss}{uzanti}";
+        var tamYol   = Path.Combine(klasor, dosyaAdi);
+
+        using var stream = new FileStream(tamYol, FileMode.Create);
+        await dosya.CopyToAsync(stream);
+
+        // Web erişim yolu (wwwroot göreceli)
+        return ServiceResult<string>.Ok($"/uploads/belgeler/{dosyaAdi}");
     }
 
     // ─── ÖĞRENCİ ARA ─────────────────────────────────────────────────────────

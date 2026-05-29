@@ -25,6 +25,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Sinav>          Sinavlar          => Set<Sinav>();
     public DbSet<Duyuru>         Duyurular         => Set<Duyuru>();
     public DbSet<BelgeTalebi>    BelgeTalepleri    => Set<BelgeTalebi>();
+    public DbSet<DuyuruOkuma>    DuyuruOkumalar    => Set<DuyuruOkuma>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +45,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new SinavConfiguration());
         modelBuilder.ApplyConfiguration(new DuyuruConfiguration());
         modelBuilder.ApplyConfiguration(new BelgeTalebiConfiguration());
+        modelBuilder.ApplyConfiguration(new DuyuruOkumaConfiguration());
 
         // ── Global Query Filters (soft-delete) ───────────────────────────────
         modelBuilder.Entity<Kullanici>()   .HasQueryFilter(e => e.IsActive);

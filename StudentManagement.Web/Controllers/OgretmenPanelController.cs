@@ -35,7 +35,15 @@ public class OgretmenPanelController : BaseController
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> NotGir(NotGirViewModel model)
     {
-        try { await _service.NotKaydetAsync(model, CurrentUserId); SetSuccessMessage("Notlar kaydedildi."); return RedirectToAction(nameof(DersDetay), new { id = model.DersAtamaId }); }
+        try
+        {
+            var result = await _service.NotKaydetAsync(model, CurrentUserId);
+            if (result.IsSuccess)
+                SetSuccessMessage("Notlar kaydedildi.");
+            else
+                SetErrorMessage(result.Message);
+            return RedirectToAction(nameof(DersDetay), new { id = model.DersAtamaId });
+        }
         catch (Exception ex) { SetErrorMessage(ex.Message); return View(model); }
     }
 
@@ -50,7 +58,15 @@ public class OgretmenPanelController : BaseController
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Yoklama(YoklamaGirViewModel model)
     {
-        try { await _service.YoklamaKaydetAsync(model, CurrentUserId); SetSuccessMessage("Yoklama kaydedildi."); return RedirectToAction(nameof(DersDetay), new { id = model.DersAtamaId }); }
+        try
+        {
+            var result = await _service.YoklamaKaydetAsync(model, CurrentUserId);
+            if (result.IsSuccess)
+                SetSuccessMessage("Yoklama kaydedildi.");
+            else
+                SetErrorMessage(result.Message);
+            return RedirectToAction(nameof(DersDetay), new { id = model.DersAtamaId });
+        }
         catch (Exception ex) { SetErrorMessage(ex.Message); return View(model); }
     }
 

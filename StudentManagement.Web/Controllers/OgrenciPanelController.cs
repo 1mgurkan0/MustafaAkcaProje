@@ -80,6 +80,21 @@ public class OgrenciPanelController : BaseController
     public async Task<IActionResult> Duyurular()
         => View(await _service.GetDuyurularAsync(CurrentOgrenciId, CurrentBolumId));
 
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> DuyuruOkunduIsaretle(int duyuruId)
+    {
+        var result = await _service.DuyuruOkunduIsaretle(duyuruId, CurrentOgrenciId);
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            return Json(new { success = result.IsSuccess, message = result.Message });
+
+        if (result.IsSuccess)
+            SetSuccessMessage("Duyuru okundu olarak işaretlendi.");
+        else
+            SetErrorMessage(result.Message);
+        return RedirectToAction(nameof(Duyurular));
+    }
+
+
     public async Task<IActionResult> Belgeler() => View(await _service.GetBelgelerAsync(CurrentOgrenciId));
 
     public async Task<IActionResult> Profil()

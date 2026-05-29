@@ -149,6 +149,10 @@ public class DuyuruOlusturViewModel {
     public string DersAdi { get; set; } = string.Empty;
     public string YayinlayanAdi { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+
+    /// <summary>Bu duyuruyu giriş yapan öğrenci okudu mu?</summary>
+    public bool OkunduMu { get; set; }
+
+    /// <summary>Okundu olarak işaretlendiği tarih</summary>
+    public DateTime? OkunmaTarihi { get; set; }
 }
-
-

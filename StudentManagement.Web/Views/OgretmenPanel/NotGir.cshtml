@@ -17,15 +17,37 @@
     </a>
 </div>
 
+<div class="card" style="margin-bottom:16px; background:linear-gradient(135deg,#eef6ff,#f0fdf4); border:1px solid #bfdbfe;">
+    <div class="card-body" style="padding:14px 20px; display:flex; flex-wrap:wrap; gap:20px; align-items:flex-start;">
+        <div>
+            <div style="font-size:.75rem; font-weight:700; color:#3b82f6; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px;">
+                <i class="fas fa-info-circle"></i> Not Hesaplama Formülü
+            </div>
+            <div style="font-size:.83rem; color:#374151;">
+                <strong>Bütünleme girildiyse:</strong> Vize × 0.40 + <span style="color:#16a34a; font-weight:700;">Bütünleme × 0.60</span>
+            </div>
+            <div style="font-size:.83rem; color:#374151;">
+                <strong>Bütünleme girilmediyse:</strong> Vize × 0.40 + Final × 0.60
+            </div>
+        </div>
+        <div style="border-left:1px solid #bfdbfe; padding-left:20px;">
+            <div style="font-size:.75rem; font-weight:700; color:#f59e0b; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px;">
+                <i class="fas fa-lightbulb"></i> Bütünleme Kuralı
+            </div>
+            <div style="font-size:.83rem; color:#374151;">
+                Bütünleme notu girildiğinde <strong>Final notu yerine geçer</strong> ve Genel Not yeniden hesaplanır.
+                Final notu silinmez, sadece hesaplamaya dahil edilmez.
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-header">
         <div class="card-title">
             <i class="fas fa-pen-to-square"></i>
             Öğrenci Notları
             <span class="badge badge-secondary" style="margin-left:8px;">@Model.Notlar.Count öğrenci</span>
-        </div>
-        <div style="font-size:.75rem; color:var(--color-gray-500);">
-            Genel Not = Vize × 0.40 + Final × 0.60
         </div>
     </div>
     <div class="card-body" style="padding:0;">
@@ -42,7 +64,12 @@
                             <th>Ad Soyad</th>
                             <th>Vize (0–100)</th>
                             <th>Final (0–100)</th>
-                            <th>Bütünleme</th>
+                            <th>
+                                Bütünleme
+                                <span style="font-size:.65rem; font-weight:400; color:var(--color-gray-500); display:block; margin-top:2px;">
+                                    (Final yerine geçer)
+                                </span>
+                            </th>
                             <th>Genel Not</th>
                             <th>Harf</th>
                         </tr>
@@ -51,7 +78,8 @@
                         @for (int i = 0; i < Model.Notlar.Count; i++)
                         {
                             var n = Model.Notlar[i];
-                            <tr>
+                            var butVar = n.ButunlemeNotu.HasValue && n.ButunlemeNotu.Value > 0;
+                            <tr id="row-@i" class="@(butVar ? "but-aktif-row" : "")">
                                 <td class="text-muted text-sm">@(i + 1)</td>
                                 <td>
                                     <input type="hidden" name="Notlar[@i].OgrenciDersId" value="@n.OgrenciDersId" />
@@ -71,23 +99,52 @@
                                 <td>
                                     <input type="number" name="Notlar[@i].FinalNotu"
                                            value="@n.FinalNotu" min="0" max="100" step="0.5"
-                                           class="form-control not-input"
-                                           style="width:80px;"
+                                           class="form-control not-input @(butVar ? "final-pasif" : "")"
+                                           style="width:80px; @(butVar ? "opacity:0.45;" : "")"
                                            data-row="@i" data-type="final"
-                                           placeholder="—" />
+                                           placeholder="—"
+                                           title="@(butVar ? "Bütünleme girildiği için bu değer hesaba katılmaz" : "")" />
                                 </td>
                                 <td>
-                                    <input type="number" name="Notlar[@i].ButunlemeNotu"
-                                           value="@n.ButunlemeNotu" min="0" max="100" step="0.5"
-                                           class="form-control not-input"
-                                           style="width:80px;"
-                                           data-row="@i" data-type="but"
-                                           placeholder="—" />
+                                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                                        <input type="number" name="Notlar[@i].ButunlemeNotu"
+                                               value="@n.ButunlemeNotu" min="0" max="100" step="0.5"
+                                               class="form-control not-input"
+                                               style="width:80px;"
+                                               data-row="@i" data-type="but"
+                                               placeholder="—" />
+                                        @if (butVar)
+                                        {
+                                            <span id="but-badge-@i" class="badge"
+                                                  style="background:#16a34a; color:#fff; font-size:.65rem; white-space:nowrap;">
+                                                <i class="fas fa-check-circle"></i> Aktif
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span id="but-badge-@i" class="badge badge-secondary"
+                                                  style="font-size:.65rem; display:none; white-space:nowrap;">
+                                                <i class="fas fa-check-circle"></i> Aktif
+                                            </span>
+                                        }
+                                    </div>
                                 </td>
                                 <td>
-                                    <strong id="genel-@i" style="font-size:.9rem;">
+                                    <strong id="genel-@i" style="font-size:.9rem; @(butVar ? "color:var(--color-success,#16a34a);" : "")">
                                         @(n.GenelNot.HasValue ? n.GenelNot.Value.ToString("F1") : "—")
                                     </strong>
+                                    @if (butVar)
+                                    {
+                                        <div style="font-size:.65rem; color:#16a34a; margin-top:2px;">
+                                            Büt dahil
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div id="genel-aciklama-@i" style="font-size:.65rem; color:var(--color-gray-500); margin-top:2px; display:none;">
+                                            Büt dahil
+                                        </div>
+                                    }
                                 </td>
                                 <td>
                                     <span id="harf-@i" class="badge @(n.HarfNotuAdi != "-" ? $"badge-{n.HarfNotuAdi}" : "badge-secondary")">
@@ -110,6 +167,15 @@
     </div>
 </div>
 
+<style>
+    .but-aktif-row {
+        background: rgba(22, 163, 74, 0.04);
+    }
+    .final-pasif {
+        border-color: var(--color-gray-300) !important;
+    }
+</style>
+
 @section Scripts {
     <script>
         // Anlık not hesaplama
@@ -120,19 +186,47 @@
                 const final = parseFloat(document.querySelector(`[data-row="${row}"][data-type="final"]`)?.value) || 0;
                 const but   = parseFloat(document.querySelector(`[data-row="${row}"][data-type="but"]`)?.value)   || 0;
 
-                const gecerliFinali = but > 0 ? but : final;
-                const genel = vize * 0.4 + gecerliFinali * 0.6;
+                const butAktif      = but > 0;
+                const gecerliSinav  = butAktif ? but : final;
+                const genel         = (vize > 0 || gecerliSinav > 0)
+                                        ? vize * 0.4 + gecerliSinav * 0.6
+                                        : null;
 
-                const genelEl = document.getElementById(`genel-${row}`);
-                const harfEl  = document.getElementById(`harf-${row}`);
+                const genelEl    = document.getElementById(`genel-${row}`);
+                const harfEl     = document.getElementById(`harf-${row}`);
+                const butBadge   = document.getElementById(`but-badge-${row}`);
+                const aciklamaEl = document.getElementById(`genel-aciklama-${row}`);
+                const finalInput = document.querySelector(`[data-row="${row}"][data-type="final"]`);
+                const satir      = document.getElementById(`row-${row}`);
 
-                if (vize > 0 || gecerliFinali > 0) {
+                // Bütünleme badge & final pasifleştir
+                if (butBadge) {
+                    butBadge.style.display = butAktif ? 'inline-flex' : 'none';
+                    butBadge.style.background = butAktif ? '#16a34a' : '';
+                    butBadge.style.color = butAktif ? '#fff' : '';
+                }
+                if (finalInput) {
+                    finalInput.style.opacity = butAktif ? '0.45' : '1';
+                    finalInput.title = butAktif ? 'Bütünleme girildiği için bu değer hesaba katılmaz' : '';
+                    finalInput.classList.toggle('final-pasif', butAktif);
+                }
+                if (aciklamaEl) {
+                    aciklamaEl.style.display = butAktif ? 'block' : 'none';
+                }
+                if (satir) {
+                    satir.classList.toggle('but-aktif-row', butAktif);
+                }
+
+                // Genel not & harf
+                if (genel !== null) {
                     genelEl.textContent = genel.toFixed(1);
+                    genelEl.style.color = butAktif ? 'var(--color-success, #16a34a)' : '';
                     const harf = hesaplaHarf(genel);
                     harfEl.textContent = harf;
                     harfEl.className = `badge badge-${harf}`;
                 } else {
                     genelEl.textContent = "—";
+                    genelEl.style.color = '';
                     harfEl.textContent  = "—";
                     harfEl.className    = "badge badge-secondary";
                 }

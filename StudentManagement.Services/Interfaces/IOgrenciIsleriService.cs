@@ -6,6 +6,7 @@ namespace StudentManagement.Services.Interfaces
     public interface IOgrenciIsleriService
     {
         Task<ServiceResult> BelgeDurumGuncelleAsync(BelgeDurumGuncelleViewModel model, int userId);
+        Task<ServiceResult> BelgeYukleAsync(int belgeTalebiId, Microsoft.AspNetCore.Http.IFormFile dosya, int userId);
         Task<ServiceResult> DuyuruOlusturAsync(DuyuruOlusturViewModel model, int userId);
         Task<IEnumerable<ViewModels.OgrenciIsleri.BelgeTalebiViewModel>> GetBelgeTalepleriAsync();
         Task<IEnumerable<BolumSelectViewModel>> GetBolumSelectListAsync();

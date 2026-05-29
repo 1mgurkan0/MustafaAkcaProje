@@ -1,0 +1,20 @@
+[2026-05-29 08:02:37 INF] UBYS başlatılıyor...
+[2026-05-29 08:02:38 INF] Veritabanı migrate ediliyor...
+[2026-05-29 08:02:39 INF] Seed verisi kontrol ediliyor...
+[2026-05-29 08:02:40 INF] Veritabanı hazır.
+[2026-05-29 08:02:40 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-05-29 08:02:40 INF] ═══ TEST HESAPLARI ═══
+[2026-05-29 08:02:40 INF] Admin: admin / Admin123!!
+[2026-05-29 08:02:40 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-05-29 08:02:40 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-05-29 08:02:40 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-05-29 08:02:40 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-05-29 08:02:40 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-05-29 08:02:40 INF] ═══════════════════════
+[2026-05-29 08:02:40 INF] UBYS çalışıyor → http://localhost:5000
+[2026-05-29 08:02:40 INF] Now listening on: https://localhost:57138
+[2026-05-29 08:02:40 INF] Now listening on: http://localhost:57139
+[2026-05-29 08:02:40 INF] Application started. Press Ctrl+C to shut down.
+[2026-05-29 08:02:40 INF] Hosting environment: Development
+[2026-05-29 08:02:40 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-05-29 08:36:30 INF] Application is shutting down...

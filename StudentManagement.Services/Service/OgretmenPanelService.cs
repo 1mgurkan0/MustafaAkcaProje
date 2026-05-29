@@ -236,12 +236,19 @@ public class OgretmenPanelService : IOgretmenPanelService
 
                 od.VizeNotu = satir.VizeNotu;
                 od.FinalNotu = satir.FinalNotu;
-                od.ButunlemeNotu = satir.ButunlemeNotu;
+                // Büt 0 veya boş girilmişse null kabul et — sadece >0 ise geçerli
+                od.ButunlemeNotu = (satir.ButunlemeNotu.HasValue && satir.ButunlemeNotu.Value > 0)
+                    ? satir.ButunlemeNotu
+                    : null;
                 od.UpdatedAt = DateTime.UtcNow;
                 od.UpdatedBy = ogretmenId;
 
-                // Genel not hesapla
-                var gecerliSonSinav = satir.ButunlemeNotu ?? satir.FinalNotu;
+                // Genel not hesapla:
+                // Büt girilmişse (>0) → Vize*0.40 + Büt*0.60
+                // Büt girilmemişse    → Vize*0.40 + Final*0.60
+                var butGecerli = od.ButunlemeNotu.HasValue && od.ButunlemeNotu.Value > 0;
+                var gecerliSonSinav = butGecerli ? od.ButunlemeNotu : satir.FinalNotu;
+
                 if (satir.VizeNotu.HasValue && gecerliSonSinav.HasValue)
                 {
                     od.GenelNot = satir.VizeNotu.Value * (decimal)AppConstants.Grading.VizeAgirlik

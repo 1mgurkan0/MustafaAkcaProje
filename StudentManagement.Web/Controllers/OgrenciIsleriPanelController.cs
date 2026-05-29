@@ -152,6 +152,60 @@ public class OgrenciIsleriPanelController : BaseController
         return RedirectToAction(nameof(Belgeler));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> BelgeYukle(int belgeTalebiId, Microsoft.AspNetCore.Http.IFormFile? belgeFile)
+    {
+        if (belgeFile == null || belgeFile.Length == 0)
+        {
+            SetErrorMessage("Lütfen bir dosya seçiniz.");
+            return RedirectToAction(nameof(Belgeler));
+        }
+
+        try
+        {
+            var result = await _service.BelgeYukleAsync(belgeTalebiId, belgeFile, CurrentUserId);
+            if (result.IsSuccess)
+                SetSuccessMessage("Belge başarıyla yüklendi.");
+            else
+                SetErrorMessage(result.Message);
+        }
+        catch (Exception ex)
+        {
+            SetErrorMessage(ex.Message);
+        }
+
+        return RedirectToAction(nameof(Belgeler));
+    }
+
+    [HttpGet]
+    public IActionResult BelgeIndir(string yol, string ad)
+    {
+        if (string.IsNullOrWhiteSpace(yol))
+        {
+            SetErrorMessage("Belge bulunamadı.");
+            return RedirectToAction(nameof(Belgeler));
+        }
+
+        // wwwroot'a göreceli yol
+        var tamYol = Path.Combine("wwwroot", yol.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+        if (!System.IO.File.Exists(tamYol))
+        {
+            SetErrorMessage("Belge dosyası sunucuda bulunamadı.");
+            return RedirectToAction(nameof(Belgeler));
+        }
+
+        var contentType = "application/octet-stream";
+        var uzanti = Path.GetExtension(yol).ToLowerInvariant();
+        if (uzanti == ".pdf") contentType = "application/pdf";
+        else if (uzanti is ".jpg" or ".jpeg") contentType = "image/jpeg";
+        else if (uzanti == ".png") contentType = "image/png";
+        else if (uzanti is ".doc" or ".docx") contentType = "application/msword";
+
+        var dosyaAdi = string.IsNullOrWhiteSpace(ad) ? Path.GetFileName(yol) : ad;
+        return PhysicalFile(Path.GetFullPath(tamYol), contentType, dosyaAdi);
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // ÖĞRENCİ ARAMA
     // ═══════════════════════════════════════════════════════════════════════

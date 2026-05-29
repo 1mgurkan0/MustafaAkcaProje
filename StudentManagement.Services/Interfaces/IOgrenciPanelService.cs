@@ -1,4 +1,4 @@
-﻿
+
 namespace StudentManagement.Services.Interfaces
 {
     public interface IOgrenciPanelService
@@ -6,6 +6,7 @@ namespace StudentManagement.Services.Interfaces
         Task<ServiceResult> BelgeTalepOlusturAsync(BelgeTalebiOlusturViewModel model, int ogrenciId, int userId);
         Task<ServiceResult> DersBirakAsync(int dersAtamaId, int ogrenciId, int userId);
         Task<ServiceResult> DersKayitTalepAsync(int dersAtamaId, int ogrenciId, int userId);
+        Task<ServiceResult> DuyuruOkunduIsaretle(int duyuruId, int ogrenciId);
         Task<BelgelerViewModel> GetBelgelerAsync(int ogrenciId);
         Task<OgrenciDashboardViewModel> GetDashboardAsync(int ogrenciId);
         Task<DersKayitViewModel> GetDersKayitAsync(int ogrenciId);

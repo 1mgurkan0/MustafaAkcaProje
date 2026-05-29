@@ -428,7 +428,15 @@ public class OgrenciPanelService : IOgrenciPanelService
             .Select(od => od.DersAtamaId)
             .ToListAsync();
 
-        return await _db.Duyurular
+        // Okunmuş duyuru ID seti
+        var okunanIdler = await _db.DuyuruOkumalar
+            .Where(o => o.OgrenciId == ogrenciId && o.IsActive)
+            .Select(o => new { o.DuyuruId, o.OkunmaTarihi })
+            .ToListAsync();
+
+        var okunanDict = okunanIdler.ToDictionary(o => o.DuyuruId, o => o.OkunmaTarihi);
+
+        var duyurular = await _db.Duyurular
             .Where(d => d.IsActive && (
                 d.Hedef == DuyuruHedef.Herkes ||
                 (d.Hedef == DuyuruHedef.TumOgrenciler) ||
@@ -454,6 +462,39 @@ public class OgrenciPanelService : IOgrenciPanelService
                 CreatedAt = d.CreatedAt
             })
             .ToListAsync();
+
+        // Okundu bilgisini ekle (EF projection dışında yapılıyor)
+        foreach (var d in duyurular)
+        {
+            if (okunanDict.TryGetValue(d.Id, out var okumaT))
+            {
+                d.OkunduMu = true;
+                d.OkunmaTarihi = okumaT;
+            }
+        }
+
+        return duyurular;
+    }
+
+    public async Task<ServiceResult> DuyuruOkunduIsaretle(int duyuruId, int ogrenciId)
+    {
+        // Zaten işaretlendi mi?
+        var zatenVar = await _db.DuyuruOkumalar
+            .AnyAsync(o => o.DuyuruId == duyuruId && o.OgrenciId == ogrenciId);
+
+        if (zatenVar) return ServiceResult.Ok("Zaten okundu olarak işaretlendi.");
+
+        var okuma = new StudentManagement.Core.Entities.DuyuruOkuma
+        {
+            DuyuruId     = duyuruId,
+            OgrenciId    = ogrenciId,
+            OkunmaTarihi = DateTime.UtcNow,
+            IsActive     = true
+        };
+
+        _db.DuyuruOkumalar.Add(okuma);
+        await _db.SaveChangesAsync();
+        return ServiceResult.Ok();
     }
 
     // ─── BELGELER ────────────────────────────────────────────────────────────

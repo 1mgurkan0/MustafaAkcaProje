@@ -2,25 +2,60 @@
 @{
     ViewData["Title"]      = "Duyurular";
     ViewData["Breadcrumb"] = "Duyurular";
+
+    int okunmayan = Model.Count(x => !x.OkunduMu);
+    int toplam    = Model.Count();
 }
 
 <div class="page-header">
     <div>
         <h1 class="page-title">Duyurular</h1>
-        <p class="page-subtitle">Size yönelik tüm duyurular.</p>
+        <p class="page-subtitle">
+            @if (okunmayan > 0)
+            {
+                <span style="color:var(--color-danger); font-weight:700;">
+                    <i class="fas fa-bell fa-shake"></i> @okunmayan okunmamış duyuru
+                </span>
+                <span style="color:var(--color-gray-400);">&nbsp;/&nbsp; Toplam @toplam</span>
+            }
+            else
+            {
+                <span style="color:var(--color-success, #27ae60);">
+                    <i class="fas fa-check-circle"></i> Tüm duyurular okundu
+                </span>
+            }
+        </p>
     </div>
+    @if (okunmayan > 0)
+    {
+        <div>
+            <form asp-action="DuyuruOkunduIsaretle" asp-controller="OgrenciPanel"
+                  method="post" id="tumunuOkuForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="duyuruId" value="0" id="tumunuOkuInput" />
+                <button type="button" class="btn btn-outline-success btn-sm" onclick="tumunuOku()">
+                    <i class="fas fa-check-double"></i> Tümünü Okundu İşaretle
+                </button>
+            </form>
+        </div>
+    }
 </div>
 
 @if (Model.Any())
 {
-    <div style="display:flex; flex-direction:column; gap:14px;">
+    <div style="display:flex; flex-direction:column; gap:14px;" id="duyuruListesi">
         @foreach (var d in Model.OrderByDescending(x => x.CreatedAt))
         {
             var borderColor = d.Onemli ? "var(--color-danger)" : "var(--color-role)";
-            <div class="card" style="border-left:4px solid @borderColor;">
+            var cardOpacity = d.OkunduMu ? "0.70" : "1";
+            var bgStyle = d.OkunduMu ? "background:var(--color-gray-50,#f9fafb);" : "";
+            <div class="card duyuru-card @(d.OkunduMu ? "okundu" : "okunmadi")"
+                 id="duyuru-@d.Id"
+                 data-okundu="@d.OkunduMu.ToString().ToLower()"
+                 style="border-left:4px solid @borderColor; opacity:@cardOpacity; @bgStyle transition: opacity .3s, background .3s;">
                 <div class="card-body">
                     <div class="d-flex items-center justify-between mb-2">
-                        <div style="display:flex; align-items:center; gap:8px;">
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                             @if (d.Onemli)
                             {
                                 <span class="badge badge-danger">
@@ -32,18 +67,81 @@
                             {
                                 <span class="badge badge-role">@d.DersAdi</span>
                             }
+
+                            @if (d.OkunduMu)
+                            {
+                                <span class="badge" id="badge-@d.Id" style="
+                                    background:var(--color-success,#27ae60); color:#fff;
+                                    display:inline-flex; align-items:center; gap:4px;">
+                                    <i class="fas fa-check"></i> Okundu
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-warning" id="badge-@d.Id" style="
+                                    background:#f39c12; color:#fff;
+                                    display:inline-flex; align-items:center; gap:4px;">
+                                    <i class="fas fa-circle" style="font-size:.5em;"></i> Yeni
+                                </span>
+                            }
                         </div>
                         <span style="font-size:.73rem; color:var(--color-gray-400);"
                               data-datetime="@d.CreatedAt"></span>
                     </div>
+
                     <h3 style="font-size:1rem; font-weight:800; color:var(--color-gray-900); margin-bottom:8px;">
                         @d.Baslik
                     </h3>
-                    <p style="font-size:.84rem; color:var(--color-gray-600); line-height:1.7; margin:0;">
+                    <p style="font-size:.84rem; color:var(--color-gray-600); line-height:1.7; margin:0 0 12px;">
                         @d.Icerik
                     </p>
-                    <div style="margin-top:10px; font-size:.72rem; color:var(--color-gray-400);">
-                        <i class="fas fa-user"></i> @d.YayinlayanAdi
+
+                    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                        <div style="font-size:.72rem; color:var(--color-gray-400);">
+                            <i class="fas fa-user"></i> @d.YayinlayanAdi
+                            @if (d.OkunduMu && d.OkunmaTarihi.HasValue)
+                            {
+                                <span style="margin-left:10px; color:var(--color-success,#27ae60);">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span data-datetime="@d.OkunmaTarihi.Value"></span> okundu
+                                </span>
+                            }
+                        </div>
+
+                        @if (!d.OkunduMu)
+                        {
+                            <button type="button"
+                                    class="btn btn-sm okundu-btn"
+                                    id="btn-@d.Id"
+                                    data-id="@d.Id"
+                                    onclick="duyuruOku(@d.Id, this)"
+                                    style="
+                                        background: linear-gradient(135deg, #27ae60, #2ecc71);
+                                        color: #fff;
+                                        border: none;
+                                        padding: 6px 14px;
+                                        border-radius: 8px;
+                                        font-size: .78rem;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        display: inline-flex;
+                                        align-items: center;
+                                        gap: 6px;
+                                        box-shadow: 0 2px 8px rgba(39,174,96,.3);
+                                        transition: all .2s;
+                                    "
+                                    onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(39,174,96,.4)'"
+                                    onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(39,174,96,.3)'">
+                                <i class="fas fa-check-circle"></i>
+                                Okundu İşaretle
+                            </button>
+                        }
+                        else
+                        {
+                            <span id="btn-@d.Id" style="font-size:.78rem; color:var(--color-success,#27ae60); font-weight:600;">
+                                <i class="fas fa-check-double"></i> Okundu işaretlendi
+                            </span>
+                        }
                     </div>
                 </div>
             </div>
@@ -60,3 +158,98 @@ else
         </div>
     </div>
 }
+
+<script>
+    // Anti-Forgery token'ı al
+    function getAntiForgeryToken() {
+        return document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? '';
+    }
+
+    // Tek duyuruyu okundu işaretle (AJAX)
+    function duyuruOku(id, btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+
+        fetch('@Url.Action("DuyuruOkunduIsaretle", "OgrenciPanel")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest',
+                'RequestVerificationToken': getAntiForgeryToken()
+            },
+            body: 'duyuruId=' + encodeURIComponent(id)
+                + '&__RequestVerificationToken=' + encodeURIComponent(getAntiForgeryToken())
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success || data.message === 'Zaten okundu olarak işaretlendi.') {
+                // Kartı okundu görünümüne çevir
+                var kart = document.getElementById('duyuru-' + id);
+                if (kart) {
+                    kart.style.opacity = '0.70';
+                    kart.style.background = 'var(--color-gray-50, #f9fafb)';
+                    kart.dataset.okundu = 'true';
+                }
+                // Badge güncelle
+                var badge = document.getElementById('badge-' + id);
+                if (badge) {
+                    badge.style.background = 'var(--color-success, #27ae60)';
+                    badge.style.color = '#fff';
+                    badge.innerHTML = '<i class="fas fa-check"></i> Okundu';
+                }
+                // Butonu "işaretlendi" metnine çevir
+                btn.outerHTML = '<span id="btn-' + id + '" style="font-size:.78rem;color:var(--color-success,#27ae60);font-weight:600;">'
+                    + '<i class="fas fa-check-double"></i> Okundu işaretlendi</span>';
+                // Sayacı güncelle
+                guncelleOkunmayanSayaci();
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Okundu İşaretle';
+                alert(data.message || 'Bir hata oluştu.');
+            }
+        })
+        .catch(() => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> Okundu İşaretle';
+        });
+    }
+
+    // Okunmayan sayacı güncelle
+    function guncelleOkunmayanSayaci() {
+        var okunmayanlar = document.querySelectorAll('.duyuru-card[data-okundu="false"]').length;
+        // Sayfa yenileme yapmadan count'ı azaltmak için basit çözüm
+        if (okunmayanlar === 0) {
+            location.reload();
+        }
+    }
+
+    // Tümünü okundu işaretle (sıralı AJAX çağrıları)
+    async function tumunuOku() {
+        var okunmayanlar = document.querySelectorAll('.duyuru-card[data-okundu="false"]');
+        if (okunmayanlar.length === 0) return;
+
+        var onay = confirm(okunmayanlar.length + ' okunmamış duyuruyu okundu olarak işaretlemek istiyor musunuz?');
+        if (!onay) return;
+
+        for (var kart of okunmayanlar) {
+            var id = kart.id.replace('duyuru-', '');
+            var btn = document.getElementById('btn-' + id);
+            if (btn) await duyuruOkuAsync(parseInt(id));
+        }
+        location.reload();
+    }
+
+    async function duyuruOkuAsync(id) {
+        await fetch('@Url.Action("DuyuruOkunduIsaretle", "OgrenciPanel")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: 'duyuruId=' + id + '&__RequestVerificationToken=' + encodeURIComponent(getAntiForgeryToken())
+        });
+    }
+</script>
+
+@* Hidden token for AJAX *@
+@Html.AntiForgeryToken()

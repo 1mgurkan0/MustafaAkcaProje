@@ -18,6 +18,8 @@ public class BelgeTalebiConfiguration : IEntityTypeConfiguration<BelgeTalebi>
         builder.Property(b => b.Durum).HasConversion<int>();
         builder.Property(b => b.Aciklama).HasMaxLength(500);
         builder.Property(b => b.SonucNotu).HasMaxLength(500);
+        builder.Property(b => b.BelgeDosyaYolu).HasMaxLength(500);
+        builder.Property(b => b.BelgeDosyaAdi).HasMaxLength(255);
 
         builder.HasOne(b => b.Ogrenci)
                .WithMany(o => o.BelgeTalepleri)

@@ -26,6 +26,14 @@ public class BelgeTalebi : BaseEntity
 
     public DateTime? TeslimTarihi { get; set; }
 
+    /// <summary>Öğrenci işlerinin yüklediği belge dosyasının sunucudaki yolu</summary>
+    [MaxLength(500)]
+    public string? BelgeDosyaYolu { get; set; }
+
+    /// <summary>Orijinal yüklenen dosya adı</summary>
+    [MaxLength(255)]
+    public string? BelgeDosyaAdi { get; set; }
+
     // ── Navigation ────────────────────────────────────────────────────────────
     public Ogrenci Ogrenci { get; set; } = null!;
     public Kullanici? IslemYapan { get; set; }

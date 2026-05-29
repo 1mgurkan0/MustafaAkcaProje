@@ -93,6 +93,8 @@ public class BelgeTalepOzetViewModel
     public DateTime   CreatedAt      { get; set; }
     public string?    Aciklama       { get; set; }
     public string     IslemYapanAdi  { get; set; } = string.Empty;
+    public string?    BelgeDosyaYolu { get; set; }
+    public string?    BelgeDosyaAdi  { get; set; }
 }
 
 public class BelgeTalepGuncelleViewModel
@@ -102,7 +104,10 @@ public class BelgeTalepGuncelleViewModel
     public string     YeniBelgeDurum { get; set; } = string.Empty;
     public BelgeDurum Durum          { get; set; }
     public string?    SonucNotu      { get; set; }
-    public DateTime?  TeslimTarihi    { get; set; }
+    public DateTime?  TeslimTarihi   { get; set; }
+
+    /// <summary>Yüklenecek belge dosyası (opsiyonel)</summary>
+    public Microsoft.AspNetCore.Http.IFormFile? BelgeDosyasi { get; set; }
 }
 
 // ── Öğrenci Arama / Profil ────────────────────────────────────────────────────
