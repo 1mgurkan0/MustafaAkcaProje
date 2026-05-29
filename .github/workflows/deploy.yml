@@ -24,7 +24,7 @@ jobs:
     - name: 1. KİLİDİ AÇ (Sunucuyu Uyut)
       run: |
         echo "Sistem Guncelleniyor..." > app_offline.htm
-        curl -T app_offline.htm "ftp://${{ secrets.FTP_SERVER }}/httpdocs/app_offline.htm" --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}"
+        curl -u '${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}' -T app_offline.htm 'ftp://${{ secrets.FTP_SERVER }}/httpdocs/app_offline.htm'
 
     - name: 2. GÜNCEL KODLARI YÜKLE
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -38,4 +38,4 @@ jobs:
     - name: 3. SİTEYİ UYANDIR (Kilidi Kaldır)
       if: always()
       run: |
-        curl -Q "DELE /httpdocs/app_offline.htm" "ftp://${{ secrets.FTP_SERVER }}/" --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}"
+        curl -u '${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}' -Q 'DELE /httpdocs/app_offline.htm' 'ftp://${{ secrets.FTP_SERVER }}/'
