@@ -102,6 +102,8 @@ public class DonemOlusturViewModel
     public string   DonemKodu          { get; set; } = string.Empty;
     public int      Yil                { get; set; } = DateTime.Now.Year;
     public DonemTur DonemTur           { get; set; }
+    public DateTime BaslangicTarihi    { get; set; } = DateTime.Today;
+    public DateTime BitisTarihi        { get; set; } = DateTime.Today.AddMonths(4);
     public DateTime DersKayitBaslangic { get; set; }
     public DateTime DersKayitBitis     { get; set; }
 }
@@ -113,6 +115,8 @@ public class DonemDuzenleViewModel
     public int      Yil                { get; set; }
     public DonemTur DonemTur           { get; set; }
     public bool     AktifMi            { get; set; }
+    public DateTime BaslangicTarihi    { get; set; }
+    public DateTime BitisTarihi        { get; set; }
     public DateTime DersKayitBaslangic { get; set; }
     public DateTime DersKayitBitis     { get; set; }
 }
@@ -191,13 +195,13 @@ public class DersAtamaViewModel
 
 public class DersAtamaOlusturViewModel
 {
-    public int      DersId         { get; set; }
-    public int      DonemId        { get; set; }
-    public int      OgretmenId     { get; set; }
-    public DersGun  Gun            { get; set; }
-    public TimeSpan BaslangicSaati { get; set; }
-    public TimeSpan BitisSaati     { get; set; }
-    public string   Derslik        { get; set; } = string.Empty;
+    public int       DersId         { get; set; }
+    public int       DonemId        { get; set; }
+    public int       OgretmenId     { get; set; }
+    public DersGun   Gun            { get; set; }
+    public TimeSpan? BaslangicSaati { get; set; }
+    public TimeSpan? BitisSaati     { get; set; }
+    public string    Derslik        { get; set; } = string.Empty;
 }
 
 public class DersAtamaDetayViewModel

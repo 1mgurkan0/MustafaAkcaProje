@@ -66,8 +66,14 @@ public class AdminController : BaseController
     public async Task<IActionResult> DonemOlustur(DonemOlusturViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
-        try { await _admin.DonemOlusturAsync(model, CurrentUserId); SetSuccessMessage("Dönem oluşturuldu."); return RedirectToAction(nameof(Donemler)); }
-        catch (Exception ex) { SetErrorMessage(ex.Message); return View(model); }
+        var result = await _admin.DonemOlusturAsync(model, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Dönem oluşturuldu.");
+            return RedirectToAction(nameof(Donemler));
+        }
+        SetErrorMessage(result.Message);
+        return View(model);
     }
 
     [HttpGet]
@@ -82,8 +88,14 @@ public class AdminController : BaseController
     public async Task<IActionResult> DonemDuzenle(DonemDuzenleViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
-        try { await _admin.DonemGuncelleAsync(model, CurrentUserId); SetSuccessMessage("Dönem güncellendi."); return RedirectToAction(nameof(Donemler)); }
-        catch (Exception ex) { SetErrorMessage(ex.Message); return View(model); }
+        var result = await _admin.DonemGuncelleAsync(model, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Dönem güncellendi.");
+            return RedirectToAction(nameof(Donemler));
+        }
+        SetErrorMessage(result.Message);
+        return View(model);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -96,7 +108,7 @@ public class AdminController : BaseController
 
     // ── Ders Atama ────────────────────────────────────────────────────────────
     public async Task<IActionResult> DersAtamalar(int? donemId)
-        => View(await _admin.GetDersAtamalarAsync()); // Interface parametre almadığı için donemId'yi kaldırdık
+        => View(await _admin.GetDersAtamalarAsync());
 
     public async Task<IActionResult> DersAtamaDetay(int id)
     {
@@ -125,20 +137,18 @@ public class AdminController : BaseController
             return View(model);
         }
 
-        try
+        var result = await _admin.DersAtamaOlusturAsync(model, CurrentUserId);
+        if (result.IsSuccess)
         {
-            await _admin.DersAtamaOlusturAsync(model, CurrentUserId);
             SetSuccessMessage("Ders ataması oluşturuldu.");
             return RedirectToAction(nameof(DersAtamalar));
         }
-        catch (Exception ex)
-        {
-            SetErrorMessage(ex.Message);
-            ViewBag.Dersler    = new SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
-            ViewBag.Donemler   = new SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
-            ViewBag.Ogretmenler = new SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd");
-            return View(model);
-        }
+
+        SetErrorMessage(result.Message);
+        ViewBag.Dersler    = new SelectList(await _admin.GetDersSelectListAsync(), "Id", "DisplayText");
+        ViewBag.Donemler   = new SelectList(await _admin.GetDonemSelectListAsync(), "Id", "DisplayText");
+        ViewBag.Ogretmenler = new SelectList(await _admin.GetOgretmenSelectListAsync(), "Id", "TamAd");
+        return View(model);
     }
 
     [HttpPost, ValidateAntiForgeryToken]

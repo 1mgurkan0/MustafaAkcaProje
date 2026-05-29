@@ -10,7 +10,7 @@
     <a href="/Admin/Donemler" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Geri</a>
 </div>
 
-<div style="max-width:560px;">
+<div style="max-width:620px;">
     <div class="card">
         <div class="card-header">
             <div class="card-title"><i class="fas fa-calendar-plus"></i> Dönem Bilgileri</div>
@@ -24,6 +24,9 @@
                     <input asp-for="DonemKodu" class="form-control" placeholder="örn: 2024-GUZ" maxlength="20"
                            style="text-transform:uppercase;" />
                     <span asp-validation-for="DonemKodu" class="invalid-feedback"></span>
+                    <div style="font-size:.75rem; color:var(--color-gray-500); margin-top:4px;">
+                        Benzersiz bir kod girin (örn: 2024-GUZ, 2025-BAHAR)
+                    </div>
                 </div>
 
                 <div class="form-row">
@@ -45,12 +48,25 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label asp-for="DersKayitBaslangic" class="form-label">Kayıt Başlangıç <span class="required">*</span></label>
+                        <label asp-for="BaslangicTarihi" class="form-label">Dönem Başlangıcı <span class="required">*</span></label>
+                        <input asp-for="BaslangicTarihi" class="form-control" type="date" />
+                        <span asp-validation-for="BaslangicTarihi" class="invalid-feedback"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BitisTarihi" class="form-label">Dönem Bitişi <span class="required">*</span></label>
+                        <input asp-for="BitisTarihi" class="form-control" type="date" />
+                        <span asp-validation-for="BitisTarihi" class="invalid-feedback"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="DersKayitBaslangic" class="form-label">Ders Kayıt Başlangıç <span class="required">*</span></label>
                         <input asp-for="DersKayitBaslangic" class="form-control" type="date" />
                         <span asp-validation-for="DersKayitBaslangic" class="invalid-feedback"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="DersKayitBitis" class="form-label">Kayıt Bitiş <span class="required">*</span></label>
+                        <label asp-for="DersKayitBitis" class="form-label">Ders Kayıt Bitiş <span class="required">*</span></label>
                         <input asp-for="DersKayitBitis" class="form-control" type="date" />
                         <span asp-validation-for="DersKayitBitis" class="invalid-feedback"></span>
                     </div>

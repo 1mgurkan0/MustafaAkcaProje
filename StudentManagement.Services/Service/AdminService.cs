@@ -228,6 +228,8 @@ public class AdminService : IAdminService
             return ServiceResult.Fail("Bu dönem kodu zaten kullanılıyor.");
 
         var donem = _mapper.Map<Donem>(model);
+        // DonemAdi entity'de Required — otomatik oluştur
+        donem.DonemAdi = $"{model.Yil} {model.DonemTur}";
         donem.CreatedBy = userId;
         _db.Donemler.Add(donem);
         await _db.SaveChangesAsync();
@@ -235,11 +237,13 @@ public class AdminService : IAdminService
         return ServiceResult.Ok();
     }
 
+
     public async Task<ServiceResult> DonemGuncelleAsync(DonemDuzenleViewModel model, int userId)
     {
         var donem = await _db.Donemler.FindAsync(model.Id);
         if (donem == null) return ServiceResult.Fail(AppConstants.ErrorMessages.KayitBulunamadi);
         _mapper.Map(model, donem);
+        donem.DonemAdi = $"{model.Yil} {model.DonemTur}";
         donem.UpdatedAt = DateTime.UtcNow;
         donem.UpdatedBy = userId;
         await _db.SaveChangesAsync();
