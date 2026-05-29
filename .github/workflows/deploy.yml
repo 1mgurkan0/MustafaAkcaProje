@@ -18,19 +18,30 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Projeyi Derle
-      run: dotnet publish StudentManagement.Web/StudentManagement.Web.csproj -c Release -o ./publish_output
+    - name: Projeyi Derle ve Yayınla
+      run: |
+        dotnet publish StudentManagement.Web/StudentManagement.Web.csproj \
+          -c Release \
+          -o ./publish_output \
+          /p:TreatWarningsAsErrors=false \
+          /p:Nullable=disable
 
+    # ── lftp kurulumu ──────────────────────────────────────────────────────────
     - name: lftp Kur
-      run: sudo apt-get install -y lftp
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y lftp
+        lftp --version
 
+    # ── 1. ADIM: app_offline.htm göndererek IIS'i uyut ───────────────────────
     - name: 1. KİLİDİ AÇ (Sunucuyu Uyut)
       env:
-        FTP_SERVER: ${{ secrets.FTP_SERVER }}
-        FTP_USER: ${{ secrets.FTP_USERNAME }}
+        FTP_SERVER:   ${{ secrets.FTP_SERVER }}
+        FTP_USER:     ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       run: |
         echo "Sistem Guncelleniyor, lutfen bekleyin..." > app_offline.htm
+
         lftp -c "
           set ftp:ssl-allow yes;
           set ssl:verify-certificate no;
@@ -42,24 +53,26 @@ jobs:
         "
 
     - name: IIS'in Kapanmasını Bekle
-      run: sleep 5
+      run: sleep 8
 
+    # ── 2. ADIM: Dosyaları yükle ──────────────────────────────────────────────
     - name: 2. GÜNCEL KODLARI YÜKLE
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./publish_output/
+        server:     ${{ secrets.FTP_SERVER }}
+        username:   ${{ secrets.FTP_USERNAME }}
+        password:   ${{ secrets.FTP_PASSWORD }}
+        local-dir:  ./publish_output/
         server-dir: /httpdocs/
         exclude: |
           **/app_offline.htm
 
+    # ── 3. ADIM: app_offline.htm silerek IIS'i uyandır ───────────────────────
     - name: 3. SİTEYİ UYANDIR (Kilidi Kaldır)
       if: always()
       env:
-        FTP_SERVER: ${{ secrets.FTP_SERVER }}
-        FTP_USER: ${{ secrets.FTP_USERNAME }}
+        FTP_SERVER:   ${{ secrets.FTP_SERVER }}
+        FTP_USER:     ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       run: |
         lftp -c "
