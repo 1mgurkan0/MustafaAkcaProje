@@ -1,0 +1,31 @@
+name: UBYS Deploy to Plesk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Kodları Çek
+      uses: actions/checkout@v4
+
+    - name: .NET 8 Kur
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Projeyi Derle (Publish)
+      run: dotnet publish StudentManagement.Web/StudentManagement.Web.csproj -c Release -o ./publish_output
+
+    - name: FTP ile Sunucuya Gönder
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./publish_output/
+        server-dir: /httpdocs/
