@@ -218,16 +218,21 @@ public class MappingProfile : Profile
         // ═══════════════════════════════════════════════
         // DUYURU
         // ═══════════════════════════════════════════════
-        CreateMap<Duyuru, StudentManagement.Services.ViewModels.Common.DuyuruOlusturViewModel>()
-      .ForMember(dest => dest.HedefAdi, opt => opt.MapFrom(src => src.Hedef.ToString()))
-      .ForMember(dest => dest.YayinlayanAdi, opt => opt.MapFrom(src => src.Yayinlayan != null ? src.Yayinlayan.TamAd : string.Empty))
-      .ForMember(dest => dest.DersAdi, opt => opt.MapFrom(src => src.HedefDersAtama != null && src.HedefDersAtama.Ders != null ? src.HedefDersAtama.Ders.DersAdi : string.Empty));
+        CreateMap<Duyuru, StudentManagement.Services.ViewModels.Ogretmen.DuyuruOlusturViewModel>()
+            .ForMember(dest => dest.HedefAdi, opt => opt.MapFrom(src => src.Hedef.ToString()))
+            .ForMember(dest => dest.YayinlayanAdi, opt => opt.MapFrom(src =>
+                src.Yayinlayan != null ? src.Yayinlayan.TamAd : string.Empty))
+            .ForMember(dest => dest.DersAdi, opt => opt.MapFrom(src =>
+                src.HedefDersAtama != null && src.HedefDersAtama.Ders != null
+                    ? src.HedefDersAtama.Ders.DersAdi : string.Empty))
+            .ForMember(dest => dest.OkunduMu, opt => opt.Ignore())
+            .ForMember(dest => dest.OkunmaTarihi, opt => opt.Ignore());
 
-        // Ogretmen içindeki CreateViewModel ile Map'le
         CreateMap<StudentManagement.Services.ViewModels.Ogretmen.DuyuruOlusturViewModel, Duyuru>()
             .ForMember(dest => dest.IsActive, opt => opt.MapFrom(_ => true))
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+
 
         // ═══════════════════════════════════════════════
         // BELGE TALEBİ

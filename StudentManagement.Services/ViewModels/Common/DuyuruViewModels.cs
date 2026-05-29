@@ -2,26 +2,8 @@ using StudentManagement.Core.Enums;
 
 namespace StudentManagement.Services.ViewModels.Common;
 
-public class DuyuruOlusturViewModel
-{
-    public int         Id              { get; set; }
-    public string      Baslik          { get; set; } = string.Empty;
-    public string      Icerik          { get; set; } = string.Empty;
-    public DateTime?   YayinTarihi     { get; set; }
-    public DateTime?   BitisTarihi     { get; set; }
-    public DateTime    CreatedAt       { get; set; } // Added this as it's used in OgretmenPanelService
-    public bool        Onemli          { get; set; }
-    public string      YayinlayanAdi   { get; set; } = string.Empty;
-    public string      HedefAdi        { get; set; } = string.Empty;
-    public string?     DersAdi         { get; set; }
-
-    /// <summary>Bu duyuruyu giriş yapan öğrenci okudu mu?</summary>
-    public bool        OkunduMu        { get; set; }
-
-    /// <summary>Okundu olarak işaretlendiği tarih</summary>
-    public DateTime?   OkunmaTarihi    { get; set; }
-}
-
+// NOT: DuyuruOlusturViewModel Ogretmen namespace'inde tanımlanmıştır.
+// Ambiguous reference hatasını önlemek için burada kullanılmaz.
 
 public class TalepRedViewModel
 {

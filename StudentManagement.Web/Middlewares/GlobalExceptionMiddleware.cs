@@ -26,7 +26,7 @@ public class GlobalExceptionMiddleware
             // 404 — static dosya değilse hata sayfasına yönlendir
             if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
             {
-                context.Response.Redirect("/Home/Error?code=404");
+                context.Response.Redirect("/Error/NotFound");
             }
         }
         catch (UnauthorizedAccessException ex)
@@ -35,7 +35,7 @@ public class GlobalExceptionMiddleware
             if (!context.Response.HasStarted)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                context.Response.Redirect("/Home/Error?code=403");
+                context.Response.Redirect("/Error/BadRequest"); // Geçici, Forbidden sayfası olmadığı için
             }
         }
         catch (Exception ex)
@@ -44,7 +44,7 @@ public class GlobalExceptionMiddleware
             if (!context.Response.HasStarted)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.Redirect("/Home/Error?code=500");
+                context.Response.Redirect("/Error/ServerError");
             }
         }
     }
