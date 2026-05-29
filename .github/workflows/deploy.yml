@@ -18,10 +18,15 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Projeyi Derle (Publish)
+    - name: Projeyi Derle
       run: dotnet publish StudentManagement.Web/StudentManagement.Web.csproj -c Release -o ./publish_output
 
-    - name: FTP ile Sunucuya Gönder
+    - name: 1. KİLİDİ AÇ (Sunucuyu Uyut)
+      run: |
+        echo "Sistem Guncelleniyor..." > app_offline.htm
+        curl -T app_offline.htm ftp://${{ secrets.FTP_SERVER }}/httpdocs/app_offline.htm --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
+
+    - name: 2. GÜNCEL KODLARI YÜKLE
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
@@ -29,3 +34,9 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./publish_output/
         server-dir: /httpdocs/
+
+    - name: 3. SİTEYİ UYANDIR (Kilidi Kaldır)
+     
+      if: always()
+      run: |
+        curl -Q "DELE /httpdocs/app_offline.htm" ftp://${{ secrets.FTP_SERVER }}/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
