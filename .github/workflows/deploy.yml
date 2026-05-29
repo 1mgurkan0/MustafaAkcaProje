@@ -35,10 +35,12 @@ jobs:
         echo "Sistem Guncelleniyor..." > app_offline.htm
         python -c "
         import os, ftplib
-        server = os.environ['FTP_SERVER'].replace('ftp://', '').replace('ftps://', '')
+        server = os.environ['FTP_SERVER'].replace('ftp://', '').replace('ftps://', '').strip()
+        user = os.environ['FTP_USER'].strip()
+        pwd = os.environ['FTP_PASSWORD']
         try:
             ftp = ftplib.FTP(server)
-            ftp.login(os.environ['FTP_USER'], os.environ['FTP_PASSWORD'])
+            ftp.login(user, pwd)
             with open('app_offline.htm', 'rb') as f:
                 ftp.storbinary('STOR httpdocs/app_offline.htm', f)
             ftp.quit()
@@ -70,12 +72,14 @@ jobs:
       run: |
         python -c "
         import os, ftplib
-        server = os.environ['FTP_SERVER'].replace('ftp://', '').replace('ftps://', '')
+        server = os.environ['FTP_SERVER'].replace('ftp://', '').replace('ftps://', '').strip()
+        user = os.environ['FTP_USER'].strip()
+        pwd = os.environ['FTP_PASSWORD']
         try:
             ftp = ftplib.FTP(server)
-            ftp.login(os.environ['FTP_USER'], os.environ['FTP_PASSWORD'])
+            ftp.login(user, pwd)
             ftp.delete('httpdocs/app_offline.htm')
             ftp.quit()
         except Exception as e:
-            print('Uyandirma sirasinda bir pruz cikti veya dosya zaten yok:', e)
+            print('Uyandirma sirasinda hata (veya dosya zaten silinmis):', e)
         "
