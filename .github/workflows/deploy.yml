@@ -26,35 +26,26 @@ jobs:
           /p:TreatWarningsAsErrors=false \
           /p:Nullable=disable
 
-    - name: lftp Kur
-      run: |
-        sudo apt-get update -qq
-        sudo apt-get install -y lftp
-
     - name: 1. KİLİDİ AÇ (Sunucuyu Uyut)
       env:
-        FTP_SERVER:   ${{ secrets.FTP_SERVER }}
-        FTP_USER:     ${{ secrets.FTP_USERNAME }}
+        FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        FTP_USER: ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       run: |
         echo "Sistem Guncelleniyor..." > app_offline.htm
-
-        cat > /tmp/lftp_upload.txt << 'LFTP_SCRIPT'
-        set ftp:ssl-allow yes
-        set ssl:verify-certificate no
-        set net:timeout 30
-        set net:max-retries 3
-        open -u $FTP_USER,$FTP_PASSWORD ftp://$FTP_SERVER
-        put -O /httpdocs app_offline.htm
-        bye
-        LFTP_SCRIPT
-
-        # Değişkenleri dosyaya yaz (heredoc dışında genişler)
-        sed -i "s|\$FTP_USER|$FTP_USER|g" /tmp/lftp_upload.txt
-        sed -i "s|\$FTP_PASSWORD|$FTP_PASSWORD|g" /tmp/lftp_upload.txt
-        sed -i "s|\$FTP_SERVER|$FTP_SERVER|g" /tmp/lftp_upload.txt
-
-        lftp -f /tmp/lftp_upload.txt
+        python -c "
+        import os, ftplib
+        server = os.environ['FTP_SERVER'].replace('ftp://', '').replace('ftps://', '')
+        try:
+            ftp = ftplib.FTP(server)
+            ftp.login(os.environ['FTP_USER'], os.environ['FTP_PASSWORD'])
+            with open('app_offline.htm', 'rb') as f:
+                ftp.storbinary('STOR httpdocs/app_offline.htm', f)
+            ftp.quit()
+        except Exception as e:
+            print('FTP Hatasi:', e)
+            exit(1)
+        "
 
     - name: IIS'in Kapanmasını Bekle
       run: sleep 8
@@ -62,10 +53,10 @@ jobs:
     - name: 2. GÜNCEL KODLARI YÜKLE
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server:     ${{ secrets.FTP_SERVER }}
-        username:   ${{ secrets.FTP_USERNAME }}
-        password:   ${{ secrets.FTP_PASSWORD }}
-        local-dir:  ./publish_output/
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./publish_output/
         server-dir: /httpdocs/
         exclude: |
           **/app_offline.htm
@@ -73,22 +64,18 @@ jobs:
     - name: 3. SİTEYİ UYANDIR (Kilidi Kaldır)
       if: always()
       env:
-        FTP_SERVER:   ${{ secrets.FTP_SERVER }}
-        FTP_USER:     ${{ secrets.FTP_USERNAME }}
+        FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        FTP_USER: ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       run: |
-        cat > /tmp/lftp_delete.txt << 'LFTP_SCRIPT'
-        set ftp:ssl-allow yes
-        set ssl:verify-certificate no
-        set net:timeout 30
-        set net:max-retries 3
-        open -u $FTP_USER,$FTP_PASSWORD ftp://$FTP_SERVER
-        rm -f /httpdocs/app_offline.htm
-        bye
-        LFTP_SCRIPT
-
-        sed -i "s|\$FTP_USER|$FTP_USER|g" /tmp/lftp_delete.txt
-        sed -i "s|\$FTP_PASSWORD|$FTP_PASSWORD|g" /tmp/lftp_delete.txt
-        sed -i "s|\$FTP_SERVER|$FTP_SERVER|g" /tmp/lftp_delete.txt
-
-        lftp -f /tmp/lftp_delete.txt
+        python -c "
+        import os, ftplib
+        server = os.environ['FTP_SERVER'].replace('ftp://', '').replace('ftps://', '')
+        try:
+            ftp = ftplib.FTP(server)
+            ftp.login(os.environ['FTP_USER'], os.environ['FTP_PASSWORD'])
+            ftp.delete('httpdocs/app_offline.htm')
+            ftp.quit()
+        except Exception as e:
+            print('Uyandirma sirasinda bir pruz cikti veya dosya zaten yok:', e)
+        "
