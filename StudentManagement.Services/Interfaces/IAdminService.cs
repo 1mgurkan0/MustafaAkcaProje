@@ -1,4 +1,4 @@
-﻿
+
 namespace StudentManagement.Services.Interfaces
 {
     public interface IAdminService
@@ -30,5 +30,9 @@ namespace StudentManagement.Services.Interfaces
         Task<IEnumerable<OgrenciViewModel>> GetOgrencilerAsync();
         Task<IEnumerable<KullaniciOzetViewModel>> GetOgretmenSelectListAsync();
         Task<ServiceResult> OgrenciDurumGuncelleAsync(int ogrenciId, OgrenciDurum yeniDurum, int userId);
+        Task<ServiceResult> OgrenciOlusturAsync(AdminOgrenciOlusturViewModel model, int userId);
+        Task<ServiceResult<AdminOgrenciGuncelleViewModel>> GetOgrenciGuncelleAsync(int ogrenciId);
+        Task<ServiceResult> OgrenciGuncelleAsync(AdminOgrenciGuncelleViewModel model, int userId);
+        Task<ServiceResult> OgrenciSilAsync(int ogrenciId, int userId);
     }
 }

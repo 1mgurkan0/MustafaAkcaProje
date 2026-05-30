@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentManagement.Core.Enums;
 
@@ -42,6 +42,139 @@ public class AdminOgrenciDurumViewModel
     public int OgrenciId { get; set; }
     public string AdSoyad { get; set; } = null!;
     public OgrenciDurum YeniDurum { get; set; }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ÖĞRENCİ OLUŞTURMA (Admin/OgrenciOlustur)
+// ═══════════════════════════════════════════════════════════════════════════
+
+public class AdminOgrenciOlusturViewModel
+{
+    [Required(ErrorMessage = "Ad zorunludur.")]
+    [MaxLength(100)]
+    [Display(Name = "Ad")]
+    public string Ad { get; set; } = null!;
+
+    [Required(ErrorMessage = "Soyad zorunludur.")]
+    [MaxLength(100)]
+    [Display(Name = "Soyad")]
+    public string Soyad { get; set; } = null!;
+
+    [Required(ErrorMessage = "Kullanıcı adı zorunludur.")]
+    [MaxLength(50)]
+    [Display(Name = "Kullanıcı Adı")]
+    public string KullaniciAdi { get; set; } = null!;
+
+    [Required(ErrorMessage = "E-posta zorunludur.")]
+    [MaxLength(256)]
+    [EmailAddress(ErrorMessage = "Geçerli bir e-posta giriniz.")]
+    [Display(Name = "E-posta")]
+    public string Email { get; set; } = null!;
+
+    [Required(ErrorMessage = "Şifre zorunludur.")]
+    [MinLength(6, ErrorMessage = "Şifre en az 6 karakter olmalıdır.")]
+    [Display(Name = "Şifre")]
+    public string Sifre { get; set; } = null!;
+
+    [Required(ErrorMessage = "Şifre tekrarı zorunludur.")]
+    [Compare("Sifre", ErrorMessage = "Şifreler eşleşmiyor.")]
+    [Display(Name = "Şifre Tekrar")]
+    public string SifreTekrar { get; set; } = null!;
+
+    [Required(ErrorMessage = "Bölüm seçiniz.")]
+    [Display(Name = "Bölüm")]
+    public int BolumId { get; set; }
+
+    [Phone(ErrorMessage = "Geçerli bir telefon numarası giriniz.")]
+    [MaxLength(20)]
+    [Display(Name = "Telefon")]
+    public string? Telefon { get; set; }
+
+    [Display(Name = "Doğum Tarihi")]
+    [DataType(DataType.Date)]
+    public DateTime? DogumTarihi { get; set; }
+
+    [MaxLength(10)]
+    [Display(Name = "Cinsiyet")]
+    public string? Cinsiyet { get; set; }
+
+    [MaxLength(11)]
+    [Display(Name = "TC Kimlik No")]
+    public string? TcKimlikNo { get; set; }
+
+    [Display(Name = "Sınıf Seviyesi")]
+    [Range(1, 6, ErrorMessage = "Sınıf seviyesi 1-6 arasında olmalıdır.")]
+    public int SinifSeviyesi { get; set; } = 1;
+
+    // Dropdown için
+    public List<SelectListItem> BolumListesi { get; set; } = new();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ÖĞRENCİ GÜNCELLEME (Admin/OgrenciGuncelle)
+// ═══════════════════════════════════════════════════════════════════════════
+
+public class AdminOgrenciGuncelleViewModel
+{
+    public int OgrenciId { get; set; }
+    public int KullaniciId { get; set; }
+
+    [Required(ErrorMessage = "Ad zorunludur.")]
+    [MaxLength(100)]
+    [Display(Name = "Ad")]
+    public string Ad { get; set; } = null!;
+
+    [Required(ErrorMessage = "Soyad zorunludur.")]
+    [MaxLength(100)]
+    [Display(Name = "Soyad")]
+    public string Soyad { get; set; } = null!;
+
+    [Required(ErrorMessage = "Kullanıcı adı zorunludur.")]
+    [MaxLength(50)]
+    [Display(Name = "Kullanıcı Adı")]
+    public string KullaniciAdi { get; set; } = null!;
+
+    [Required(ErrorMessage = "E-posta zorunludur.")]
+    [MaxLength(256)]
+    [EmailAddress(ErrorMessage = "Geçerli bir e-posta giriniz.")]
+    [Display(Name = "E-posta")]
+    public string Email { get; set; } = null!;
+
+    [Display(Name = "Şifre (Değiştirmek istemiyorsanız boş bırakın)")]
+    [MinLength(6, ErrorMessage = "Şifre en az 6 karakter olmalıdır.")]
+    public string? Sifre { get; set; }
+
+    [Compare("Sifre", ErrorMessage = "Şifreler eşleşmiyor.")]
+    [Display(Name = "Şifre Tekrar")]
+    public string? SifreTekrar { get; set; }
+
+    [Required(ErrorMessage = "Bölüm seçiniz.")]
+    [Display(Name = "Bölüm")]
+    public int BolumId { get; set; }
+
+    [Phone(ErrorMessage = "Geçerli bir telefon numarası giriniz.")]
+    [MaxLength(20)]
+    [Display(Name = "Telefon")]
+    public string? Telefon { get; set; }
+
+    [Display(Name = "Doğum Tarihi")]
+    [DataType(DataType.Date)]
+    public DateTime? DogumTarihi { get; set; }
+
+    [MaxLength(10)]
+    [Display(Name = "Cinsiyet")]
+    public string? Cinsiyet { get; set; }
+
+    [MaxLength(11)]
+    [Display(Name = "TC Kimlik No")]
+    public string? TcKimlikNo { get; set; }
+
+    [Display(Name = "Sınıf Seviyesi")]
+    [Range(1, 6, ErrorMessage = "Sınıf seviyesi 1-6 arasında olmalıdır.")]
+    public int SinifSeviyesi { get; set; } = 1;
+
+    // Dropdown için
+    public List<SelectListItem> BolumListesi { get; set; } = new();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

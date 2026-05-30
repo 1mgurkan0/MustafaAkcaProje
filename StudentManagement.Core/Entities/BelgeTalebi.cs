@@ -1,3 +1,4 @@
+#nullable enable
 using System.ComponentModel.DataAnnotations;
 using StudentManagement.Core.Entities.Base;
 using StudentManagement.Core.Enums;

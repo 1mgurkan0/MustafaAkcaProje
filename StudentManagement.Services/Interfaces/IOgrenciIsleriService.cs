@@ -18,5 +18,9 @@ namespace StudentManagement.Services.Interfaces
         Task<ServiceResult> TalepOnaylaAsync(int ogrenciDersId, int userId);
         Task<ServiceResult> TalepReddetAsync(int ogrenciDersId, string redNedeni, int userId);
         Task<ServiceResult<int>> TopluOnaylaAsync(List<int> idler, int userId);
+        Task<ServiceResult> OgrenciOlusturAsync(ViewModels.Admin.AdminOgrenciOlusturViewModel model, int userId);
+        Task<ServiceResult<ViewModels.Admin.AdminOgrenciGuncelleViewModel>> GetOgrenciGuncelleAsync(int ogrenciId);
+        Task<ServiceResult> OgrenciGuncelleAsync(ViewModels.Admin.AdminOgrenciGuncelleViewModel model, int userId);
+        Task<ServiceResult> OgrenciSilAsync(int ogrenciId, int userId);
     }
 }
