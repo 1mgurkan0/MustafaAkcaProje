@@ -9,6 +9,11 @@
             <h1 class="page-title">Öğrenciler</h1>
             <p class="page-subtitle">Tüm öğrenci hesaplarını görüntüleyin ve yönetin.</p>
         </div>
+        <div>
+            <a href="@Url.Action("OgrenciOlustur", "Admin")" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Yeni Öğrenci Ekle
+            </a>
+        </div>
     </div>
 
     <div class="card table-card">
@@ -68,10 +73,20 @@
                             </td>
                             <td>
                                 <div class="table-actions">
+                                    <a href="@Url.Action("OgrenciGuncelle", "Admin", new { id = o.OgrenciId })"
+                                       class="btn btn-outline-primary btn-icon btn-sm"
+                                       title="Düzenle">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     <button class="btn btn-outline-secondary btn-icon btn-sm"
                                             onclick="openDurumModal(@o.OgrenciId, '@o.TamAd', '@o.OgrenciDurumAdi')"
                                             title="Durum Değiştir">
                                         <i class="fas fa-sliders"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-icon btn-sm"
+                                            onclick="openSilModal(@o.OgrenciId, '@o.TamAd')"
+                                            title="Kalıcı Olarak Sil">
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
                             </td>
@@ -112,6 +127,35 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="silModal">
+        <div class="modal-box" style="max-width: 400px;">
+            <div class="modal-header">
+                <span class="modal-title" style="color:var(--color-danger);"><i class="fas fa-exclamation-triangle"></i> Öğrenciyi Sil</span>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body text-center">
+                <div style="font-size:3rem; color:var(--color-danger); margin-bottom:16px;">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <p style="margin-bottom:16px;">
+                    <strong><span id="silOgrenciAdi"></span></strong> isimli öğrenciyi kalıcı olarak silmek istediğinize emin misiniz?
+                </p>
+                <p style="font-size:.85rem; color:var(--color-gray-500); margin-bottom:24px;">
+                    Eğer öğrencinin ilişkili kayıtları (ders notları vs.) varsa silme işlemi gerçekleşmeyecektir. Bu durumda öğrencinin durumunu "İlişiği Kesildi" yapmanız önerilir.
+                </p>
+                
+                <form asp-action="OgrenciSil" asp-controller="Admin" method="post" id="silForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="silOgrenciId" />
+                    <div style="display:flex; justify-content:center; gap:12px;">
+                        <button type="button" class="btn btn-outline-secondary modal-close">İptal</button>
+                        <button type="submit" class="btn btn-danger">Evet, Sil</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @section Scripts {
         <script>
             function openDurumModal(id, ad, durum) {
@@ -119,6 +163,12 @@
                 document.getElementById("modalOgrenciAdi").textContent = ad;
                 document.getElementById("modalDurum").value = durum;
                 SMS.modal.show("durumModal");
+            }
+
+            function openSilModal(id, ad) {
+                document.getElementById("silOgrenciId").value = id;
+                document.getElementById("silOgrenciAdi").textContent = ad;
+                SMS.modal.show("silModal");
             }
         </script>
     }

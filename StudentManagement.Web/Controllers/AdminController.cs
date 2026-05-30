@@ -174,6 +174,97 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Ogrenciler));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> OgrenciOlustur()
+    {
+        var model = new AdminOgrenciOlusturViewModel();
+        await PopulateOgrenciOlusturDropdowns(model);
+        return View(model);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> OgrenciOlustur(AdminOgrenciOlusturViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            await PopulateOgrenciOlusturDropdowns(model);
+            return View(model);
+        }
+
+        var result = await _admin.OgrenciOlusturAsync(model, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Öğrenci başarıyla oluşturuldu.");
+            return RedirectToAction(nameof(Ogrenciler));
+        }
+
+        SetErrorMessage(result.Message);
+        await PopulateOgrenciOlusturDropdowns(model);
+        return View(model);
+    }
+
+    private async Task PopulateOgrenciOlusturDropdowns(AdminOgrenciOlusturViewModel model)
+    {
+        var bolumler = await _admin.GetBolumSelectListAsync();
+        model.BolumListesi = bolumler.Select(b => new SelectListItem(b.DisplayText, b.Id.ToString())).ToList();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> OgrenciGuncelle(int id)
+    {
+        var result = await _admin.GetOgrenciGuncelleAsync(id);
+        if (!result.IsSuccess || result.Data == null)
+        {
+            SetErrorMessage(result.Message);
+            return RedirectToAction(nameof(Ogrenciler));
+        }
+
+        await PopulateOgrenciGuncelleDropdowns(result.Data);
+        return View(result.Data);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> OgrenciGuncelle(AdminOgrenciGuncelleViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            await PopulateOgrenciGuncelleDropdowns(model);
+            return View(model);
+        }
+
+        var result = await _admin.OgrenciGuncelleAsync(model, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Öğrenci başarıyla güncellendi.");
+            return RedirectToAction(nameof(Ogrenciler));
+        }
+
+        SetErrorMessage(result.Message);
+        await PopulateOgrenciGuncelleDropdowns(model);
+        return View(model);
+    }
+
+    private async Task PopulateOgrenciGuncelleDropdowns(AdminOgrenciGuncelleViewModel model)
+    {
+        var bolumler = await _admin.GetBolumSelectListAsync();
+        model.BolumListesi = bolumler.Select(b => new SelectListItem(b.DisplayText, b.Id.ToString())).ToList();
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> OgrenciSil(int id)
+    {
+        var result = await _admin.OgrenciSilAsync(id, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Öğrenci kalıcı olarak silindi.");
+        }
+        else
+        {
+            SetErrorMessage(result.Message);
+        }
+        return RedirectToAction(nameof(Ogrenciler));
+    }
+
     // ════════════════════════════════════════════════════════════════════════
     // DERS KATALOĞU
     // ════════════════════════════════════════════════════════════════════════

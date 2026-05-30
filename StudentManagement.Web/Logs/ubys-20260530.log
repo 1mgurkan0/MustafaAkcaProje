@@ -1,0 +1,106 @@
+[2026-05-30 19:07:43 INF] UBYS başlatılıyor...
+[2026-05-30 19:07:44 INF] Veritabanı migrate ediliyor...
+[2026-05-30 19:07:45 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-30 19:07:46 INF] Seed verisi kontrol ediliyor...
+[2026-05-30 19:07:46 INF] Veritabanı hazır.
+[2026-05-30 19:07:46 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-05-30 19:07:46 INF] ═══ TEST HESAPLARI ═══
+[2026-05-30 19:07:46 INF] Admin: admin / Admin123!!
+[2026-05-30 19:07:46 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-05-30 19:07:46 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-05-30 19:07:46 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-05-30 19:07:46 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-05-30 19:07:46 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-05-30 19:07:46 INF] ═══════════════════════
+[2026-05-30 19:07:46 INF] UBYS çalışıyor → http://localhost:5000
+[2026-05-30 19:07:46 INF] Now listening on: https://localhost:57138
+[2026-05-30 19:07:46 INF] Now listening on: http://localhost:57139
+[2026-05-30 19:07:46 INF] Application started. Press Ctrl+C to shut down.
+[2026-05-30 19:07:46 INF] Hosting environment: Development
+[2026-05-30 19:07:46 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-05-30 19:07:51 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-05-30 19:08:13 INF] Giriş başarılı: ogr.isleri1 [OgrenciIsleri]
+[2026-05-30 19:08:27 ERR] Beklenmeyen hata: /OgrenciIsleri/OgrenciDetay/45
+System.InvalidOperationException: The model item passed into the ViewDataDictionary is of type 'StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel', but this ViewDataDictionary instance requires a model item of type 'StudentManagement.Services.ViewModels.OgrenciIsleri.OgrenciDetayViewModel'.
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary.EnsureCompatible(Object value)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary..ctor(ViewDataDictionary source, Object model, Type declaredModelType)
+   at lambda_method835(Closure, ViewDataDictionary)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPagePropertyActivator.Activate(Object page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at StudentManagement.Web.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web\Middlewares\GlobalExceptionMiddleware.cs:line 24
+[2026-05-30 19:28:39 INF] Application is shutting down...
+[2026-05-30 19:28:47 INF] UBYS başlatılıyor...
+[2026-05-30 19:28:47 INF] Veritabanı migrate ediliyor...
+[2026-05-30 19:28:48 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-30 19:28:49 INF] Seed verisi kontrol ediliyor...
+[2026-05-30 19:28:49 INF] Veritabanı hazır.
+[2026-05-30 19:28:49 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-05-30 19:28:49 INF] ═══ TEST HESAPLARI ═══
+[2026-05-30 19:28:49 INF] Admin: admin / Admin123!!
+[2026-05-30 19:28:49 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-05-30 19:28:49 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-05-30 19:28:49 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-05-30 19:28:49 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-05-30 19:28:49 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-05-30 19:28:49 INF] ═══════════════════════
+[2026-05-30 19:28:49 INF] UBYS çalışıyor → http://localhost:5000
+[2026-05-30 19:28:49 INF] Now listening on: https://localhost:57138
+[2026-05-30 19:28:49 INF] Now listening on: http://localhost:57139
+[2026-05-30 19:28:49 INF] Application started. Press Ctrl+C to shut down.
+[2026-05-30 19:28:49 INF] Hosting environment: Development
+[2026-05-30 19:28:49 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-05-30 19:28:53 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-05-30 19:29:01 INF] Giriş başarılı: admin [Admin]
+[2026-05-30 19:30:34 WRN] Savepoints are disabled because Multiple Active Result Sets (MARS) is enabled. If 'SaveChanges' fails, then the transaction cannot be automatically rolled back to a known clean state. Instead, the transaction should be rolled back by the application before retrying 'SaveChanges'. See https://go.microsoft.com/fwlink/?linkid=2149338 for more information and examples. To identify the code which triggers this warning, call 'ConfigureWarnings(w => w.Throw(SqlServerEventId.SavepointsDisabledBecauseOfMARS))'.
+[2026-05-30 19:30:34 WRN] Savepoints are disabled because Multiple Active Result Sets (MARS) is enabled. If 'SaveChanges' fails, then the transaction cannot be automatically rolled back to a known clean state. Instead, the transaction should be rolled back by the application before retrying 'SaveChanges'. See https://go.microsoft.com/fwlink/?linkid=2149338 for more information and examples. To identify the code which triggers this warning, call 'ConfigureWarnings(w => w.Throw(SqlServerEventId.SavepointsDisabledBecauseOfMARS))'.
+[2026-05-30 19:30:34 INF] Yeni öğrenci oluşturuldu: 20260221 - MGurkan Altunbaş
+[2026-05-30 19:30:59 INF] Çıkış yapıldı: admin
+[2026-05-30 19:31:05 INF] Giriş başarılı: gurkan [Ogrenci]
+[2026-05-30 19:42:49 INF] Application is shutting down...
+[2026-05-30 19:42:54 INF] UBYS başlatılıyor...
+[2026-05-30 19:42:55 INF] Veritabanı migrate ediliyor...
+[2026-05-30 19:42:55 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-05-30 19:42:56 INF] Seed verisi kontrol ediliyor...
+[2026-05-30 19:42:56 INF] Veritabanı hazır.
+[2026-05-30 19:42:56 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-05-30 19:42:56 INF] ═══ TEST HESAPLARI ═══
+[2026-05-30 19:42:56 INF] Admin: admin / Admin123!!
+[2026-05-30 19:42:56 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-05-30 19:42:56 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-05-30 19:42:56 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-05-30 19:42:56 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-05-30 19:42:56 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-05-30 19:42:56 INF] ═══════════════════════
+[2026-05-30 19:42:56 INF] UBYS çalışıyor → http://localhost:5000
+[2026-05-30 19:42:56 INF] Now listening on: https://localhost:57138
+[2026-05-30 19:42:56 INF] Now listening on: http://localhost:57139
+[2026-05-30 19:42:56 INF] Application started. Press Ctrl+C to shut down.
+[2026-05-30 19:42:56 INF] Hosting environment: Development
+[2026-05-30 19:42:56 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-05-30 19:43:03 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-05-30 19:43:13 INF] Giriş başarılı: admin [Admin]
+[2026-05-30 19:43:51 WRN] Savepoints are disabled because Multiple Active Result Sets (MARS) is enabled. If 'SaveChanges' fails, then the transaction cannot be automatically rolled back to a known clean state. Instead, the transaction should be rolled back by the application before retrying 'SaveChanges'. See https://go.microsoft.com/fwlink/?linkid=2149338 for more information and examples. To identify the code which triggers this warning, call 'ConfigureWarnings(w => w.Throw(SqlServerEventId.SavepointsDisabledBecauseOfMARS))'.
+[2026-05-30 19:43:52 INF] Öğrenci güncellendi: 2 - Gökmen Çiftçi
+[2026-05-30 19:44:05 INF] Çıkış yapıldı: admin
+[2026-05-30 19:44:15 INF] Giriş başarılı: ogr.isleri1 [OgrenciIsleri]
+[2026-05-30 19:48:09 INF] Application is shutting down...

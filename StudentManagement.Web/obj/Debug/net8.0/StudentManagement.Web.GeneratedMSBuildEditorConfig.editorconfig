@@ -72,8 +72,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRG9uZW1PbHVzdHVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/Admin/OgrenciGuncelle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT2dyZW5jaUd1bmNlbGxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/Admin/Ogrenciler.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT2dyZW5jaWxlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/Admin/OgrenciOlustur.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT2dyZW5jaU9sdXN0dXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/AuditLog/Index.cshtml]
@@ -114,6 +122,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciIsleriPanel/OgrenciDetay.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaUlzbGVyaVBhbmVsXE9ncmVuY2lEZXRheS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciIsleriPanel/OgrenciGuncelle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaUlzbGVyaVBhbmVsXE9ncmVuY2lHdW5jZWxsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciIsleriPanel/OgrenciOlustur.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaUlzbGVyaVBhbmVsXE9ncmVuY2lPbHVzdHVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/muham/OneDrive/Desktop/StudentManagementSystem/StudentManagement.Web/Views/OgrenciIsleriPanel/TalepDetay.cshtml]

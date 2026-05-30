@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentManagement.Core.Enums;
 using StudentManagement.Services.Interfaces;
 using StudentManagement.Services.ViewModels.OgrenciIsleri;
+using StudentManagement.Services.ViewModels.Admin;
 using StudentManagement.Web.Filters;
 using StudentManagement.Services.ViewModels.Ogretmen;
 
@@ -162,6 +164,7 @@ public class OgrenciIsleriPanelController : BaseController
             return RedirectToAction(nameof(Belgeler));
         }
 
+        // Dosya bos kontrolü (Belge yükleme esnasında)
         try
         {
             var result = await _service.BelgeYukleAsync(belgeTalebiId, belgeFile, CurrentUserId);
@@ -267,5 +270,104 @@ public class OgrenciIsleriPanelController : BaseController
             SetErrorMessage(ex.Message);
             return View(model);
         }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // ÖĞRENCİ OLUŞTUR
+    // ═══════════════════════════════════════════════════════════════════════
+
+    [HttpGet]
+    public async Task<IActionResult> OgrenciOlustur()
+    {
+        var model = new AdminOgrenciOlusturViewModel();
+        await PopulateOgrenciDropdowns(model);
+        return View(model);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> OgrenciOlustur(AdminOgrenciOlusturViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            await PopulateOgrenciDropdowns(model);
+            return View(model);
+        }
+
+        var result = await _service.OgrenciOlusturAsync(model, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Öğrenci başarıyla oluşturuldu.");
+            return RedirectToAction(nameof(OgrenciAra));
+        }
+
+        SetErrorMessage(result.Message);
+        await PopulateOgrenciDropdowns(model);
+        return View(model);
+    }
+
+    private async Task PopulateOgrenciDropdowns(AdminOgrenciOlusturViewModel model)
+    {
+        var bolumler = await _service.GetBolumSelectListAsync();
+        model.BolumListesi = bolumler.Select(b => new SelectListItem(b.DisplayText, b.Id.ToString())).ToList();
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // ÖĞRENCİ GÜNCELLE
+    // ═══════════════════════════════════════════════════════════════════════
+
+    [HttpGet]
+    public async Task<IActionResult> OgrenciGuncelle(int id)
+    {
+        var result = await _service.GetOgrenciGuncelleAsync(id);
+        if (!result.IsSuccess || result.Data == null)
+        {
+            SetErrorMessage(result.Message);
+            return RedirectToAction(nameof(OgrenciAra));
+        }
+
+        await PopulateOgrenciGuncelleDropdowns(result.Data);
+        return View(result.Data);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> OgrenciGuncelle(AdminOgrenciGuncelleViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            await PopulateOgrenciGuncelleDropdowns(model);
+            return View(model);
+        }
+
+        var result = await _service.OgrenciGuncelleAsync(model, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Öğrenci başarıyla güncellendi.");
+            return RedirectToAction(nameof(OgrenciAra));
+        }
+
+        SetErrorMessage(result.Message);
+        await PopulateOgrenciGuncelleDropdowns(model);
+        return View(model);
+    }
+
+    private async Task PopulateOgrenciGuncelleDropdowns(AdminOgrenciGuncelleViewModel model)
+    {
+        var bolumler = await _service.GetBolumSelectListAsync();
+        model.BolumListesi = bolumler.Select(b => new SelectListItem(b.DisplayText, b.Id.ToString())).ToList();
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> OgrenciSil(int id)
+    {
+        var result = await _service.OgrenciSilAsync(id, CurrentUserId);
+        if (result.IsSuccess)
+        {
+            SetSuccessMessage("Öğrenci kalıcı olarak silindi.");
+        }
+        else
+        {
+            SetErrorMessage(result.Message);
+        }
+        return RedirectToAction(nameof(OgrenciAra));
     }
 }
