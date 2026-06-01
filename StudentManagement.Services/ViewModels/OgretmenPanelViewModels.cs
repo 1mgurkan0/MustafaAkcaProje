@@ -78,8 +78,9 @@ public class YoklamaGirViewModel
     public int      DersAtamaId   { get; set; }
     public string   DersAdi       { get; set; } = string.Empty;
     public string   DonemAdi      { get; set; } = string.Empty;
-    public DateTime YoklamaTarihi { get; set; } = DateTime.Today;
-
+    [System.ComponentModel.DataAnnotations.DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
+    [System.ComponentModel.DataAnnotations.DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    public DateTime YoklamaTarihi { get; set; } = DateTime.UtcNow.AddHours(3).Date;
     public List<OgrenciYoklamaSatirViewModel> OgrenciListesi { get; set; } = new();
 }
 

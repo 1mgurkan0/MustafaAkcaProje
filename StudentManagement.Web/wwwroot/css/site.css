@@ -272,6 +272,21 @@ img { max-width: 100%; }
 .sidebar-logout:hover { background: var(--color-danger-bg); color: var(--color-danger); }
 .sidebar-logout i { width: 18px; text-align: center; }
 
+/* Sidebar Overlay */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+}
+.sidebar-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
 /* ─── 5. MAIN CONTENT ───────────────────────────────────────── */
 .main-content {
     margin-left: var(--sidebar-width);
@@ -305,7 +320,7 @@ img { max-width: 100%; }
     cursor: pointer;
     padding: 6px;
     border-radius: 6px;
-    display: flex;
+    display: none; /* Desktop'ta gizli, sadece mobilde gösterilecek */
     transition: var(--transition);
 }
 .topbar-toggle:hover { background: var(--color-gray-100); color: var(--color-gray-800); }
@@ -536,10 +551,11 @@ img { max-width: 100%; }
     box-shadow: 0 0 0 3px rgba(79,70,229,.1);
 }
 
-.table-responsive { overflow-x: auto; }
+.table-responsive { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; border-radius: var(--border-radius); }
 
 table.ubys-table {
     width: 100%;
+    min-width: 650px;
     border-collapse: collapse;
     font-size: .82rem;
 }
@@ -870,15 +886,11 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     opacity: .04;
     border-radius: 50%;
     bottom: -80px; left: -80px;
-}
-
 .auth-logo {
-    width: 72px; height: 72px;
-    background: var(--color-role);
+    background: white;
+    padding: 16px;
     border-radius: var(--border-radius-xl);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2rem;
-    color: white;
+    display: inline-flex; align-items: center; justify-content: center;
     margin-bottom: 24px;
     box-shadow: 0 8px 24px rgba(0,0,0,.3);
     position: relative; z-index: 1;
@@ -1132,27 +1144,42 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 }
 
 /* ─── 24. RESPONSIVE ────────────────────────────────────────── */
-@media (max-width: 1024px) {
-    .sidebar { transform: translateX(-100%); }
-    .sidebar.open { transform: translateX(0); }
-    .main-content { margin-left: 0; }
-    .form-row { grid-template-columns: 1fr; }
-    .form-row-3 { grid-template-columns: repeat(2, 1fr); }
-    .form-row-4 { grid-template-columns: repeat(2, 1fr); }
-    .auth-left { display: none; }
-    .auth-right { width: 100%; }
+@media (max-width: 1200px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-row-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1024px) {
+    .sidebar { 
+        transform: translateX(-100%); /* Başlangıçta gizli */
+        z-index: 1050; /* Üstte kalsın */
+    }
+    .sidebar.open { transform: translateX(0); } /* Hamburger açılınca gelir */
+    .main-content { margin-left: 0; }
+    .topbar-toggle { display: flex; } /* Sadece mobilde hamburger butonu görünür */
+    .auth-left { display: none; }
+    .auth-right { width: 100%; max-width: 600px; margin: 0 auto; }
+}
+
+@media (max-width: 768px) {
+    .form-row, .form-row-3, .form-row-4 { grid-template-columns: 1fr; }
+    .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .page-actions { width: 100%; display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .page-actions .btn { width: 100%; justify-content: center; }
+    .table-toolbar { flex-direction: column; align-items: stretch; gap: 12px; }
+    .table-search { max-width: 100%; }
+    .table-actions { flex-wrap: wrap; }
+    .table-actions .btn { flex: 1; justify-content: center; }
 }
 
 @media (max-width: 640px) {
     .page-content { padding: 16px; }
-    .page-header { flex-direction: column; }
-    .stat-grid { grid-template-columns: 1fr 1fr; }
-    .table-toolbar { flex-direction: column; align-items: stretch; }
-    .table-search { max-width: none; }
-    .form-row-3, .form-row-4 { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr; }
     .auth-right { padding: 32px 24px; }
     .topbar-breadcrumb { display: none; }
+    .card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .card-actions { width: 100%; display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .card-actions .btn { width: 100%; justify-content: center; }
 }
 
 /* ─── 25. PRINT ─────────────────────────────────────────────── */

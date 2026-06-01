@@ -52,7 +52,7 @@ public class SinavEkleViewModelValidator : AbstractValidator<SinavEkleViewModel>
 
         RuleFor(x => x.SinavTarihi)
             .NotEmpty().WithMessage("Sınav tarihi zorunludur.")
-            .GreaterThan(DateTime.Now.AddDays(-1))
+            .Must(tarih => tarih > DateTime.UtcNow.AddHours(3).AddDays(-1))
             .WithMessage("Sınav tarihi geçmiş bir tarih olamaz.");
 
         RuleFor(x => x.Derslik)
@@ -70,10 +70,6 @@ public class YoklamaViewModelValidator : AbstractValidator<YoklamaGirViewModel>
         RuleFor(x => x.DersAtamaId)
             .GreaterThan(0).WithMessage("Geçersiz ders ataması.");
 
-        RuleFor(x => x.YoklamaTarihi)
-            .NotEmpty().WithMessage("Yoklama tarihi zorunludur.")
-            .LessThanOrEqualTo(DateTime.Today)
-            .WithMessage("Yoklama tarihi bugünden ileri bir tarih olamaz.");
     }
 }
 

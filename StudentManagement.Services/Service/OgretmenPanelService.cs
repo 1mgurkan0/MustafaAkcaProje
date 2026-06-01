@@ -304,7 +304,7 @@ public class OgretmenPanelService : IOgretmenPanelService
             DersAtamaId = dersAtamaId,
             DersAdi = da.Ders!.DersAdi,
             DonemAdi = string.Empty,
-            YoklamaTarihi = DateTime.Today,
+            YoklamaTarihi = DateTime.UtcNow.AddHours(3).Date,
             OgrenciListesi = ogrenciler
         });
     }
@@ -316,10 +316,17 @@ public class OgretmenPanelService : IOgretmenPanelService
 
         if (!daVarMi) return ServiceResult.Fail(AppConstants.ErrorMessages.YetkiYok);
 
+        if (model.YoklamaTarihi.Year < 2000)
+            return ServiceResult.Fail("Geçerli bir yoklama tarihi giriniz.");
+
         // Aynı gün için yoklama var mı?
+        var targetDate = model.YoklamaTarihi.Date;
+        var nextDate = targetDate.AddDays(1);
+
         var mevcutYoklama = await _db.Yoklamalar
             .FirstOrDefaultAsync(y => y.DersAtamaId == model.DersAtamaId
-                               && y.YoklamaTarihi.Date == model.YoklamaTarihi.Date
+                               && y.YoklamaTarihi >= targetDate 
+                               && y.YoklamaTarihi < nextDate
                                && y.IsActive);
 
         await using var tx = await _db.Database.BeginTransactionAsync();

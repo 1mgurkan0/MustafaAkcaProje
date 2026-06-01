@@ -49,13 +49,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@pageTitle — UBYS</title>
+    <link rel="icon" type="image/png" href="~/images/logo.png?v=4" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css?v=2" asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -67,14 +68,8 @@
     <aside class="sidebar" id="appSidebar">
 
         <!-- Brand -->
-        <a class="sidebar-brand" href="/">
-            <div class="sidebar-brand-icon">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="sidebar-brand-text">
-                <div class="sidebar-brand-name">UBYS</div>
-                <div class="sidebar-brand-sub">Yönetim Sistemi</div>
-            </div>
+        <a class="sidebar-brand" href="/" style="justify-content: center; padding: 1rem 0;">
+            <img src="~/images/logo.png?v=2" alt="UBYS Logo" style="max-height: 60px; max-width: 90%; object-fit: contain;" />
         </a>
 
         <!-- Kullanıcı -->
@@ -232,9 +227,7 @@
     </aside>
 
     <!-- Mobil Overlay -->
-    <div id="sidebarOverlay"
-         style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:999;"
-         onclick="SMS.sidebar.close()"></div>
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="SMS.sidebar.close()"></div>
 
     <!-- ═══ ANA İÇERİK ════════════════════════════════════════════════ -->
     <div class="main-content">
