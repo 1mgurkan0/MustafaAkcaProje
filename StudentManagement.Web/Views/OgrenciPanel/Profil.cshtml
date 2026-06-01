@@ -1,93 +1,246 @@
-@model StudentManagement.Services.ViewModels.Ogrenci.OgrenciDashboardViewModel
+@model StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel
 @{
     ViewData["Title"] = "Profilim";
     ViewData["Breadcrumb"] = "Profilim";
+    var defaultAvatar = "/images/default-avatar.png"; 
+    var avatarUrl = string.IsNullOrEmpty(Model.ProfilFotoUrl) ? defaultAvatar : Model.ProfilFotoUrl;
+
+    var durumCls = "badge-secondary";
+    if (Model.OgrenciDurumAdi == "Aktif") durumCls = "badge-success";
+    else if (Model.OgrenciDurumAdi == "Dondurulmus") durumCls = "badge-warning";
+    else if (Model.OgrenciDurumAdi == "Mezun") durumCls = "badge-info";
+    else if (Model.OgrenciDurumAdi == "IliskiKesik") durumCls = "badge-danger";
+}
+
+@section Styles {
+    <style>
+        .profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .profile-header-banner {
+            background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-800) 100%);
+            height: 160px;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-header-banner::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/></svg>') repeat;
+            opacity: 0.3;
+        }
+        .profile-card {
+            background: #fff;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            padding: 0 2rem 2rem 2rem;
+        }
+        .profile-avatar-container {
+            display: flex;
+            align-items: flex-end;
+            margin-top: -70px;
+            margin-bottom: 1.5rem;
+            gap: 1.5rem;
+        }
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 6px solid #fff;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            object-fit: cover;
+            background: #fff;
+            position: relative;
+            z-index: 10;
+        }
+        .profile-main-info {
+            flex: 1;
+            padding-bottom: 10px;
+        }
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-gray-900);
+            margin: 0 0 0.2rem 0;
+            letter-spacing: -0.5px;
+        }
+        .profile-bolum {
+            color: var(--color-gray-500);
+            font-weight: 500;
+            font-size: 1.05rem;
+            margin: 0;
+        }
+        .profile-badges {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        .info-box {
+            background: var(--color-gray-50);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            border: 1px solid var(--color-gray-200);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .info-box:hover {
+            background: #fff;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            border-color: var(--color-primary-300);
+            transform: translateY(-4px);
+        }
+        .info-box-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(var(--color-primary-500), 0.1);
+            color: var(--color-primary-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .info-box-content h5 {
+            font-size: 0.75rem;
+            color: var(--color-gray-500);
+            margin: 0 0 0.4rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+        }
+        .info-box-content p {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--color-gray-800);
+            margin: 0;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--color-gray-800);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--color-gray-100);
+            padding-bottom: 0.8rem;
+        }
+        .section-title i {
+            color: var(--color-primary-500);
+        }
+    </style>
 }
 
 <div class="page-header">
     <div>
         <h1 class="page-title">Profilim</h1>
-        <p class="page-subtitle">Kişisel ve akademik bilgileriniz</p>
+        <p class="page-subtitle">Sisteme kayıtlı kişisel ve akademik bilgileriniz.</p>
     </div>
 </div>
 
-<div style="display:grid; grid-template-columns:300px 1fr; gap:20px;">
-    <!-- Profil Kartı -->
-    <div class="card" style="text-align:center;">
-        <div class="card-body" style="padding:32px 20px;">
-            <div style="width:100px; height:100px; border-radius:50%; background:var(--color-role); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:2.4rem; color:#fff; font-weight:800;">
-                @(Model.TamAd.Length > 0 ? Model.TamAd[0].ToString().ToUpper() : "?")
+<div class="profile-container">
+    <!-- Üst Profil Kartı -->
+    <div style="filter: drop-shadow(0 10px 40px rgba(0,0,0,0.08)); margin-bottom: 2rem;">
+        <div class="profile-header-banner"></div>
+        <div class="profile-card" style="box-shadow:none;">
+            <div class="profile-avatar-container">
+                <img src="@avatarUrl" alt="Profil Fotoğrafı" class="profile-avatar" />
+                <div class="profile-main-info">
+                    <h1 class="profile-name">@Model.TamAd</h1>
+                    <p class="profile-bolum">@Model.BolumAdi</p>
+                    <div class="profile-badges">
+                        <span class="badge badge-primary" style="padding: 0.6em 1em; font-size: 0.85rem;"><i class="fas fa-id-badge mr-1"></i> @Model.OgrenciNo</span>
+                        <span class="badge @durumCls" style="padding: 0.6em 1em; font-size: 0.85rem;">@Model.OgrenciDurumAdi</span>
+                        <span class="badge badge-dark" style="padding: 0.6em 1em; font-size: 0.85rem;">Kullanıcı: @Model.KullaniciAdi</span>
+                    </div>
+                </div>
             </div>
-            <h2 style="font-size:1.1rem; font-weight:800; color:var(--color-gray-900); margin-bottom:4px;">@Model.TamAd</h2>
-            <p style="font-size:.82rem; color:var(--color-gray-500); margin-bottom:12px;">@Model.BolumAdi</p>
-            <code style="font-size:.8rem; padding:4px 12px; background:var(--color-gray-100); border-radius:6px;">@Model.OgrenciNo</code>
+
+            <div class="info-grid">
+                <!-- E-Posta -->
+                <div class="info-box">
+                    <div class="info-box-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="info-box-content">
+                        <h5>E-Posta Adresi</h5>
+                        <p style="font-size:1rem;">@Model.Email</p>
+                    </div>
+                </div>
+                <!-- Telefon -->
+                <div class="info-box">
+                    <div class="info-box-icon"><i class="fas fa-phone"></i></div>
+                    <div class="info-box-content">
+                        <h5>Telefon Numarası</h5>
+                        <p>@(string.IsNullOrEmpty(Model.Telefon) ? "Belirtilmemiş" : Model.Telefon)</p>
+                    </div>
+                </div>
+                <!-- Doğum Tarihi -->
+                <div class="info-box">
+                    <div class="info-box-icon"><i class="fas fa-birthday-cake"></i></div>
+                    <div class="info-box-content">
+                        <h5>Doğum Tarihi</h5>
+                        <p>@(Model.DogumTarihi.Year > 1 ? Model.DogumTarihi.ToString("dd.MM.yyyy") : "Belirtilmemiş")</p>
+                    </div>
+                </div>
+                <!-- TC Kimlik -->
+                <div class="info-box">
+                    <div class="info-box-icon"><i class="fas fa-address-card"></i></div>
+                    <div class="info-box-content">
+                        <h5>TC Kimlik No</h5>
+                        <p>@(string.IsNullOrEmpty(Model.TcKimlikNo) ? "Belirtilmemiş" : Model.TcKimlikNo)</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bilgi Kartları -->
-    <div style="display:flex; flex-direction:column; gap:20px;">
-        <div class="card">
-            <div class="card-header"><div class="card-title"><i class="fas fa-user"></i> Kişisel Bilgiler</div></div>
-            <div class="card-body">
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                    <div>
-                        <span style="font-size:.72rem; color:var(--color-gray-400); display:block; margin-bottom:4px;">Ad Soyad</span>
-                        <strong style="font-size:.92rem;">@Model.TamAd</strong>
-                    </div>
-                    <div>
-                        <span style="font-size:.72rem; color:var(--color-gray-400); display:block; margin-bottom:4px;">Öğrenci No</span>
-                        <strong style="font-size:.92rem;">@Model.OgrenciNo</strong>
-                    </div>
-                    <div>
-                        <span style="font-size:.72rem; color:var(--color-gray-400); display:block; margin-bottom:4px;">Bölüm</span>
-                        <strong style="font-size:.92rem;">@Model.BolumAdi</strong>
-                    </div>
-                    <div>
-                        <span style="font-size:.72rem; color:var(--color-gray-400); display:block; margin-bottom:4px;">Aktif Dönem</span>
-                        <strong style="font-size:.92rem;">@Model.AktifDonemAdi</strong>
-                    </div>
-                    <div>
-                        <span style="font-size:.72rem; color:var(--color-gray-400); display:block; margin-bottom:4px;">TC Kimlik No</span>
-                        <span style="font-size:.85rem; color:var(--color-gray-500);">—</span>
-                    </div>
-                    <div>
-                        <span style="font-size:.72rem; color:var(--color-gray-400); display:block; margin-bottom:4px;">Profil Fotoğrafı</span>
-                        <span style="font-size:.85rem; color:var(--color-gray-500);">Yüklenmemiş</span>
-                    </div>
+    <!-- Akademik İstatistikler -->
+    <div class="card" style="border-radius: 16px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.04);">
+        <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Akademik İstatistikler</h3>
+        
+        <div class="info-grid">
+            <!-- GANO -->
+            <div class="info-box">
+                <div class="info-box-icon" style="background: rgba(var(--color-success-rgb), 0.1); color: var(--color-success);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="info-box-content">
+                    <h5>Genel Not Ortalaması (GANO)</h5>
+                    <p style="color: var(--color-success); font-size: 1.4rem;">@(Model.Gano?.ToString("F2") ?? "0.00")</p>
                 </div>
             </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header"><div class="card-title"><i class="fas fa-graduation-cap"></i> Akademik Bilgiler</div></div>
-            <div class="card-body">
-                <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:20px;">
-                    <div style="text-align:center; padding:16px; background:var(--color-gray-50); border-radius:12px;">
-                        <div style="font-size:1.6rem; font-weight:800; color:var(--color-role);">@(Model.Gano.HasValue ? Model.Gano.Value.ToString("F2") : "—")</div>
-                        <div style="font-size:.72rem; color:var(--color-gray-500); margin-top:4px;">GANO</div>
-                    </div>
-                    <div style="text-align:center; padding:16px; background:var(--color-gray-50); border-radius:12px;">
-                        <div style="font-size:1.6rem; font-weight:800; color:var(--color-success);">@Model.TamamlananAkts</div>
-                        <div style="font-size:.72rem; color:var(--color-gray-500); margin-top:4px;">Tamamlanan AKTS</div>
-                    </div>
-                    <div style="text-align:center; padding:16px; background:var(--color-gray-50); border-radius:12px;">
-                        <div style="font-size:1.6rem; font-weight:800; color:var(--color-warning);">@Model.AktifDersSayisi</div>
-                        <div style="font-size:.72rem; color:var(--color-gray-500); margin-top:4px;">Aktif Ders</div>
-                    </div>
-                    <div style="text-align:center; padding:16px; background:var(--color-gray-50); border-radius:12px;">
-                        <div style="font-size:1.6rem; font-weight:800; color:var(--color-info);">@Model.MinMezuniyetAkts</div>
-                        <div style="font-size:.72rem; color:var(--color-gray-500); margin-top:4px;">Mezuniyet AKTS</div>
-                    </div>
+            <!-- AKTS -->
+            <div class="info-box">
+                <div class="info-box-icon"><i class="fas fa-star"></i></div>
+                <div class="info-box-content">
+                    <h5>Tamamlanan Kredi</h5>
+                    <p>@Model.TamamlananAkts AKTS</p>
                 </div>
-                @{
-                    var aktsOran = Model.MinMezuniyetAkts > 0 ? (int)Math.Round((double)Model.TamamlananAkts / Model.MinMezuniyetAkts * 100) : 0;
-                }
-                <div style="margin-top:20px;">
-                    <div class="d-flex items-center justify-between" style="margin-bottom:6px;">
-                        <span style="font-size:.78rem; font-weight:700;">Mezuniyet İlerlemesi</span>
-                        <span style="font-size:.78rem; font-weight:700; color:var(--color-role);">%@aktsOran</span>
-                    </div>
-                    <div class="progress"><div class="progress-bar" style="width:@(aktsOran)%"></div></div>
+            </div>
+            <!-- Aktif Ders -->
+            <div class="info-box">
+                <div class="info-box-icon"><i class="fas fa-book-open"></i></div>
+                <div class="info-box-content">
+                    <h5>Aktif Ders Sayısı</h5>
+                    <p>@Model.AktifDersSayisi Ders</p>
+                </div>
+            </div>
+            <!-- Kayıt Tarihi -->
+            <div class="info-box">
+                <div class="info-box-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="info-box-content">
+                    <h5>Sisteme Kayıt Tarihi</h5>
+                    <p style="font-size:1rem;">@Model.KayitTarihi.ToString("dd MMM yyyy")</p>
                 </div>
             </div>
         </div>

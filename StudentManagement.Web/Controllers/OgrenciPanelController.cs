@@ -16,6 +16,18 @@ public class OgrenciPanelController : BaseController
     public async Task<IActionResult> Dashboard()
         => View(await _service.GetDashboardAsync(CurrentOgrenciId));
 
+    [HttpGet]
+    public async Task<IActionResult> Profil()
+    {
+        var result = await _service.GetProfilAsync(CurrentOgrenciId);
+        if (!result.IsSuccess || result.Data == null)
+        {
+            SetErrorMessage("Profil bilgileri alınamadı.");
+            return RedirectToAction(nameof(Dashboard));
+        }
+        return View(result.Data);
+    }
+
     public async Task<IActionResult> DersKayit()
     {
         var vm = await _service.GetDersKayitAsync(CurrentOgrenciId);
@@ -97,11 +109,7 @@ public class OgrenciPanelController : BaseController
 
     public async Task<IActionResult> Belgeler() => View(await _service.GetBelgelerAsync(CurrentOgrenciId));
 
-    public async Task<IActionResult> Profil()
-    {
-        var dashboard = await _service.GetDashboardAsync(CurrentOgrenciId);
-        return View(dashboard);
-    }
+
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> BelgeTalepOlustur(BelgeTalebiOlusturViewModel model)

@@ -131,6 +131,15 @@ public class OgrenciIsleriOgrenciViewModel
     public int          TamamlananAkts { get; set; }
     public OgrenciDurum Durum        { get; set; }
     public string       Email        { get; set; } = string.Empty;
+    
+    // Profil Detayları için Eklenen Alanlar
+    public string?      TcKimlikNo   { get; set; }
+    public string?      Telefon      { get; set; }
+    public string?      Cinsiyet     { get; set; }
+    public DateTime     DogumTarihi  { get; set; }
+    public DateTime     KayitTarihi  { get; set; }
+    public string?      ProfilFotoUrl { get; set; }
+    public string       KullaniciAdi { get; set; } = string.Empty;
 }
 
 // ── Duyuru (Öğrenci İşleri yayınlayabilir) ───────────────────────────────────

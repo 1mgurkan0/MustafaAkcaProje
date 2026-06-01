@@ -411,7 +411,16 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             Gano = ogrenci.Gano,
             TamamlananAkts = ogrenci.TamamlananAkts,
             AktifDersSayisi = aktifDersSayisi,
-            DurumAdi = ogrenci.Durum.ToString()
+            DurumAdi = ogrenci.Durum.ToString(),
+            
+            // Yeni Profil Alanları
+            TcKimlikNo = ogrenci.TcKimlikNo,
+            Telefon = ogrenci.Kullanici.Telefon,
+            Cinsiyet = ogrenci.Cinsiyet,
+            DogumTarihi = ogrenci.DogumTarihi,
+            KayitTarihi = ogrenci.KayitTarihi,
+            ProfilFotoUrl = ogrenci.ProfilFotoUrl,
+            KullaniciAdi = ogrenci.Kullanici.KullaniciAdi
         };
 
         return ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>.Ok(vm);
@@ -537,7 +546,8 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             DogumTarihi = ogrenci.DogumTarihi,
             Cinsiyet = ogrenci.Cinsiyet,
             TcKimlikNo = ogrenci.TcKimlikNo,
-            Telefon = ogrenci.Kullanici.Telefon
+            Telefon = ogrenci.Kullanici.Telefon,
+            ProfilFotoUrl = ogrenci.ProfilFotoUrl
         };
 
         return ServiceResult<AdminOgrenciGuncelleViewModel>.Ok(model);
@@ -582,6 +592,10 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             ogrenci.DogumTarihi = model.DogumTarihi ?? ogrenci.DogumTarihi;
             ogrenci.Cinsiyet = model.Cinsiyet;
             ogrenci.TcKimlikNo = model.TcKimlikNo;
+            if (!string.IsNullOrEmpty(model.ProfilFotoUrl)) 
+            {
+                ogrenci.ProfilFotoUrl = model.ProfilFotoUrl;
+            }
             ogrenci.UpdatedAt = DateTime.UtcNow;
 
             _db.Kullanicilar.Update(ogrenci.Kullanici);

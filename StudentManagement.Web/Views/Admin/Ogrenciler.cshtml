@@ -73,6 +73,11 @@
                             </td>
                             <td>
                                 <div class="table-actions">
+                                    <a href="@Url.Action("OgrenciDetay", "Admin", new { id = o.OgrenciId })"
+                                       class="btn btn-outline-info btn-icon btn-sm"
+                                       title="Profil / Detay">
+                                        <i class="fas fa-id-card"></i>
+                                    </a>
                                     <a href="@Url.Action("OgrenciGuncelle", "Admin", new { id = o.OgrenciId })"
                                        class="btn btn-outline-primary btn-icon btn-sm"
                                        title="Düzenle">

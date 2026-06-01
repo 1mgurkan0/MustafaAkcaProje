@@ -254,6 +254,15 @@ public class OgrenciDetayViewModel : OgrenciViewModel
 {
     public int    TamamlananAkts  { get; set; }
     public int    AktifDersSayisi { get; set; }
+    
+    // Profil Detayları
+    public string? TcKimlikNo   { get; set; }
+    public string? Telefon      { get; set; }
+    public string? Cinsiyet     { get; set; }
+    public DateTime DogumTarihi { get; set; }
+    public DateTime KayitTarihi { get; set; }
+    public string? ProfilFotoUrl { get; set; }
+    public string KullaniciAdi  { get; set; } = string.Empty;
 }
 // ═══════════════════════════════════════════════════════════════
 // AUDIT LOG

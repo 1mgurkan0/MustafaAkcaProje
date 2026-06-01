@@ -16,13 +16,29 @@
     </div>
 </div>
 
-<form asp-action="OgrenciGuncelle" asp-controller="Admin" method="post">
+<form asp-action="OgrenciGuncelle" asp-controller="Admin" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="OgrenciId" />
     <input type="hidden" asp-for="KullaniciId" />
+    <input type="hidden" asp-for="ProfilFotoUrl" />
 
     <div class="card" style="max-width:900px;">
         <div class="card-body" style="padding:28px 32px;">
+
+            @* ── Mevcut Profil Fotoğrafı ── *@
+            <div style="text-align: center; margin-bottom: 24px;">
+                @{
+                    var avatarUrl = string.IsNullOrEmpty(Model.ProfilFotoUrl) ? "/images/default-avatar.png" : Model.ProfilFotoUrl;
+                }
+                <img src="@avatarUrl" alt="Profil Fotoğrafı" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-gray-200); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 10px;" />
+                <div>
+                    <label asp-for="ProfilFotografi" class="form-label" style="display: block; font-weight: 600;">Yeni Profil Fotoğrafı Yükle</label>
+                    <input asp-for="ProfilFotografi" type="file" class="form-control" accept="image/*" style="max-width: 300px; margin: 0 auto;" />
+                    <span asp-validation-for="ProfilFotografi" class="text-danger" style="font-size:.78rem;"></span>
+                </div>
+            </div>
+
+            <hr style="border:none; border-top:1px solid var(--border, #e5e7eb); margin:24px 0;" />
 
             @* ── Kişisel Bilgiler ── *@
             <div style="margin-bottom:24px;">

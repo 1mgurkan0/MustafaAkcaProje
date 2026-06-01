@@ -29,6 +29,7 @@ namespace StudentManagement.Services.Interfaces
         Task<IEnumerable<DonemSelectViewModel>> GetDonemSelectListAsync();
         Task<IEnumerable<OgrenciViewModel>> GetOgrencilerAsync();
         Task<IEnumerable<KullaniciOzetViewModel>> GetOgretmenSelectListAsync();
+        Task<ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>> OgrenciDetayAsync(int ogrenciId);
         Task<ServiceResult> OgrenciDurumGuncelleAsync(int ogrenciId, OgrenciDurum yeniDurum, int userId);
         Task<ServiceResult> OgrenciOlusturAsync(AdminOgrenciOlusturViewModel model, int userId);
         Task<ServiceResult<AdminOgrenciGuncelleViewModel>> GetOgrenciGuncelleAsync(int ogrenciId);

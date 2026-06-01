@@ -173,6 +173,11 @@ public class AdminOgrenciGuncelleViewModel
     [Range(1, 6, ErrorMessage = "Sınıf seviyesi 1-6 arasında olmalıdır.")]
     public int SinifSeviyesi { get; set; } = 1;
 
+    public string? ProfilFotoUrl { get; set; }
+
+    [Display(Name = "Profil Fotoğrafı Yükle")]
+    public Microsoft.AspNetCore.Http.IFormFile? ProfilFotografi { get; set; }
+
     // Dropdown için
     public List<SelectListItem> BolumListesi { get; set; } = new();
 }

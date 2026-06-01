@@ -13,9 +13,13 @@ namespace StudentManagement.Web.Controllers;
 public class OgrenciIsleriPanelController : BaseController
 {
     private readonly IOgrenciIsleriService _service;
+    private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
 
-    public OgrenciIsleriPanelController(IOgrenciIsleriService service)
-        => _service = service;
+    public OgrenciIsleriPanelController(IOgrenciIsleriService service, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
+    {
+        _service = service;
+        _env = env;
+    }
 
     // ═══════════════════════════════════════════════════════════════════════
     // DASHBOARD
@@ -336,6 +340,21 @@ public class OgrenciIsleriPanelController : BaseController
         {
             await PopulateOgrenciGuncelleDropdowns(model);
             return View(model);
+        }
+
+        if (model.ProfilFotografi != null && model.ProfilFotografi.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(_env.WebRootPath, "images", "profiles");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+            
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfilFotografi.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await model.ProfilFotografi.CopyToAsync(fileStream);
+            }
+            model.ProfilFotoUrl = "/images/profiles/" + uniqueFileName;
         }
 
         var result = await _service.OgrenciGuncelleAsync(model, CurrentUserId);

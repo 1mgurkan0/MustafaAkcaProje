@@ -505,6 +505,48 @@ public class AdminService : IAdminService
             .ToListAsync();
     }
 
+    public async Task<ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>> OgrenciDetayAsync(int ogrenciId)
+    {
+        var ogrenci = await _db.Ogrenciler
+            .Include(o => o.Kullanici)
+            .Include(o => o.Bolum)
+            .FirstOrDefaultAsync(o => o.Id == ogrenciId);
+
+        if (ogrenci == null)
+            return ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>.Fail(AppConstants.ErrorMessages.KayitBulunamadi);
+
+        var aktifDersSayisi = await _db.OgrenciDersler
+            .CountAsync(od => od.OgrenciId == ogrenciId
+                           && od.Durum == OgrenciDersDurum.Devam
+                           && od.IsActive);
+
+        var vm = new StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel
+        {
+            OgrenciId = ogrenci.Id,
+            OgrenciNo = ogrenci.OgrenciNo,
+            TamAd = ogrenci.Kullanici!.TamAd,
+            Email = ogrenci.Kullanici.Email,
+            BolumAdi = ogrenci.Bolum?.BolumAdi ?? string.Empty,
+            BolumKodu = ogrenci.Bolum?.BolumKodu ?? string.Empty,
+            Gano = ogrenci.Gano,
+            TamamlananAkts = ogrenci.TamamlananAkts,
+            AktifDersSayisi = aktifDersSayisi,
+            DurumAdi = ogrenci.Durum.ToString(),
+            OgrenciDurumAdi = ogrenci.Durum.ToString(),
+            
+            // Profil Alanları
+            TcKimlikNo = ogrenci.TcKimlikNo,
+            Telefon = ogrenci.Kullanici.Telefon,
+            Cinsiyet = ogrenci.Cinsiyet,
+            DogumTarihi = ogrenci.DogumTarihi,
+            KayitTarihi = ogrenci.KayitTarihi,
+            ProfilFotoUrl = ogrenci.ProfilFotoUrl,
+            KullaniciAdi = ogrenci.Kullanici.KullaniciAdi
+        };
+
+        return ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>.Ok(vm);
+    }
+
     public async Task<ServiceResult> OgrenciDurumGuncelleAsync(int ogrenciId, OgrenciDurum yeniDurum, int userId)
     {
         var ogrenci = await _db.Ogrenciler.FindAsync(ogrenciId);
@@ -624,7 +666,8 @@ public class AdminService : IAdminService
             DogumTarihi = ogrenci.DogumTarihi,
             Cinsiyet = ogrenci.Cinsiyet,
             TcKimlikNo = ogrenci.TcKimlikNo,
-            Telefon = ogrenci.Kullanici.Telefon
+            Telefon = ogrenci.Kullanici.Telefon,
+            ProfilFotoUrl = ogrenci.ProfilFotoUrl
         };
 
         return ServiceResult<AdminOgrenciGuncelleViewModel>.Ok(model);
@@ -669,6 +712,10 @@ public class AdminService : IAdminService
             ogrenci.DogumTarihi = model.DogumTarihi ?? ogrenci.DogumTarihi;
             ogrenci.Cinsiyet = model.Cinsiyet;
             ogrenci.TcKimlikNo = model.TcKimlikNo;
+            if (!string.IsNullOrEmpty(model.ProfilFotoUrl)) 
+            {
+                ogrenci.ProfilFotoUrl = model.ProfilFotoUrl;
+            }
             ogrenci.UpdatedAt = DateTime.UtcNow;
 
             _db.Kullanicilar.Update(ogrenci.Kullanici);

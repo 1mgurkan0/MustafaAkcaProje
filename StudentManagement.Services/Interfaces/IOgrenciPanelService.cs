@@ -15,5 +15,6 @@ namespace StudentManagement.Services.Interfaces
         Task<IEnumerable<DuyuruOlusturViewModel>> GetDuyurularAsync(int ogrenciId, int bolumId);
         Task<SinavTakvimiViewModel> GetSinavTakvimiAsync(int ogrenciId);
         Task<TranskriptViewModel> GetTranskriptAsync(int ogrenciId);
+        Task<ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>> GetProfilAsync(int ogrenciId);
     }
 }

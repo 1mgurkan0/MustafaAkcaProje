@@ -11,7 +11,13 @@ namespace StudentManagement.Web.Controllers;
 public class AdminController : BaseController
 {
     private readonly IAdminService _admin;
-    public AdminController(IAdminService admin) => _admin = admin;
+    private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
+
+    public AdminController(IAdminService admin, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env) 
+    { 
+        _admin = admin; 
+        _env = env; 
+    }
 
     // ── Dashboard ────────────────────────────────────────────────────────────
     public async Task<IActionResult> Dashboard()
@@ -232,6 +238,21 @@ public class AdminController : BaseController
             return View(model);
         }
 
+        if (model.ProfilFotografi != null && model.ProfilFotografi.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(_env.WebRootPath, "images", "profiles");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+            
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfilFotografi.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await model.ProfilFotografi.CopyToAsync(fileStream);
+            }
+            model.ProfilFotoUrl = "/images/profiles/" + uniqueFileName;
+        }
+
         var result = await _admin.OgrenciGuncelleAsync(model, CurrentUserId);
         if (result.IsSuccess)
         {
@@ -250,7 +271,20 @@ public class AdminController : BaseController
         model.BolumListesi = bolumler.Select(b => new SelectListItem(b.DisplayText, b.Id.ToString())).ToList();
     }
 
-    [HttpPost, ValidateAntiForgeryToken]
+    [HttpGet]
+    public async Task<IActionResult> OgrenciDetay(int id)
+    {
+        var result = await _admin.OgrenciDetayAsync(id);
+        if (result == null || result.Data == null)
+        {
+            SetErrorMessage("Öğrenci bulunamadı.");
+            return RedirectToAction(nameof(Ogrenciler));
+        }
+        return View(result.Data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> OgrenciSil(int id)
     {
         var result = await _admin.OgrenciSilAsync(id, CurrentUserId);

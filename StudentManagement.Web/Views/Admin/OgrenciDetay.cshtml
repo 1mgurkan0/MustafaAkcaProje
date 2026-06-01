@@ -1,16 +1,15 @@
-@model StudentManagement.Services.ViewModels.OgrenciIsleri.OgrenciDetayViewModel
+@model StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel
 @{
     ViewData["Title"] = "Öğrenci Profili";
-    ViewData["Breadcrumb"] = "Öğrenci Ara / " + Model.AdSoyad;
+    ViewData["Breadcrumb"] = "Öğrenciler / " + Model.TamAd;
     var defaultAvatar = "/images/default-avatar.png"; 
     var avatarUrl = string.IsNullOrEmpty(Model.ProfilFotoUrl) ? defaultAvatar : Model.ProfilFotoUrl;
 
     var durumCls = "badge-secondary";
-    var durumString = Model.Durum.ToString();
-    if (durumString == "Aktif") durumCls = "badge-success";
-    else if (durumString == "Dondurulmus") durumCls = "badge-warning";
-    else if (durumString == "Mezun") durumCls = "badge-info";
-    else if (durumString == "IliskiKesik") durumCls = "badge-danger";
+    if (Model.OgrenciDurumAdi == "Aktif") durumCls = "badge-success";
+    else if (Model.OgrenciDurumAdi == "Dondurulmus") durumCls = "badge-warning";
+    else if (Model.OgrenciDurumAdi == "Mezun") durumCls = "badge-info";
+    else if (Model.OgrenciDurumAdi == "IliskiKesik") durumCls = "badge-danger";
 }
 
 @section Styles {
@@ -149,10 +148,10 @@
         <p class="page-subtitle">@Model.OgrenciNo numaralı öğrencinin detaylı bilgileri.</p>
     </div>
     <div style="display: flex; gap: 10px;">
-        <a href="@Url.Action("OgrenciAra", "OgrenciIsleriPanel")" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left"></i> Geri Dön
+        <a href="@Url.Action("Ogrenciler", "Admin")" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Listeye Dön
         </a>
-        <a href="@Url.Action("OgrenciGuncelle", "OgrenciIsleriPanel", new { id = Model.OgrenciId })" class="btn btn-primary">
+        <a href="@Url.Action("OgrenciGuncelle", "Admin", new { id = Model.OgrenciId })" class="btn btn-primary">
             <i class="fas fa-edit"></i> Profili Düzenle
         </a>
     </div>
@@ -166,11 +165,11 @@
             <div class="profile-avatar-container">
                 <img src="@avatarUrl" alt="Profil Fotoğrafı" class="profile-avatar" />
                 <div class="profile-main-info">
-                    <h1 class="profile-name">@Model.AdSoyad</h1>
+                    <h1 class="profile-name">@Model.TamAd</h1>
                     <p class="profile-bolum">@Model.BolumAdi</p>
                     <div class="profile-badges">
                         <span class="badge badge-primary" style="padding: 0.6em 1em; font-size: 0.85rem;"><i class="fas fa-id-badge mr-1"></i> @Model.OgrenciNo</span>
-                        <span class="badge @durumCls" style="padding: 0.6em 1em; font-size: 0.85rem;">@durumString</span>
+                        <span class="badge @durumCls" style="padding: 0.6em 1em; font-size: 0.85rem;">@Model.OgrenciDurumAdi</span>
                         <span class="badge badge-dark" style="padding: 0.6em 1em; font-size: 0.85rem;">Kullanıcı: @Model.KullaniciAdi</span>
                     </div>
                 </div>
@@ -240,8 +239,8 @@
             <div class="info-box">
                 <div class="info-box-icon"><i class="fas fa-book-open"></i></div>
                 <div class="info-box-content">
-                    <h5>Sınıf Seviyesi</h5>
-                    <p>@Model.SinifSeviyesi. Sınıf</p>
+                    <h5>Aktif Ders Sayısı</h5>
+                    <p>@Model.AktifDersSayisi Ders</p>
                 </div>
             </div>
             <!-- Kayıt Tarihi -->
