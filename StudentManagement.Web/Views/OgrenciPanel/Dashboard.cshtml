@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<div style="display:grid; grid-template-columns:2fr 1fr; gap:20px;">
+<div class="content-grid-2-1" style="margin-top:20px;">
 
     <!-- Aktif Dersler -->
     <div class="card">
@@ -60,6 +60,7 @@
         <div class="card-body" style="padding:0;">
             @if (Model.AktifDersler?.Any() == true)
             {
+                <div class="table-responsive">
                 <table class="ubys-table">
                     <thead>
                         <tr><th>Ders</th><th>Öğretmen</th><th>Gün/Saat</th><th>Durum</th></tr>
@@ -84,6 +85,7 @@
                         }
                     </tbody>
                 </table>
+                </div>
             }
             else
             {

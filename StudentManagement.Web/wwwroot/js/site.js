@@ -64,11 +64,24 @@ const SMS = (() => {
             }
         });
 
-        // Mobil overlay
+        // Mobil overlay tıklaması
         const overlay = document.getElementById("sidebarOverlay");
         if (overlay) {
             overlay.addEventListener("click", () => SMS.sidebar.close());
         }
+
+        // Sidebar linklere tıklanınca otomatik kapat (mobil UX)
+        document.querySelectorAll(".sidebar-link, .sidebar-logout").forEach(link => {
+            link.addEventListener("click", () => {
+                // Küçük ekranlarda her zaman kapat
+                SMS.sidebar.close();
+            });
+        });
+
+        // Escape tuşuyla kapat
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") SMS.sidebar.close();
+        });
     }
 
     function _initTopbarToggle() {

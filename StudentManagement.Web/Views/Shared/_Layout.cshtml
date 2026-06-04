@@ -303,18 +303,5 @@
 
 @await RenderSectionAsync("Scripts", required: false)
 
-<script>
-    // Mobil: overlay display'ini toggle'a bağla
-    (function () {
-        const overlay = document.getElementById("sidebarOverlay");
-        const sidebar = document.getElementById("appSidebar");
-        if (!overlay || !sidebar) return;
-
-        const observer = new MutationObserver(() => {
-            overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
-        });
-        observer.observe(sidebar, { attributes: true, attributeFilter: ["class"] });
-    })();
-</script>
 </body>
 </html>

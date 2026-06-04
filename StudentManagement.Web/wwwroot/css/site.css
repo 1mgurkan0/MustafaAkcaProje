@@ -108,9 +108,11 @@ img { max-width: 100%; }
     flex-direction: column;
     position: fixed;
     left: 0; top: 0;
-    z-index: 1000;
-    transition: var(--transition-slow);
+    z-index: 1050;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
+    /* Her zaman kapalı başlar, hamburger ile açılır */
+    transform: translateX(-100%);
 }
 
 /* Sidebar Brand */
@@ -272,6 +274,9 @@ img { max-width: 100%; }
 .sidebar-logout:hover { background: var(--color-danger-bg); color: var(--color-danger); }
 .sidebar-logout i { width: 18px; text-align: center; }
 
+/* Sidebar açık hali */
+.sidebar.open { transform: translateX(0); }
+
 /* Sidebar Overlay */
 .sidebar-overlay {
     position: fixed;
@@ -287,9 +292,10 @@ img { max-width: 100%; }
     pointer-events: all;
 }
 
-/* ─── 5. MAIN CONTENT ───────────────────────────────────────── */
+/* ─── 5. MAIN CONTENT ─────────────────────────────────────────── */
 .main-content {
-    margin-left: var(--sidebar-width);
+    /* Sidebar artık drawer tarzı olduğundan margin-left kaldırıldı */
+    margin-left: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -320,7 +326,9 @@ img { max-width: 100%; }
     cursor: pointer;
     padding: 6px;
     border-radius: 6px;
-    display: none; /* Desktop'ta gizli, sadece mobilde gösterilecek */
+    display: flex; /* Her zaman görünür - hamburger her zaman aktif */
+    align-items: center;
+    justify-content: center;
     transition: var(--transition);
 }
 .topbar-toggle:hover { background: var(--color-gray-100); color: var(--color-gray-800); }
@@ -1143,26 +1151,44 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     margin: 16px 0;
 }
 
-/* ─── 24. RESPONSIVE ────────────────────────────────────────── */
+/* ─── 23b. RESPONSIVE GRID UTILITIES ────────────────────────────── */
+.content-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.content-grid-2-1 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+.content-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+.content-grid-3-wide {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 20px;
+}
+
+/* ─── 24. RESPONSIVE ────────────────────────────────────────────── */
 @media (max-width: 1200px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .form-row-4 { grid-template-columns: repeat(2, 1fr); }
+    .content-grid-3, .content-grid-3-wide { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 1024px) {
-    .sidebar { 
-        transform: translateX(-100%); /* Başlangıçta gizli */
-        z-index: 1050; /* Üstte kalsın */
-    }
-    .sidebar.open { transform: translateX(0); } /* Hamburger açılınca gelir */
-    .main-content { margin-left: 0; }
-    .topbar-toggle { display: flex; } /* Sadece mobilde hamburger butonu görünür */
+    /* Sidebar zaten her zaman drawer modunda, burada sadece auth sayfaları */
     .auth-left { display: none; }
     .auth-right { width: 100%; max-width: 600px; margin: 0 auto; }
 }
 
 @media (max-width: 768px) {
     .form-row, .form-row-3, .form-row-4 { grid-template-columns: 1fr; }
+    .content-grid-2, .content-grid-2-1, .content-grid-3, .content-grid-3-wide { grid-template-columns: 1fr; }
     .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
     .page-actions { width: 100%; display: grid; grid-template-columns: 1fr; gap: 8px; }
     .page-actions .btn { width: 100%; justify-content: center; }
@@ -1170,6 +1196,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     .table-search { max-width: 100%; }
     .table-actions { flex-wrap: wrap; }
     .table-actions .btn { flex: 1; justify-content: center; }
+    .table-search-modern { width: 100% !important; max-width: 100% !important; }
 }
 
 @media (max-width: 640px) {
