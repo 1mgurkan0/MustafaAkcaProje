@@ -2,7 +2,18 @@
 @{
     Layout = null;
     var requestId = System.Diagnostics.Activity.Current?.Id ?? Context.TraceIdentifier;
-    var code = Context.Response.StatusCode;
+    
+    // Parse the actual intended status code from ViewData if provided, otherwise fallback to Context
+    var code = 500;
+    if (ViewData["StatusCode"] != null && int.TryParse(ViewData["StatusCode"]?.ToString(), out var parsed))
+    {
+        code = parsed;
+    }
+    else
+    {
+        code = Context.Response.StatusCode == 200 ? 500 : Context.Response.StatusCode;
+    }
+    
     var (icon, title, subtitle) = code switch {
         404 => ("fa-compass", "Sayfa Bulunamadı", "Aradığınız sayfa mevcut değil veya taşınmış olabilir."),
         403 => ("fa-lock", "Erişim Reddedildi", "Bu sayfayı görüntülemek için yetkiniz bulunmamaktadır."),
