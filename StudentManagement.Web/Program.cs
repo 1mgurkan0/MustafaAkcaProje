@@ -51,17 +51,16 @@ try
 
     var app = builder.Build();
 
+    // Hata ayıklamak için geçici olarak her ortamda detaylı hata gösteriyoruz:
+    app.UseDeveloperExceptionPage();
+    
     if (!app.Environment.IsDevelopment())
     {
-        app.UseExceptionHandler("/Error/ServerError");
+        // app.UseExceptionHandler("/Error/ServerError");
         app.UseHsts();
     }
-    else
-    {
-        app.UseDeveloperExceptionPage();
-    }
 
-    app.UseMiddleware<StudentManagement.Web.Middlewares.GlobalExceptionMiddleware>();
+    // app.UseMiddleware<StudentManagement.Web.Middlewares.GlobalExceptionMiddleware>();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();
