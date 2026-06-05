@@ -44,14 +44,9 @@ dotnet run --project StudentManagement.Web
 
 *Not: Uygulama ilk kez ayağa kalktığında Code-First yapısı gereği veritabanınızı otomatik olarak oluşturacak (Migrate) ve varsayılan test/örnek verilerini (Seed) içeri aktaracaktır.*
 
-## 🔐 Varsayılan Giriş Bilgileri
+## 🔐 İlk Kurulum ve Güvenlik
 
-Sistem ilk kurulduğunda otomatik oluşan Admin hesabı:
-
-- **Kullanıcı Adı:** `admin`
-- **Şifre:** `Admin123!!`
-
-*(Üretime (Production) almadan önce varsayılan şifreleri değiştirmeniz şiddetle tavsiye edilir.)*
+Sistem ilk ayağa kalktığında `DataSeeder` vasıtasıyla boş veritabanını gerekli temel verilerle (Bölümler, Dönemler) doldurur. İlk sistem yöneticisi (Admin) hesabının giriş bilgileri sistem kurulumunu yapan yetkiliye özeldir ve güvenlik politikaları gereği burada paylaşılmamaktadır. İlk kurulum sonrası admin hesabı bilgilerini veritabanı `Kullanicilar` tablosundan kontrol edebilir ve şifreyi derhal değiştirmelisiniz.
 
 ## 📱 Ekran Görüntüleri ve Mobil Uyumluluk
 
