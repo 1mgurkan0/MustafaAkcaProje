@@ -88,22 +88,6 @@ try
             await DataSeeder.SeedAsync(db);
             logger.LogInformation("Veritabanı hazır.");
 
-                // Test hesaplarını logla
-                var testOgrenciler = await db.Kullanicilar
-                    .Where(k => k.Rol == StudentManagement.Core.Enums.KullaniciRol.Ogrenci && k.IsActive)
-                    .Take(3)
-                    .Select(k => k.KullaniciAdi)
-                    .ToListAsync();
-                if (testOgrenciler.Any())
-                {
-                    logger.LogInformation("═══ TEST HESAPLARI ═══");
-                    logger.LogInformation("Admin: admin / Admin123!!");
-                    logger.LogInformation("Öğretmen: ahmet.yilmaz / Ogretmen@123");
-                    foreach (var ogrKulAdi in testOgrenciler)
-                        logger.LogInformation("Öğrenci: {Username} / Ogrenci@123", ogrKulAdi);
-                    logger.LogInformation("Öğr.İşleri: ogr.isleri1 / OgrIsleri@123");
-                    logger.LogInformation("═══════════════════════");
-                }
         }
         catch (Exception ex)
         {

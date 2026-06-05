@@ -1,0 +1,103 @@
+[2026-06-05 09:28:06 INF] UBYS başlatılıyor...
+[2026-06-05 09:28:07 INF] Veritabanı migrate ediliyor...
+[2026-06-05 09:28:07 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-06-05 09:28:08 INF] Seed verisi kontrol ediliyor...
+[2026-06-05 09:28:08 INF] Veritabanı hazır.
+[2026-06-05 09:28:08 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-06-05 09:28:08 INF] ═══ TEST HESAPLARI ═══
+[2026-06-05 09:28:08 INF] Admin: admin / Admin123!!
+[2026-06-05 09:28:08 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-06-05 09:28:08 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-06-05 09:28:08 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-06-05 09:28:08 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-06-05 09:28:08 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-06-05 09:28:08 INF] ═══════════════════════
+[2026-06-05 09:28:08 INF] UBYS çalışıyor → http://localhost:5000
+[2026-06-05 09:28:09 INF] Now listening on: https://localhost:57138
+[2026-06-05 09:28:09 INF] Now listening on: http://localhost:57139
+[2026-06-05 09:28:09 INF] Application started. Press Ctrl+C to shut down.
+[2026-06-05 09:28:09 INF] Hosting environment: Development
+[2026-06-05 09:28:09 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-06-05 09:28:29 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-06-05 09:36:18 INF] UBYS başlatılıyor...
+[2026-06-05 09:36:18 INF] Veritabanı migrate ediliyor...
+[2026-06-05 09:36:19 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-06-05 09:36:19 INF] Seed verisi kontrol ediliyor...
+[2026-06-05 09:36:20 INF] Veritabanı hazır.
+[2026-06-05 09:36:20 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-06-05 09:36:20 INF] ═══ TEST HESAPLARI ═══
+[2026-06-05 09:36:20 INF] Admin: admin / Admin123!!
+[2026-06-05 09:36:20 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-06-05 09:36:20 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-06-05 09:36:20 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-06-05 09:36:20 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-06-05 09:36:20 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-06-05 09:36:20 INF] ═══════════════════════
+[2026-06-05 09:36:20 INF] UBYS çalışıyor → http://localhost:5000
+[2026-06-05 09:36:20 INF] Now listening on: https://localhost:57138
+[2026-06-05 09:36:20 INF] Now listening on: http://localhost:57139
+[2026-06-05 09:36:20 INF] Application started. Press Ctrl+C to shut down.
+[2026-06-05 09:36:20 INF] Hosting environment: Development
+[2026-06-05 09:36:20 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-06-05 09:36:20 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-06-05 09:36:30 INF] Giriş başarılı: admin [Admin]
+[2026-06-05 09:44:04 INF] Application is shutting down...
+[2026-06-05 09:44:08 INF] UBYS başlatılıyor...
+[2026-06-05 09:44:08 INF] Veritabanı migrate ediliyor...
+[2026-06-05 09:44:09 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-06-05 09:44:09 INF] Seed verisi kontrol ediliyor...
+[2026-06-05 09:44:10 INF] Veritabanı hazır.
+[2026-06-05 09:44:10 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-06-05 09:44:10 INF] ═══ TEST HESAPLARI ═══
+[2026-06-05 09:44:10 INF] Admin: admin / Admin123!!
+[2026-06-05 09:44:10 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-06-05 09:44:10 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-06-05 09:44:10 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-06-05 09:44:10 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-06-05 09:44:10 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-06-05 09:44:10 INF] ═══════════════════════
+[2026-06-05 09:44:10 INF] UBYS çalışıyor → http://localhost:5000
+[2026-06-05 09:44:10 INF] Now listening on: https://localhost:57138
+[2026-06-05 09:44:10 INF] Now listening on: http://localhost:57139
+[2026-06-05 09:44:10 INF] Application started. Press Ctrl+C to shut down.
+[2026-06-05 09:44:10 INF] Hosting environment: Development
+[2026-06-05 09:44:10 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-06-05 09:44:30 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-06-05 09:44:39 INF] Giriş başarılı: admin [Admin]
+[2026-06-05 09:46:13 INF] Çıkış yapıldı: admin
+[2026-06-05 09:48:29 INF] UBYS başlatılıyor...
+[2026-06-05 09:48:29 INF] Veritabanı migrate ediliyor...
+[2026-06-05 09:48:29 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-06-05 09:48:30 INF] Seed verisi kontrol ediliyor...
+[2026-06-05 09:48:30 INF] Veritabanı hazır.
+[2026-06-05 09:48:30 WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+[2026-06-05 09:48:30 INF] ═══ TEST HESAPLARI ═══
+[2026-06-05 09:48:30 INF] Admin: admin / Admin123!!
+[2026-06-05 09:48:30 INF] Öğretmen: ahmet.yilmaz / Ogretmen@123
+[2026-06-05 09:48:30 INF] Öğrenci: ercan.yildiz001 / Ogrenci@123
+[2026-06-05 09:48:30 INF] Öğrenci: gokhan.ciftci002 / Ogrenci@123
+[2026-06-05 09:48:30 INF] Öğrenci: deniz.sahin003 / Ogrenci@123
+[2026-06-05 09:48:30 INF] Öğr.İşleri: ogr.isleri1 / OgrIsleri@123
+[2026-06-05 09:48:30 INF] ═══════════════════════
+[2026-06-05 09:48:30 INF] UBYS çalışıyor → http://localhost:5000
+[2026-06-05 09:48:30 INF] Now listening on: https://localhost:57138
+[2026-06-05 09:48:30 INF] Now listening on: http://localhost:57139
+[2026-06-05 09:48:30 INF] Application started. Press Ctrl+C to shut down.
+[2026-06-05 09:48:30 INF] Hosting environment: Development
+[2026-06-05 09:48:30 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-06-05 09:48:33 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-06-05 09:48:41 INF] Giriş başarılı: admin [Admin]
+[2026-06-05 09:48:44 INF] Çıkış yapıldı: admin
+[2026-06-05 10:06:07 INF] UBYS başlatılıyor...
+[2026-06-05 10:06:07 INF] Veritabanı migrate ediliyor...
+[2026-06-05 10:06:08 WRN] Entity 'Duyuru' has a global query filter defined and is the required end of a relationship with the entity 'DuyuruOkuma'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+[2026-06-05 10:06:09 INF] Seed verisi kontrol ediliyor...
+[2026-06-05 10:06:09 INF] Veritabanı hazır.
+[2026-06-05 10:06:09 INF] UBYS çalışıyor → http://localhost:5000
+[2026-06-05 10:06:09 INF] Now listening on: https://localhost:57138
+[2026-06-05 10:06:09 INF] Now listening on: http://localhost:57139
+[2026-06-05 10:06:09 INF] Application started. Press Ctrl+C to shut down.
+[2026-06-05 10:06:09 INF] Hosting environment: Development
+[2026-06-05 10:06:09 INF] Content root path: C:\Users\muham\OneDrive\Desktop\StudentManagementSystem\StudentManagement.Web
+[2026-06-05 10:06:13 WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+[2026-06-05 10:07:03 INF] Application is shutting down...

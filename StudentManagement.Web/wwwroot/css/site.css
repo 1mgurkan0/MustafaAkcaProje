@@ -78,7 +78,13 @@
 /* ─── 2. RESET & BASE ───────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { font-size: 15px; scroll-behavior: smooth; }
+html {
+    font-size: 15px;
+    scroll-behavior: smooth;
+    /* Mobilde tüm metin otomatik olarak %93'e küçülür */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
 
 body {
     font-family: var(--font-primary);
@@ -1041,10 +1047,11 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     justify-content: center;
     padding: 20px;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity .2s;
+    transition: opacity .2s, visibility .2s;
 }
-.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal-overlay.show { opacity: 1; visibility: visible; pointer-events: all; }
 
 .modal-box {
     background: white;
@@ -1197,16 +1204,35 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     .table-actions { flex-wrap: wrap; }
     .table-actions .btn { flex: 1; justify-content: center; }
     .table-search-modern { width: 100% !important; max-width: 100% !important; }
+    /* Mobilde font biraz küçültülür — içerik daha geniş görünür */
+    html { font-size: 14px; }
+    .topbar { height: 54px; padding: 0 16px; }
+    .page-content { padding: 16px; }
+    .card { border-radius: 10px; }
+    .stat-card { padding: 14px 16px; gap: 12px; }
+    .stat-value { font-size: 1.6rem; }
 }
 
 @media (max-width: 640px) {
-    .page-content { padding: 16px; }
-    .stat-grid { grid-template-columns: 1fr; }
-    .auth-right { padding: 32px 24px; }
+    html { font-size: 13px; }
+    .page-content { padding: 12px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; } /* 640px altında 2 kolon, daha fazla sığar */
+    .auth-right { padding: 28px 20px; }
     .topbar-breadcrumb { display: none; }
-    .card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .card-header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .card-actions { width: 100%; display: grid; grid-template-columns: 1fr; gap: 8px; }
     .card-actions .btn { width: 100%; justify-content: center; }
+    .stat-value { font-size: 1.4rem; }
+    .stat-label { font-size: 0.72rem; }
+    .topbar { height: 50px; }
+    .card { border-radius: 8px; }
+}
+
+@media (max-width: 400px) {
+    html { font-size: 12.5px; }
+    .page-content { padding: 10px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .stat-card { padding: 10px 12px; }
 }
 
 /* ─── 25. PRINT ─────────────────────────────────────────────── */

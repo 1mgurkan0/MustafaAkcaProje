@@ -35,16 +35,9 @@ public class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
     {
-        Console.WriteLine("\n\n==========================================");
-        Console.WriteLine($"[DEBUG] LOGIN POST İSTEĞİ GELDİ! KULLANICI: {model.KullaniciAdi}");
-        Console.WriteLine("==========================================\n\n");
-
-        TempData["DebugMessage"] = $"POST İsteği Ulaştı: {model.KullaniciAdi}. ";
-
         if (!ModelState.IsValid)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-            TempData["DebugMessage"] += "HATA: Form eksik veya geçersiz! -> " + string.Join(", ", errors);
             ModelState.AddModelError(string.Empty, "Lütfen alanları eksiksiz doldurun: " + string.Join(", ", errors));
             return View(model);
         }
@@ -53,13 +46,10 @@ public class AuthController : Controller
 
         if (!result.IsSuccess)
         {
-            TempData["DebugMessage"] += "GİRİŞ BAŞARISIZ: " + result.Message;
             ModelState.AddModelError(string.Empty, "Giriş Başarısız: " + result.Message);
             _logger.LogWarning("Başarısız giriş: {Username} - Neden: {Reason}", model.KullaniciAdi, result.Message);
             return View(model);
         }
-
-        TempData["DebugMessage"] += "GİRİŞ BAŞARILI! Yönlendiriliyor...";
 
         // Session'a yaz
         HttpContext.Session.SetInt32(AppConstants.Session.UserId,    result.Data!.UserId);
@@ -88,6 +78,7 @@ public class AuthController : Controller
             _                                  => Redirect(AppConstants.Routes.Login)
         };
     }
+
 
     // ─── GET Register ─────────────────────────────────────────────────────────
     [HttpGet]
