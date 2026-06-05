@@ -14,7 +14,6 @@ public class OgretmenPanelController : BaseController
 
     public async Task<IActionResult> Dashboard() => View(await _service.GetDashboardAsync(CurrentUserId));
 
-    // HATA VEREN METOT: PARAMETREYİ KALDIRDIK
     public async Task<IActionResult> Derslerim() => View(await _service.GetDerslerimAsync(CurrentUserId));
 
     public async Task<IActionResult> DersDetay(int id)

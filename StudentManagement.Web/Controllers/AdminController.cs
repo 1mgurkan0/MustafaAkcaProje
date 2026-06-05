@@ -19,11 +19,9 @@ public class AdminController : BaseController
         _env = env; 
     }
 
-    // ── Dashboard ────────────────────────────────────────────────────────────
     public async Task<IActionResult> Dashboard()
         => View(await _admin.GetDashboardAsync());
 
-    // ── Bölüm ────────────────────────────────────────────────────────────────
     public async Task<IActionResult> Bolumler()
         => View(await _admin.GetBolumlerAsync());
 
@@ -62,7 +60,6 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Bolumler));
     }
 
-    // ── Dönem ────────────────────────────────────────────────────────────────
     public async Task<IActionResult> Donemler() => View(await _admin.GetDonemlerAsync());
 
     [HttpGet]
@@ -112,7 +109,6 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Donemler));
     }
 
-    // ── Ders Atama ────────────────────────────────────────────────────────────
     public async Task<IActionResult> DersAtamalar(int? donemId)
         => View(await _admin.GetDersAtamalarAsync());
 
@@ -165,16 +161,12 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(DersAtamalar));
     }
 
-    // ════════════════════════════════════════════════════════════════════════
-    // ÖĞRENCİLER
-    // ════════════════════════════════════════════════════════════════════════
     public async Task<IActionResult> Ogrenciler(string? arama, int? bolumId, int? sinif)
-        => View(await _admin.GetOgrencilerAsync()); // Interface parametre almadığı için içini boşalttık
+        => View(await _admin.GetOgrencilerAsync());
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> OgrenciDurumGuncelle(AdminOgrenciDurumViewModel model)
     {
-        // View modelindeki property ismine göre model.OgrenciId ve model.YeniDurum eşleşmeli
         try { await _admin.OgrenciDurumGuncelleAsync(model.OgrenciId, model.YeniDurum, CurrentUserId); SetSuccessMessage("Öğrenci durumu güncellendi."); }
         catch (Exception ex) { SetErrorMessage(ex.Message); }
         return RedirectToAction(nameof(Ogrenciler));
@@ -299,11 +291,8 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Ogrenciler));
     }
 
-    // ════════════════════════════════════════════════════════════════════════
-    // DERS KATALOĞU
-    // ════════════════════════════════════════════════════════════════════════
     public async Task<IActionResult> DersKatalogu(string? arama, int? bolumId)
-        => View(await _admin.GetDersKataloguAsync()); // Interface parametre almadığı için içini boşalttık
+        => View(await _admin.GetDersKataloguAsync());
 
     [HttpGet]
     public async Task<IActionResult> DersOlustur()

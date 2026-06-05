@@ -26,7 +26,7 @@ public class OgrenciDersConfiguration : IEntityTypeConfiguration<OgrenciDers>
         builder.Property(od => od.HarfNotu).HasConversion<int>();
         builder.Property(od => od.RedNedeni).HasMaxLength(500);
 
-        // ── İlişkiler ─────────────────────────────────────────────────────────
+        // İlişkiler
         builder.HasOne(od => od.Ogrenci)
                .WithMany(o => o.OgrenciDersler)
                .HasForeignKey(od => od.OgrenciId)

@@ -3,7 +3,7 @@ using StudentManagement.Services.ViewModels.Admin;
 
 namespace StudentManagement.Services.Validators.Admin;
 
-// ─── BÖLÜM ──────────────────────────────────────────────────────────────────
+// BÖLÜM
 public class BolumOlusturValidator : AbstractValidator<BolumOlusturViewModel>
 {
     public BolumOlusturValidator()
@@ -42,7 +42,7 @@ public class BolumDuzenleValidator : AbstractValidator<BolumDuzenleViewModel>
     }
 }
 
-// ─── DÖNEM ──────────────────────────────────────────────────────────────────
+// DÖNEM
 public class DonemOlusturValidator : AbstractValidator<DonemOlusturViewModel>
 {
     public DonemOlusturValidator()
@@ -87,7 +87,7 @@ public class DonemDuzenleValidator : AbstractValidator<DonemDuzenleViewModel>
     }
 }
 
-// ─── DERS (Katalog) ──────────────────────────────────────────────────────────
+// DERS (Katalog)
 public class DersOlusturValidator : AbstractValidator<DersOlusturViewModel>
 {
     public DersOlusturValidator()
@@ -130,7 +130,7 @@ public class DersDuzenleValidator : AbstractValidator<DersDuzenleViewModel>
     }
 }
 
-// ─── DERS ATAMA ──────────────────────────────────────────────────────────────
+// DERS ATAMA
 public class DersAtamaOlusturValidator : AbstractValidator<DersAtamaOlusturViewModel>
 {
     public DersAtamaOlusturValidator()

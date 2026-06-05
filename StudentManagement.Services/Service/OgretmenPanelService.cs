@@ -27,7 +27,7 @@ public class OgretmenPanelService : IOgretmenPanelService
         _logger = logger;
     }
 
-    // ─── DASHBOARD ────────────────────────────────────────────────────────────
+    // DASHBOARD
     public async Task<OgretmenDashboardViewModel> GetDashboardAsync(int ogretmenId)
     {
         var ogretmen = await _db.Kullanicilar.FindAsync(ogretmenId);
@@ -87,7 +87,7 @@ public class OgretmenPanelService : IOgretmenPanelService
         };
     }
 
-    // ─── DERSLERİM ────────────────────────────────────────────────────────────
+    // DERSLERİM
     public async Task<IEnumerable<DersAtamaOzetViewModel>> GetDerslerimAsync(int ogretmenId)
     {
         var aktifDonem = await _db.Donemler.FirstOrDefaultAsync(d => d.AktifMi && d.IsActive);
@@ -116,7 +116,7 @@ public class OgretmenPanelService : IOgretmenPanelService
             .ToListAsync();
     }
 
-    // ─── DERS DETAY ───────────────────────────────────────────────────────────
+    // DERS DETAY
     public async Task<ServiceResult<DersDetayViewModel>> GetDersDetayAsync(int dersAtamaId, int ogretmenId)
     {
         var da = await _db.DersAtamalar
@@ -146,7 +146,6 @@ public class OgretmenPanelService : IOgretmenPanelService
             })
             .ToListAsync();
 
-        // Devam yüzdelerini hesapla
         var toplamYoklama = await _db.Yoklamalar
             .CountAsync(y => y.DersAtamaId == dersAtamaId && y.IsActive);
 
@@ -178,7 +177,7 @@ public class OgretmenPanelService : IOgretmenPanelService
         return ServiceResult<DersDetayViewModel>.Ok(vm);
     }
 
-    // ─── NOT GİR ─────────────────────────────────────────────────────────────
+    // NOT GİR
     public async Task<ServiceResult<NotGirViewModel>> GetNotGirAsync(int dersAtamaId, int ogretmenId)
     {
         var da = await _db.DersAtamalar
@@ -220,7 +219,6 @@ public class OgretmenPanelService : IOgretmenPanelService
 
     public async Task<ServiceResult> NotKaydetAsync(NotGirViewModel model, int ogretmenId)
     {
-        // Öğretmen bu derse atanmış mı?
         var daVarMi = await _db.DersAtamalar
             .AnyAsync(da => da.Id == model.DersAtamaId && da.OgretmenId == ogretmenId && da.IsActive);
 
@@ -236,16 +234,13 @@ public class OgretmenPanelService : IOgretmenPanelService
 
                 od.VizeNotu = satir.VizeNotu;
                 od.FinalNotu = satir.FinalNotu;
-                // Büt 0 veya boş girilmişse null kabul et — sadece >0 ise geçerli
                 od.ButunlemeNotu = (satir.ButunlemeNotu.HasValue && satir.ButunlemeNotu.Value > 0)
                     ? satir.ButunlemeNotu
                     : null;
                 od.UpdatedAt = DateTime.UtcNow;
                 od.UpdatedBy = ogretmenId;
 
-                // Genel not hesapla:
-                // Büt girilmişse (>0) → Vize*0.40 + Büt*0.60
-                // Büt girilmemişse    → Vize*0.40 + Final*0.60
+
                 var butGecerli = od.ButunlemeNotu.HasValue && od.ButunlemeNotu.Value > 0;
                 var gecerliSonSinav = butGecerli ? od.ButunlemeNotu : satir.FinalNotu;
 
@@ -263,7 +258,6 @@ public class OgretmenPanelService : IOgretmenPanelService
             await _audit.WriteAsync(ogretmenId, AuditAction.NotGir, "OgrenciDers",
                 model.DersAtamaId, aciklama: $"Not girişi: {model.Notlar.Count} öğrenci");
 
-            // GANO güncelle (arka planda)
             await GanoGuncelleAsync(model.DersAtamaId);
 
             return ServiceResult.Ok();
@@ -276,7 +270,7 @@ public class OgretmenPanelService : IOgretmenPanelService
         }
     }
 
-    // ─── YOKLAMA ─────────────────────────────────────────────────────────────
+    // YOKLAMA
     public async Task<ServiceResult<YoklamaGirViewModel>> GetYoklamaGirAsync(int dersAtamaId, int ogretmenId)
     {
         var da = await _db.DersAtamalar
@@ -319,7 +313,6 @@ public class OgretmenPanelService : IOgretmenPanelService
         if (model.YoklamaTarihi.Year < 2000)
             return ServiceResult.Fail("Geçerli bir yoklama tarihi giriniz.");
 
-        // Aynı gün için yoklama var mı?
         var targetDate = model.YoklamaTarihi.Date;
         var nextDate = targetDate.AddDays(1);
 
@@ -351,14 +344,12 @@ public class OgretmenPanelService : IOgretmenPanelService
             }
             else
             {
-                // Eski yoklama kayıtlarını temizle
                 var eskiler = _db.OgrenciYoklamalar
                     .Where(oy => oy.YoklamaId == mevcutYoklama.Id);
                 _db.OgrenciYoklamalar.RemoveRange(eskiler);
                 yoklamaId = mevcutYoklama.Id;
             }
 
-            // Öğrenci yoklama kayıtları
             foreach (var ogr in model.OgrenciListesi)
             {
                 _db.OgrenciYoklamalar.Add(new OgrenciYoklama
@@ -383,7 +374,7 @@ public class OgretmenPanelService : IOgretmenPanelService
         }
     }
 
-    // ─── SINAVLAR ────────────────────────────────────────────────────────────
+    // SINAVLAR
     public async Task<SinavlarViewModel> GetSinavlarAsync(int ogretmenId)
     {
         var sinavlar = await _db.Sinavlar
@@ -407,7 +398,6 @@ public class OgretmenPanelService : IOgretmenPanelService
 
     public async Task<ServiceResult> SinavEkleAsync(SinavEkleViewModel model, int ogretmenId)
     {
-        // Öğretmen bu derse atanmış mı?
         var daVarMi = await _db.DersAtamalar
             .AnyAsync(da => da.Id == model.DersAtamaId && da.OgretmenId == ogretmenId && da.IsActive);
 
@@ -438,7 +428,7 @@ public class OgretmenPanelService : IOgretmenPanelService
         return ServiceResult.Ok();
     }
 
-    // ─── DUYURU ──────────────────────────────────────────────────────────────
+    // DUYURU
     public async Task<ServiceResult> DuyuruYayinlaAsync(DuyuruOlusturViewModel model, int ogretmenId)
     {
         var duyuru = _mapper.Map<Duyuru>(model);
@@ -484,7 +474,7 @@ public class OgretmenPanelService : IOgretmenPanelService
             .ToListAsync();
     }
 
-    // ─── SELECT LIST ─────────────────────────────────────────────────────────
+    // SELECT LIST
     public async Task<IEnumerable<DersSelectViewModel>> GetDersAtamaSelectListAsync(int ogretmenId)
     {
         var aktifDonem = await _db.Donemler.FirstOrDefaultAsync(d => d.AktifMi && d.IsActive);
@@ -501,7 +491,7 @@ public class OgretmenPanelService : IOgretmenPanelService
             .ToListAsync();
     }
 
-    // ─── PRIVATE: Harf Notu + GANO ────────────────────────────────────────────
+    // PRIVATE
     private static HarfNotu HesaplaHarfNotu(decimal genel)
     {
         double g = (double)genel;

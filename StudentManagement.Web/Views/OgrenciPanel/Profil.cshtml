@@ -166,7 +166,7 @@
 </div>
 
 <div class="profile-container">
-    <!-- Üst Profil Kartı -->
+
     <div style="filter: drop-shadow(0 10px 40px rgba(0,0,0,0.08)); margin-bottom: 2rem;">
         <div class="profile-header-banner"></div>
         <div class="profile-card" style="box-shadow:none;">
@@ -184,7 +184,7 @@
             </div>
 
             <div class="info-grid">
-                <!-- E-Posta -->
+
                 <div class="info-box">
                     <div class="info-box-icon"><i class="fas fa-envelope"></i></div>
                     <div class="info-box-content">
@@ -192,7 +192,7 @@
                         <p style="font-size:1rem;">@Model.Email</p>
                     </div>
                 </div>
-                <!-- Telefon -->
+
                 <div class="info-box">
                     <div class="info-box-icon"><i class="fas fa-phone"></i></div>
                     <div class="info-box-content">
@@ -200,7 +200,7 @@
                         <p>@(string.IsNullOrEmpty(Model.Telefon) ? "Belirtilmemiş" : Model.Telefon)</p>
                     </div>
                 </div>
-                <!-- Doğum Tarihi -->
+
                 <div class="info-box">
                     <div class="info-box-icon"><i class="fas fa-birthday-cake"></i></div>
                     <div class="info-box-content">
@@ -208,7 +208,7 @@
                         <p>@(Model.DogumTarihi.Year > 1 ? Model.DogumTarihi.ToString("dd.MM.yyyy") : "Belirtilmemiş")</p>
                     </div>
                 </div>
-                <!-- TC Kimlik -->
+
                 <div class="info-box">
                     <div class="info-box-icon"><i class="fas fa-address-card"></i></div>
                     <div class="info-box-content">
@@ -220,12 +220,12 @@
         </div>
     </div>
 
-    <!-- Akademik İstatistikler -->
+
     <div class="card" style="border-radius: 16px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.04);">
         <h3 class="section-title"><i class="fas fa-graduation-cap"></i> Akademik İstatistikler</h3>
         
         <div class="info-grid">
-            <!-- GANO -->
+
             <div class="info-box">
                 <div class="info-box-icon" style="background: rgba(var(--color-success-rgb), 0.1); color: var(--color-success);">
                     <i class="fas fa-chart-line"></i>
@@ -235,7 +235,7 @@
                     <p style="color: var(--color-success); font-size: 1.4rem;">@(Model.Gano?.ToString("F2") ?? "0.00")</p>
                 </div>
             </div>
-            <!-- AKTS -->
+
             <div class="info-box">
                 <div class="info-box-icon"><i class="fas fa-star"></i></div>
                 <div class="info-box-content">
@@ -243,7 +243,7 @@
                     <p>@Model.TamamlananAkts AKTS</p>
                 </div>
             </div>
-            <!-- Aktif Ders -->
+
             <div class="info-box">
                 <div class="info-box-icon"><i class="fas fa-book-open"></i></div>
                 <div class="info-box-content">
@@ -251,7 +251,7 @@
                     <p>@Model.AktifDersSayisi Ders</p>
                 </div>
             </div>
-            <!-- Kayıt Tarihi -->
+
             <div class="info-box">
                 <div class="info-box-icon"><i class="fas fa-calendar-check"></i></div>
                 <div class="info-box-content">

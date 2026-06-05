@@ -9,14 +9,14 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) { }
 
-    // ── Mevcut ───────────────────────────────────────────────────────────────
+    // Mevcut
     public DbSet<Kullanici>      Kullanicilar      => Set<Kullanici>();
     public DbSet<Ogrenci>        Ogrenciler        => Set<Ogrenci>();
     public DbSet<Ders>           Dersler           => Set<Ders>();
     public DbSet<OgrenciDers>    OgrenciDersler    => Set<OgrenciDers>();
     public DbSet<AuditLog>       AuditLogs         => Set<AuditLog>();
 
-    // ── UBYS — Yeni ──────────────────────────────────────────────────────────
+    // UBYS — Yeni
     public DbSet<Bolum>          Bolumler          => Set<Bolum>();
     public DbSet<Donem>          Donemler          => Set<Donem>();
     public DbSet<DersAtama>      DersAtamalar      => Set<DersAtama>();
@@ -31,7 +31,7 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // ── Configuration'ları uygula ─────────────────────────────────────────
+        // Configuration'ları uygula
         modelBuilder.ApplyConfiguration(new KullaniciConfiguration());
         modelBuilder.ApplyConfiguration(new OgrenciConfiguration());
         modelBuilder.ApplyConfiguration(new DersConfiguration());
@@ -47,7 +47,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new BelgeTalebiConfiguration());
         modelBuilder.ApplyConfiguration(new DuyuruOkumaConfiguration());
 
-        // ── Global Query Filters (soft-delete) ───────────────────────────────
+        // Global Query Filters (soft-delete)
         modelBuilder.Entity<Kullanici>()   .HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Ogrenci>()     .HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Ders>()        .HasQueryFilter(e => e.IsActive);

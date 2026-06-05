@@ -8,7 +8,7 @@
 "use strict";
 
 const SMS = (() => {
-    // ─── PRIVATE ────────────────────────────────────────────────────────────
+    // Private
 
     const _cfg = {
         dateFormat:  "DD.MM.YYYY",
@@ -18,7 +18,7 @@ const SMS = (() => {
         toastTimer:  3500,
     };
 
-    // ─── INIT ────────────────────────────────────────────────────────────────
+    // Init
 
     function _init() {
         _initTheme();
@@ -32,7 +32,7 @@ const SMS = (() => {
         _autoHideAlerts();
     }
 
-    // ─── TEMA ────────────────────────────────────────────────────────────────
+    // Tema
 
     function _initTheme() {
         const role = document.body.dataset.role;
@@ -49,10 +49,9 @@ const SMS = (() => {
         if (cls) document.documentElement.classList.add(cls);
     }
 
-    // ─── SIDEBAR ─────────────────────────────────────────────────────────────
+    // Sidebar
 
     function _initSidebar() {
-        // Aktif linki belirle
         const currentPath = window.location.pathname.toLowerCase();
         document.querySelectorAll(".sidebar-link").forEach(link => {
             const href = link.getAttribute("href");
@@ -64,21 +63,17 @@ const SMS = (() => {
             }
         });
 
-        // Mobil overlay tıklaması
         const overlay = document.getElementById("sidebarOverlay");
         if (overlay) {
             overlay.addEventListener("click", () => SMS.sidebar.close());
         }
 
-        // Sidebar linklere tıklanınca otomatik kapat (mobil UX)
         document.querySelectorAll(".sidebar-link, .sidebar-logout").forEach(link => {
             link.addEventListener("click", () => {
-                // Küçük ekranlarda her zaman kapat
                 SMS.sidebar.close();
             });
         });
 
-        // Escape tuşuyla kapat
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") SMS.sidebar.close();
         });
@@ -91,7 +86,7 @@ const SMS = (() => {
         }
     }
 
-    // ─── SWEETALERT MESAJLAR ─────────────────────────────────────────────────
+    // SweetAlert Messages
 
     function _initSweetAlertMessages() {
         const el = document.getElementById("swal-data");
@@ -118,7 +113,7 @@ const SMS = (() => {
         }
     }
 
-    // ─── CONFIRM FORMS ───────────────────────────────────────────────────────
+    // Confirm Forms
 
     function _initConfirmForms() {
         document.querySelectorAll("[data-confirm]").forEach(el => {
@@ -133,7 +128,6 @@ const SMS = (() => {
                 SMS.confirm(title, message, btnText, type).then(result => {
                     if (!result.isConfirmed) return;
 
-                    // Form içindeyse submit, link ise yönlendir
                     const form = target.closest("form");
                     if (form) {
                         form.submit();
@@ -145,7 +139,7 @@ const SMS = (() => {
         });
     }
 
-    // ─── TOOLTIP ─────────────────────────────────────────────────────────────
+    // Tooltip
 
     function _initTooltips() {
         if (typeof bootstrap !== "undefined") {
@@ -155,7 +149,7 @@ const SMS = (() => {
         }
     }
 
-    // ─── TABLE SEARCH ────────────────────────────────────────────────────────
+    // Table Search
 
     function _initTableSearch() {
         document.querySelectorAll(".table-search input").forEach(input => {
@@ -174,7 +168,7 @@ const SMS = (() => {
         });
     }
 
-    // ─── TARİH DISPLAY ───────────────────────────────────────────────────────
+    // Tarih Display
 
     function _initDateDisplay() {
         document.querySelectorAll("[data-date]").forEach(el => {
@@ -203,7 +197,7 @@ const SMS = (() => {
         });
     }
 
-    // ─── AUTO HIDE ALERTS ────────────────────────────────────────────────────
+    // Auto Hide Alerts
 
     function _autoHideAlerts() {
         document.querySelectorAll(".alert[data-auto-dismiss]").forEach(alert => {
@@ -216,12 +210,12 @@ const SMS = (() => {
         });
     }
 
-    // ─── PUBLIC API ──────────────────────────────────────────────────────────
+    // Public API
 
     return {
         init: _init,
 
-        // ── Sidebar ──────────────────────────────────────────────────────
+        // Sidebar
         sidebar: {
             toggle() {
                 document.getElementById("appSidebar")?.classList.toggle("open");
@@ -237,7 +231,7 @@ const SMS = (() => {
             },
         },
 
-        // ── Toast ────────────────────────────────────────────────────────
+        // Toast
         toast(message, type = "success") {
             if (typeof Swal === "undefined") { alert(message); return; }
 
@@ -262,7 +256,7 @@ const SMS = (() => {
             });
         },
 
-        // ── Confirm ──────────────────────────────────────────────────────
+        // Confirm
         confirm(title, text, confirmText = "Evet", type = "warning") {
             if (typeof Swal === "undefined") {
                 return Promise.resolve({ isConfirmed: window.confirm(text) });
@@ -290,7 +284,7 @@ const SMS = (() => {
             });
         },
 
-        // ── DataTable ────────────────────────────────────────────────────
+        // DataTable
         table: {
             /**
              * Standart UBYS DataTable başlatır.
@@ -314,7 +308,6 @@ const SMS = (() => {
                          "<'table-responsive't>" +
                          "<'table-dt-bottom d-flex items-center justify-between mt-2'ip>",
                     drawCallback() {
-                        // Row animasyonunu sıfırla
                         $(this.api().table().body()).find("tr").each((i, el) => {
                             el.style.animation = "none";
                             el.offsetHeight; // reflow
@@ -348,7 +341,7 @@ const SMS = (() => {
             },
         },
 
-        // ── Form Helpers ─────────────────────────────────────────────────
+        // Form Helpers
         form: {
             /**
              * Form alanlarını devre dışı bırakır ve loading gösterir.
@@ -388,7 +381,6 @@ const SMS = (() => {
              * Validation hatalarını forma uygular.
              */
             showErrors(errors) {
-                // Önce temizle
                 document.querySelectorAll(".form-control").forEach(el => {
                     el.classList.remove("is-invalid");
                 });
@@ -408,7 +400,7 @@ const SMS = (() => {
             },
         },
 
-        // ── Modal ────────────────────────────────────────────────────────
+        // Modal
         modal: {
             show(id) {
                 const overlay = document.getElementById(id);
@@ -425,20 +417,17 @@ const SMS = (() => {
                 }
             },
             init() {
-                // Overlay tıkla → kapat
                 document.querySelectorAll(".modal-overlay").forEach(overlay => {
                     overlay.addEventListener("click", e => {
                         if (e.target === overlay) SMS.modal.hide(overlay.id);
                     });
                 });
-                // Close buton
                 document.querySelectorAll(".modal-close").forEach(btn => {
                     btn.addEventListener("click", () => {
                         const overlay = btn.closest(".modal-overlay");
                         if (overlay) SMS.modal.hide(overlay.id);
                     });
                 });
-                // ESC tuşu
                 document.addEventListener("keydown", e => {
                     if (e.key === "Escape") {
                         document.querySelectorAll(".modal-overlay.show").forEach(m => {
@@ -449,7 +438,7 @@ const SMS = (() => {
             },
         },
 
-        // ── Yardımcı Fonksiyonlar ────────────────────────────────────────
+        // Yardımcı Fonksiyonlar
         utils: {
             /**
              * Tarihi TR formatında döndürür: 12.06.2024
@@ -509,13 +498,13 @@ const SMS = (() => {
             },
         },
 
-        // ── Anti-Forgery Token ──────────────────────────────────────────
+        // Anti-Forgery Token
         getAntiForgeryToken() {
             const el = document.querySelector("input[name='__RequestVerificationToken']");
             return el ? el.value : "";
         },
 
-        // ── Server-Side AJAX DataTable ──────────────────────────────────
+        // Server-Side AJAX DataTable
         /**
          * Server-side AJAX DataTable başlatır.
          * @param {string} tableId   - Tablo DOM id'si
@@ -564,7 +553,7 @@ const SMS = (() => {
     };
 })();
 
-// ─── DOM HAZIR ────────────────────────────────────────────────────────────────
+// DOM Hazır
 document.addEventListener("DOMContentLoaded", () => {
     SMS.init();
     SMS.modal.init();

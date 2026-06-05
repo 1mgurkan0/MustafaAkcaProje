@@ -27,7 +27,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         _logger = logger;
     }
 
-    // ─── DASHBOARD ────────────────────────────────────────────────────────────
+    // DASHBOARD
     public async Task<OgrenciDashboardViewModel> GetDashboardAsync(int ogrenciId)
     {
         var ogrenci = await _db.Ogrenciler
@@ -101,7 +101,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         };
     }
 
-    // ─── DERS KAYIT ───────────────────────────────────────────────────────────
+    // DERS KAYIT
     public async Task<DersKayitViewModel> GetDersKayitAsync(int ogrenciId)
     {
         var ogrenci = await _db.Ogrenciler.Include(o => o.Bolum).FirstOrDefaultAsync(o => o.Id == ogrenciId);
@@ -114,7 +114,6 @@ public class OgrenciPanelService : IOgrenciPanelService
         if (aktifDonem == null)
             return new DersKayitViewModel { KayitAcik = false, DonemAdi = "Aktif dönem yok" };
 
-        // Mevcut kayıtlar / talepler
         var mevcutKayitlar = await _db.OgrenciDersler
             .Where(od => od.OgrenciId == ogrenciId && od.IsActive
                 && (od.Durum == OgrenciDersDurum.Devam || od.Durum == OgrenciDersDurum.Talep))
@@ -135,7 +134,6 @@ public class OgrenciPanelService : IOgrenciPanelService
             .Where(k => k.Durum == OgrenciDersDurum.Devam)
             .Sum(k => k.DersAtama?.Ders?.Akts ?? 0);
 
-        // Bu döneme ait tüm atamalar
         var dersler = await _db.DersAtamalar
             .Where(da => da.DonemId == aktifDonem.Id && da.IsActive)
             .Include(da => da.Ders).ThenInclude(d => d!.Bolum)
@@ -173,15 +171,12 @@ public class OgrenciPanelService : IOgrenciPanelService
 
     public async Task<ServiceResult> DersKayitTalepAsync(int dersAtamaId, int ogrenciId, int userId)
     {
-        // Aktif dönem kontrolü
         var aktifDonem = await _db.Donemler.FirstOrDefaultAsync(d => d.AktifMi && d.IsActive);
         if (aktifDonem == null) return ServiceResult.Fail(AppConstants.ErrorMessages.AktifDonemYok);
 
-        // Test ortamı için tarih kontrolünü kaldırıyoruz
         var kayitAcik = true;
         if (!kayitAcik) return ServiceResult.Fail(AppConstants.ErrorMessages.DersKayitKapali);
 
-        // Zaten kayıtlı mı?
         var mevcutKayit = await _db.OgrenciDersler
             .IgnoreQueryFilters()
             .AnyAsync(od => od.OgrenciId == ogrenciId && od.DersAtamaId == dersAtamaId
@@ -189,7 +184,6 @@ public class OgrenciPanelService : IOgrenciPanelService
 
         if (mevcutKayit) return ServiceResult.Fail(AppConstants.ErrorMessages.ZatenKayitli);
 
-        // Kontenjan kontrolü
         var da = await _db.DersAtamalar
             .Include(x => x.Ders)
             .FirstOrDefaultAsync(x => x.Id == dersAtamaId && x.IsActive);
@@ -243,7 +237,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         return ServiceResult.Ok();
     }
 
-    // ─── DERSLERİM ────────────────────────────────────────────────────────────
+    // DERSLERİM
     public async Task<IEnumerable<OgrenciDersViewModel>> GetDerslerimAsync(int ogrenciId)
     {
         var aktifDonem = await _db.Donemler.FirstOrDefaultAsync(d => d.AktifMi && d.IsActive);
@@ -277,7 +271,7 @@ public class OgrenciPanelService : IOgrenciPanelService
             .ToListAsync();
     }
 
-    // ─── TRANSKRİPT ──────────────────────────────────────────────────────────
+    // TRANSKRİPT
     public async Task<TranskriptViewModel> GetTranskriptAsync(int ogrenciId)
     {
         var ogrenci = await _db.Ogrenciler
@@ -296,7 +290,6 @@ public class OgrenciPanelService : IOgrenciPanelService
             .ThenBy(od => od.DersAtama!.Donem!.DonemTur)
             .ToListAsync();
 
-        // Dönem grupları
         var donemGruplari = tamamlananDersler
             .GroupBy(od => new
             {
@@ -319,7 +312,6 @@ public class OgrenciPanelService : IOgrenciPanelService
 
                 var toplamAkts = dersler.Sum(d => d.Akts);
 
-                // Dönem GANO
                 decimal donemGano = 0;
                 var katsayiMap = BuildKatsayiMap();
                 decimal toplam = 0;
@@ -355,7 +347,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         };
     }
 
-    // ─── DERS PROGRAMI ────────────────────────────────────────────────────────
+    // DERS PROGRAMI
     public async Task<DersProgramiViewModel> GetDersProgramiAsync(int ogrenciId)
     {
         var aktifDonem = await _db.Donemler.FirstOrDefaultAsync(d => d.AktifMi && d.IsActive);
@@ -388,7 +380,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         };
     }
 
-    // ─── SINAV TAKVİMİ ────────────────────────────────────────────────────────
+    // SINAV TAKVİMİ
     public async Task<SinavTakvimiViewModel> GetSinavTakvimiAsync(int ogrenciId)
     {
         var aktifDonem = await _db.Donemler.FirstOrDefaultAsync(d => d.AktifMi && d.IsActive);
@@ -448,7 +440,6 @@ public class OgrenciPanelService : IOgrenciPanelService
             DurumAdi = ogrenci.Durum.ToString(),
             OgrenciDurumAdi = ogrenci.Durum.ToString(),
             
-            // Profil Alanları
             TcKimlikNo = ogrenci.TcKimlikNo,
             Telefon = ogrenci.Kullanici.Telefon,
             Cinsiyet = ogrenci.Cinsiyet,
@@ -461,7 +452,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         return ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>.Ok(vm);
     }
 
-    // ─── DUYURULAR ────────────────────────────────────────────────────────────
+    // DUYURULAR
     public async Task<IEnumerable<DuyuruOlusturViewModel>> GetDuyurularAsync(int ogrenciId, int bolumId)
     {
         var kayitliDersAtamaIdler = await _db.OgrenciDersler
@@ -470,7 +461,6 @@ public class OgrenciPanelService : IOgrenciPanelService
             .Select(od => od.DersAtamaId)
             .ToListAsync();
 
-        // Okunmuş duyuru ID seti
         var okunanIdler = await _db.DuyuruOkumalar
             .Where(o => o.OgrenciId == ogrenciId && o.IsActive)
             .Select(o => new { o.DuyuruId, o.OkunmaTarihi })
@@ -505,7 +495,6 @@ public class OgrenciPanelService : IOgrenciPanelService
             })
             .ToListAsync();
 
-        // Okundu bilgisini ekle (EF projection dışında yapılıyor)
         foreach (var d in duyurular)
         {
             if (okunanDict.TryGetValue(d.Id, out var okumaT))
@@ -520,7 +509,6 @@ public class OgrenciPanelService : IOgrenciPanelService
 
     public async Task<ServiceResult> DuyuruOkunduIsaretle(int duyuruId, int ogrenciId)
     {
-        // Zaten işaretlendi mi?
         var zatenVar = await _db.DuyuruOkumalar
             .AnyAsync(o => o.DuyuruId == duyuruId && o.OgrenciId == ogrenciId);
 
@@ -539,7 +527,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         return ServiceResult.Ok();
     }
 
-    // ─── BELGELER ────────────────────────────────────────────────────────────
+    // BELGELER
     public async Task<BelgelerViewModel> GetBelgelerAsync(int ogrenciId)
     {
         var talepler = await _db.BelgeTalepleri
@@ -563,7 +551,6 @@ public class OgrenciPanelService : IOgrenciPanelService
     public async Task<ServiceResult> BelgeTalepOlusturAsync(
         BelgeTalebiOlusturViewModel model, int ogrenciId, int userId)
     {
-        // Bekleyen talep limiti
         var bekleyenSayi = await _db.BelgeTalepleri
             .CountAsync(bt => bt.OgrenciId == ogrenciId
                            && bt.Durum == BelgeDurum.Beklemede
@@ -584,7 +571,7 @@ public class OgrenciPanelService : IOgrenciPanelService
         return ServiceResult.Ok();
     }
 
-    // ─── PRIVATE ─────────────────────────────────────────────────────────────
+    // PRIVATE
     private static Dictionary<HarfNotu, decimal> BuildKatsayiMap() => new()
     {
         { HarfNotu.AA, (decimal)AppConstants.NotKatsayisi.AA },

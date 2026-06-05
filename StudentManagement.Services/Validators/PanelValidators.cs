@@ -4,9 +4,7 @@ using StudentManagement.Services.ViewModels.Ogretmen;
 
 namespace StudentManagement.Services.Validators.Panel;
 
-// ═══════════════════════════════════════════════════════
 // ÖĞRETMEN PANEL
-// ═══════════════════════════════════════════════════════
 
 public class NotGirViewModelValidator : AbstractValidator<NotGirViewModel>
 {
@@ -94,9 +92,7 @@ public class DuyuruOlusturViewModelValidator : AbstractValidator<DuyuruOlusturVi
     }
 }
 
-// ═══════════════════════════════════════════════════════
 // ÖĞRENCİ PANEL
-// ═══════════════════════════════════════════════════════
 
 public class DersKayitTalepValidator : AbstractValidator<DersKayitTalepViewModel>
 {
@@ -119,9 +115,7 @@ public class BelgeTalebiOlusturValidator : AbstractValidator<BelgeTalebiOlusturV
     }
 }
 
-// ═══════════════════════════════════════════════════════
 // ÖĞRENCİ İŞLERİ PANEL
-// ═══════════════════════════════════════════════════════
 
 public class TalepRedViewModelValidator : AbstractValidator<TalepRedViewModel>
 {

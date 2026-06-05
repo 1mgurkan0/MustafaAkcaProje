@@ -14,9 +14,7 @@ public static class DataSeeder
     {
         if (await context.Kullanicilar.IgnoreQueryFilters().AnyAsync()) return;
 
-        // ═════════════════════════════════════════════════════════════════════
         // 1. BÖLÜMLER
-        // ═════════════════════════════════════════════════════════════════════
         var bolumler = new List<Bolum>
         {
             new() { BolumKodu = "BIL", BolumAdi = "Bilgisayar Mühendisliği",          Fakulte = "Mühendislik Fakültesi",  MinMezuniyetAkts = 240, IsActive = true, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
@@ -35,9 +33,7 @@ public static class DataSeeder
         var enmBolum = bolumler[3];
         var matBolum = bolumler[4];
 
-        // ═════════════════════════════════════════════════════════════════════
         // 2. DÖNEMLER
-        // ═════════════════════════════════════════════════════════════════════
         var donemler = new List<Donem>
         {
             new() {
@@ -56,7 +52,7 @@ public static class DataSeeder
             },
             new() {
                 DonemKodu = "20241", DonemAdi = "2024-2025 Güz Dönemi",
-                Yil = 2024, DonemTur = DonemTur.Guz, AktifMi = true,   // ← AKTİF DÖNEM
+                Yil = 2024, DonemTur = DonemTur.Guz, AktifMi = true,
                 BaslangicTarihi = new DateTime(2024, 9, 16),  BitisTarihi = new DateTime(2025, 1, 17),
                 DersKayitBaslangic = new DateTime(2024, 9, 1), DersKayitBitis = new DateTime(2025, 1, 31),
                 IsActive = true, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow
@@ -70,9 +66,7 @@ public static class DataSeeder
         var oncekiDonem1 = donemler[1];
         var oncekiDonem2 = donemler[0];
 
-        // ═════════════════════════════════════════════════════════════════════
-        // 3. KULLANICILAR — Admin, Öğrenci İşleri, Öğretmenler
-        // ═════════════════════════════════════════════════════════════════════
+        // 3. KULLANICILAR
         var adminKullanici = new Kullanici
         {
             KullaniciAdi = AppConstants.DefaultAdminUsername,
@@ -88,7 +82,6 @@ public static class DataSeeder
         };
         await context.Kullanicilar.AddAsync(adminKullanici);
 
-        // Öğrenci İşleri personeli
         var ogrenciIsleriPersonel = new[]
         {
             new Kullanici { KullaniciAdi = "ogr.isleri1",  SifreHash = BCrypt.Net.BCrypt.HashPassword("OgrIsleri@123", AppConstants.BcryptWorkFactor), Ad = "Aylin",   Soyad = "Çelik",   Email = "aylin.celik@universite.edu.tr",   Telefon = "03121234001", Rol = KullaniciRol.OgrenciIsleri, IsActive = true, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
@@ -96,7 +89,6 @@ public static class DataSeeder
         };
         await context.Kullanicilar.AddRangeAsync(ogrenciIsleriPersonel);
 
-        // Öğretmenler — unvan + bölüm atamalı
         var ogretmenVerileri = new (string Ad, string Soyad, string KulAdi, string Email, string Tel, string Unvan, Bolum Bolum)[]
         {
             ("Ahmet",   "Yılmaz",  "ahmet.yilmaz",   "ahmet.yilmaz@universite.edu.tr",   "05321234001", "Prof.Dr.",         bilBolum),
@@ -136,9 +128,7 @@ public static class DataSeeder
         await context.Kullanicilar.AddRangeAsync(ogretmenEntities);
         await context.SaveChangesAsync();
 
-        // ═════════════════════════════════════════════════════════════════════
-        // 4. DERSLER (ders kataloğu — dönem/hoca bağımsız)
-        // ═════════════════════════════════════════════════════════════════════
+        // 4. DERSLER
         var dersVerileri = new (string Kod, string Ad, int Kredi, int Akts, int TeoriSaat, int UygSaat, int MaxKont, Bolum Bolum, string Aciklama)[]
         {
             ("BIL101", "Algoritma ve Programlamaya Giriş",    3, 5, 3, 0, 40, bilBolum, "Temel algoritmik düşünce ve programlama."),
@@ -187,18 +177,14 @@ public static class DataSeeder
         await context.Dersler.AddRangeAsync(dersler);
         await context.SaveChangesAsync();
 
-        // ═════════════════════════════════════════════════════════════════════
-        // 5. DERS ATAMALARI (Öğretmen + Ders + Dönem + Gün/Saat)
-        // ═════════════════════════════════════════════════════════════════════
+        // 5. DERS ATAMALARI
         var gun = DersGun.Pazartesi;
         var gunler = Enum.GetValues<DersGun>();
         var dersAtamalar = new List<DersAtama>();
 
-        // Yardımcı: ders kodu → entity
         Ders D(string kod) => dersler.First(d => d.DersKodu == kod);
         Kullanici O(string kulAdi) => ogretmenEntities.First(k => k.KullaniciAdi == kulAdi);
 
-        // ── Aktif dönem atamaları ────────────────────────────────────────────
         var aktifAtamalar = new (Ders Ders, Kullanici Ogretmen, DersGun Gun, string Saat, string Derslik)[]
         {
             (D("BIL101"), O("ahmet.yilmaz"),  DersGun.Pazartesi, "09:00", "A-101"),
@@ -248,7 +234,6 @@ public static class DataSeeder
             });
         }
 
-        // ── Önceki dönem atamaları (sadece BIL + MAT dersleri — geçmiş) ─────
         var eskiAtamalar = new (Ders Ders, Kullanici Ogretmen)[]
         {
             (D("BIL101"), O("ahmet.yilmaz")), (D("BIL102"), O("fatma.kaya")),
@@ -277,14 +262,11 @@ public static class DataSeeder
         await context.DersAtamalar.AddRangeAsync(dersAtamalar);
         await context.SaveChangesAsync();
 
-        // ═════════════════════════════════════════════════════════════════════
         // 6. ÖĞRENCİLER
-        // ═════════════════════════════════════════════════════════════════════
         var erkekAdlar = new[] { "Ahmet", "Mehmet", "Mustafa", "Ali", "Hüseyin", "İbrahim", "Emre", "Burak", "Enes", "Furkan", "Kerem", "Serkan", "Tolga", "Uğur", "Volkan", "Kaan", "Mert", "Onur", "Berk", "Can", "Cem", "Deniz", "Ercan", "Fatih", "Gökhan", "Haluk", "İlhan", "Kadir", "Levent", "Murat" };
         var kizAdlar = new[] { "Ayşe", "Fatma", "Zeynep", "Elif", "Merve", "Selin", "Hatice", "Büşra", "Esra", "Gamze", "Hande", "İrem", "Kübra", "Leyla", "Meltem", "Nur", "Özge", "Pınar", "Rabia", "Sibel", "Tuğba", "Ülkü", "Vildan", "Yasemin", "Zühal", "Arzu", "Burcu", "Cansu", "Derya", "Ebru" };
         var soyadlar = new[] { "Yılmaz", "Kaya", "Demir", "Çelik", "Şahin", "Arslan", "Doğan", "Yıldız", "Koç", "Kurt", "Özdemir", "Aydın", "Erdoğan", "Güneş", "Polat", "Çetin", "Bulut", "Çiftçi", "Çalışkan", "Keskin", "Güler", "Aktaş", "Karahan", "Akın", "Kılıç", "Tunç", "Karakuş", "Duman", "Yalçın", "Şimşek" };
 
-        // Bölüm dağılımı: BIL 70, YMH 50, EEE 30, ENM 30, MAT 20
         var bolumDagilimi = new (Bolum Bolum, int Adet)[]
         {
             (bilBolum, 70), (ymhBolum, 50), (eeeBolum, 30), (enmBolum, 30), (matBolum, 20)
@@ -347,9 +329,7 @@ public static class DataSeeder
         await context.Ogrenciler.AddRangeAsync(ogrenciler);
         await context.SaveChangesAsync();
 
-        // ═════════════════════════════════════════════════════════════════════
-        // 7. DERS KAYITLARI — Aktif dönem (Devam) + Önceki dönem (Tamamlandi)
-        // ═════════════════════════════════════════════════════════════════════
+        // 7. DERS KAYITLARI
         var aktifAtamaEntities = dersAtamalar.Where(da => da.DonemId == aktifDonem.Id).ToList();
         var eskiAtamaEntities = dersAtamalar.Where(da => da.DonemId == oncekiDonem1.Id).ToList();
         var ogrenciListesi = await context.Ogrenciler.Include(o => o.Bolum).ToListAsync();
@@ -357,7 +337,6 @@ public static class DataSeeder
 
         foreach (var ogr in ogrenciListesi)
         {
-            // Öğrencinin bölümüne ait aktif dönem atamaları
             var uygunAtamalar = aktifAtamaEntities
                 .Where(da => da.Ders.BolumId == ogr.BolumId
                           || da.Ders.DersKodu.StartsWith("ING")
@@ -384,7 +363,6 @@ public static class DataSeeder
                 atama.KayitliOgrenciSayisi++;
             }
 
-            // Önceki dönem kayıtları — tamamlanmış, notlu
             var eskiUygunlar = eskiAtamaEntities
                 .Where(da => da.Ders.BolumId == ogr.BolumId
                           || da.Ders.DersKodu.StartsWith("ING")
@@ -426,7 +404,6 @@ public static class DataSeeder
         await context.OgrenciDersler.AddRangeAsync(kayitlar);
         await context.SaveChangesAsync();
 
-        // GANO hesapla ve güncelle
         foreach (var ogr in ogrenciListesi)
         {
             var bitmisDersler = kayitlar
@@ -448,9 +425,7 @@ public static class DataSeeder
 
         await context.SaveChangesAsync();
 
-        // ═════════════════════════════════════════════════════════════════════
         // 8. DUYURULAR
-        // ═════════════════════════════════════════════════════════════════════
         var duyurular = new List<Duyuru>
         {
             new() {
@@ -480,7 +455,6 @@ public static class DataSeeder
         await context.SaveChangesAsync();
     }
 
-    // ── Yardımcı: 100'lük → HarfNotu ─────────────────────────────────────────
     private static HarfNotu HesaplaHarfNotu(decimal not) => not switch
     {
         >= 85 => HarfNotu.AA,

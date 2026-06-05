@@ -18,7 +18,7 @@ public class DersAtamaConfiguration : IEntityTypeConfiguration<DersAtama>
         builder.Property(da => da.Derslik).HasMaxLength(50);
         builder.Property(da => da.Gun).HasConversion<int>();
 
-        // ── İlişkiler ─────────────────────────────────────────────────────────
+        // İlişkiler
         builder.HasOne(da => da.Ders)
                .WithMany(d => d.DersAtamalari)
                .HasForeignKey(da => da.DersId)

@@ -2,7 +2,7 @@ using StudentManagement.Core.Enums;
 
 namespace StudentManagement.Services.ViewModels.OgrenciIsleri;
 
-// ── Dashboard ─────────────────────────────────────────────────────────────────
+// Dashboard
 public class OgrenciIsleriDashboardViewModel
 {
     public string DonemAdi              { get; set; } = string.Empty;
@@ -29,7 +29,7 @@ public class TalepOzetViewModel
     public DateTime TalepTarihi   { get; set; }
 }
 
-// ── Kayıt Talep ──────────────────────────────────────────────────────────────
+// Kayıt Talep
 public class KayitTalepOzetViewModel
 {
     public int      OgrenciDersId  { get; set; }
@@ -65,7 +65,7 @@ public class KayitOnayRedViewModel
     public string? RedNedeni    { get; set; }
 }
 
-// ── Toplu onay/red ────────────────────────────────────────────────────────────
+// Toplu onay/red
 public class TopluKayitOnayViewModel
 {
     public int?   DonemId         { get; set; }
@@ -78,7 +78,7 @@ public class TopluKayitOnayViewModel
     public List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> BolumListesi { get; set; } = new();
 }
 
-// ── Belge Talebi ─────────────────────────────────────────────────────────────
+// Belge Talebi
 public class BelgeTalepOzetViewModel
 {
     public int        Id             { get; set; }
@@ -110,7 +110,7 @@ public class BelgeTalepGuncelleViewModel
     public Microsoft.AspNetCore.Http.IFormFile? BelgeDosyasi { get; set; }
 }
 
-// ── Öğrenci Arama / Profil ────────────────────────────────────────────────────
+// Öğrenci Arama / Profil
 public class OgrenciAramaViewModel
 {
     public string? Arama          { get; set; }
@@ -142,7 +142,7 @@ public class OgrenciIsleriOgrenciViewModel
     public string       KullaniciAdi { get; set; } = string.Empty;
 }
 
-// ── Duyuru (Öğrenci İşleri yayınlayabilir) ───────────────────────────────────
+// Duyuru (Öğrenci İşleri yayınlayabilir)
 public class DuyuruCreateViewModel
 {
     public string      Baslik           { get; set; } = string.Empty;

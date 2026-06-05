@@ -28,7 +28,7 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         _logger = logger;
     }
 
-    // ─── DASHBOARD ────────────────────────────────────────────────────────────
+    // DASHBOARD
     public async Task<OgrenciIsleriDashboardViewModel> GetDashboardAsync()
     {
         var bugun = DateTime.Today;
@@ -70,7 +70,7 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         };
     }
 
-    // ─── DERS KAYIT TALEPLERİ ────────────────────────────────────────────────
+    // DERS KAYIT TALEPLERİ
    public async Task<IEnumerable<StudentManagement.Services.ViewModels.OgrenciIsleri.TalepDetayViewModel>> GetTaleplerAsync()
     {
         return await _db.OgrenciDersler
@@ -146,7 +146,6 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             if (od == null) return ServiceResult.Fail(AppConstants.ErrorMessages.KayitBulunamadi);
             if (od.Durum != OgrenciDersDurum.Talep) return ServiceResult.Fail("Bu talep zaten işlenmiş.");
 
-            // Kontenjan kontrolü
             if (od.DersAtama!.KayitliOgrenciSayisi >= od.DersAtama.Ders!.MaxKontenjan)
                 return ServiceResult.Fail(AppConstants.ErrorMessages.KontenjanDolu);
 
@@ -224,7 +223,7 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         }
     }
 
-    // ─── BELGE TALEPLERİ ─────────────────────────────────────────────────────
+    // BELGE TALEPLERİ
     public async Task<IEnumerable<StudentManagement.Services.ViewModels.OgrenciIsleri.BelgeTalebiViewModel>> GetBelgeTalepleriAsync()
     {
         return await _db.BelgeTalepleri
@@ -250,12 +249,10 @@ public class OgrenciIsleriService : IOgrenciIsleriService
 
     public async Task<ServiceResult> BelgeDurumGuncelleAsync(BelgeDurumGuncelleViewModel model, int userId)
     {
-        // BelgeTalebiId kullan (view'den bu isimle gönderiliyor)
         var talepId = model.BelgeTalebiId > 0 ? model.BelgeTalebiId : model.Id;
         var bt = await _db.BelgeTalepleri.FindAsync(talepId);
         if (bt == null) return ServiceResult.Fail(AppConstants.ErrorMessages.KayitBulunamadi);
 
-        // YeniBelgeDurum string'ini parse et
         if (Enum.TryParse<BelgeDurum>(model.YeniBelgeDurum, true, out var yeniDurum))
             bt.Durum = yeniDurum;
         else
@@ -266,7 +263,6 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         bt.UpdatedAt = DateTime.UtcNow;
         bt.UpdatedBy = userId;
 
-        // Dosya yükleme işlemi (BelgeDosyasi varsa)
         if (model.BelgeDosyasi != null && model.BelgeDosyasi.Length > 0)
         {
             var uploadResult = await KaydedilmisDosyaOlusturAsync(model.BelgeDosyasi, talepId);
@@ -295,7 +291,6 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         bt.UpdatedAt      = DateTime.UtcNow;
         bt.UpdatedBy      = userId;
 
-        // Durum otomatik Hazir'a geç (dosya yüklendi)
         if (bt.Durum == BelgeDurum.Beklemede || bt.Durum == BelgeDurum.Hazirlaniyor)
             bt.Durum = BelgeDurum.Hazir;
 
@@ -305,17 +300,15 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         return ServiceResult.Ok();
     }
 
-    // ─── YARDIMCI: Dosya kaydet ───────────────────────────────────────────────
+    // YARDIMCI: Dosya kaydet
     private async Task<ServiceResult<string>> KaydedilmisDosyaOlusturAsync(
         Microsoft.AspNetCore.Http.IFormFile dosya, int belgeTalebiId)
     {
-        // İzin verilen uzantılar (Sadece PDF, ZIP, RAR)
         var izinliUzantilar = new[] { ".pdf", ".zip", ".rar" };
         var uzanti = Path.GetExtension(dosya.FileName).ToLowerInvariant();
         if (!izinliUzantilar.Contains(uzanti))
             return ServiceResult<string>.Fail("Desteklenmeyen dosya formatı. Sadece PDF, ZIP veya RAR dosyası yükleyebilirsiniz.");
 
-        // Maksimum 10 MB
         if (dosya.Length > 10 * 1024 * 1024)
             return ServiceResult<string>.Fail("Dosya boyutu 10 MB'ı aşamaz.");
 
@@ -328,11 +321,10 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         using var stream = new FileStream(tamYol, FileMode.Create);
         await dosya.CopyToAsync(stream);
 
-        // Web erişim yolu (wwwroot göreceli)
         return ServiceResult<string>.Ok($"/uploads/belgeler/{dosyaAdi}");
     }
 
-    // ─── ÖĞRENCİ ARA ─────────────────────────────────────────────────────────
+    // ÖĞRENCİ ARA
     public async Task<List<OgrenciIsleriOgrenciViewModel>> OgrenciAraAsync(string? q, int? bolumId)
     {
         q = (q ?? string.Empty).ToLower().Trim();
@@ -370,7 +362,7 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             .ToListAsync();
     }
 
-    // ─── DUYURU ──────────────────────────────────────────────────────────────
+    // DUYURU
     public async Task<ServiceResult> DuyuruOlusturAsync(DuyuruOlusturViewModel model, int userId)
     {
         var duyuru = _mapper.Map<Duyuru>(model);
@@ -384,7 +376,7 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         return ServiceResult.Ok();
     }
 
-    // ─── ÖĞRENCİ DETAY ───────────────────────────────────────────────────────
+    // ÖĞRENCİ DETAY
     public async Task<ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>> OgrenciDetayAsync(int ogrenciId)
     {
         var ogrenci = await _db.Ogrenciler
@@ -413,7 +405,6 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             AktifDersSayisi = aktifDersSayisi,
             DurumAdi = ogrenci.Durum.ToString(),
             
-            // Yeni Profil Alanları
             TcKimlikNo = ogrenci.TcKimlikNo,
             Telefon = ogrenci.Kullanici.Telefon,
             Cinsiyet = ogrenci.Cinsiyet,
@@ -426,7 +417,7 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         return ServiceResult<StudentManagement.Services.ViewModels.Admin.OgrenciDetayViewModel>.Ok(vm);
     }
 
-    // ─── BÖLÜM SELECT LIST ────────────────────────────────────────────────────
+    // BÖLÜM SELECT LIST
     public async Task<IEnumerable<BolumSelectViewModel>> GetBolumSelectListAsync()
     {
         return await _db.Bolumler
@@ -440,27 +431,22 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             .ToListAsync();
     }
 
-    // ─── ÖĞRENCİ OLUŞTUR ─────────────────────────────────────────────────
+    // ÖĞRENCİ OLUŞTUR
     public async Task<ServiceResult> OgrenciOlusturAsync(AdminOgrenciOlusturViewModel model, int userId)
     {
-        // 1. Kullanıcı adı benzersizliğini kontrol et
         if (await _db.Kullanicilar.AnyAsync(k => k.KullaniciAdi == model.KullaniciAdi))
             return ServiceResult.Fail("Bu kullanıcı adı zaten kullanılıyor.");
 
-        // 2. E-posta benzersizliğini kontrol et
         if (await _db.Kullanicilar.AnyAsync(k => k.Email == model.Email))
             return ServiceResult.Fail("Bu e-posta adresi zaten kullanılıyor.");
 
-        // 3. Bölüm var mı kontrol et
         var bolum = await _db.Bolumler.FindAsync(model.BolumId);
         if (bolum == null)
             return ServiceResult.Fail("Seçilen bölüm bulunamadı.");
 
-        // 4. Transaction başlat
         await using var tx = await _db.Database.BeginTransactionAsync();
         try
         {
-            // 5. Kullanıcı oluştur
             var kullanici = new Kullanici
             {
                 KullaniciAdi = model.KullaniciAdi,
@@ -479,10 +465,8 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             _db.Kullanicilar.Add(kullanici);
             await _db.SaveChangesAsync();
 
-            // 6. Öğrenci numarası üret
             var ogrenciNo = $"{DateTime.UtcNow.Year}{kullanici.Id:D4}";
 
-            // 7. Öğrenci oluştur
             var ogrenci = new Ogrenci
             {
                 KullaniciId = kullanici.Id,
@@ -523,7 +507,7 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         }
     }
 
-    // ─── ÖĞRENCİ GÜNCELLE ─────────────────────────────────────────────────
+    // ÖĞRENCİ GÜNCELLE
     public async Task<ServiceResult<AdminOgrenciGuncelleViewModel>> GetOgrenciGuncelleAsync(int ogrenciId)
     {
         var ogrenci = await _db.Ogrenciler
@@ -562,7 +546,6 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         if (ogrenci == null || ogrenci.Kullanici == null)
             return ServiceResult.Fail("Öğrenci bulunamadı.");
 
-        // Kullanıcı adı ve e-posta benzersizlik kontrolü (Kendisinin değilse)
         if (await _db.Kullanicilar.AnyAsync(k => k.KullaniciAdi == model.KullaniciAdi && k.Id != model.KullaniciId))
             return ServiceResult.Fail("Bu kullanıcı adı başka bir kullanıcı tarafından kullanılıyor.");
 
@@ -572,7 +555,6 @@ public class OgrenciIsleriService : IOgrenciIsleriService
         await using var tx = await _db.Database.BeginTransactionAsync();
         try
         {
-            // Kullanıcı bilgilerini güncelle
             ogrenci.Kullanici.Ad = model.Ad;
             ogrenci.Kullanici.Soyad = model.Soyad;
             ogrenci.Kullanici.KullaniciAdi = model.KullaniciAdi;
@@ -580,13 +562,11 @@ public class OgrenciIsleriService : IOgrenciIsleriService
             ogrenci.Kullanici.Telefon = model.Telefon;
             ogrenci.Kullanici.UpdatedAt = DateTime.UtcNow;
 
-            // Şifre girilmişse güncelle
             if (!string.IsNullOrWhiteSpace(model.Sifre))
             {
                 ogrenci.Kullanici.SifreHash = BCrypt.Net.BCrypt.HashPassword(model.Sifre, AppConstants.Security.BcryptWorkFactor);
             }
 
-            // Öğrenci bilgilerini güncelle
             ogrenci.BolumId = model.BolumId;
             ogrenci.SinifSeviyesi = model.SinifSeviyesi;
             ogrenci.DogumTarihi = model.DogumTarihi ?? ogrenci.DogumTarihi;

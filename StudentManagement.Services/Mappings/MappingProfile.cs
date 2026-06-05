@@ -14,9 +14,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // ═══════════════════════════════════════════════
         // BÖLÜM
-        // ═══════════════════════════════════════════════
         CreateMap<Bolum, BolumListViewModel>();
         CreateMap<Bolum, BolumViewModel>();
         CreateMap<BolumOlusturViewModel, Bolum>()
@@ -33,9 +31,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.DisplayText, opt => opt.MapFrom(src =>
                 $"{src.BolumKodu} - {src.BolumAdi}"));
 
-        // ═══════════════════════════════════════════════
         // DÖNEM
-        // ═══════════════════════════════════════════════
         CreateMap<Donem, DonemViewModel>()
             .ForMember(dest => dest.DonemTurAdi, opt => opt.MapFrom(src => src.DonemTur.ToString()))
             .ForMember(dest => dest.DersAtamaSayisi, opt => opt.MapFrom(src =>
@@ -56,9 +52,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.DisplayText, opt => opt.MapFrom(src =>
                 $"{src.Yil} {src.DonemTur} {(src.AktifMi ? "(Aktif)" : "")}".Trim()));
 
-        // ═══════════════════════════════════════════════
         // DERS (Katalog)
-        // ═══════════════════════════════════════════════
         CreateMap<Ders, DersViewModel>()
             .ForMember(dest => dest.BolumAdi, opt => opt.MapFrom(src =>
                 src.Bolum != null ? src.Bolum.BolumAdi : string.Empty))
@@ -79,9 +73,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.DisplayText, opt => opt.MapFrom(src =>
                 $"{src.DersKodu} - {src.DersAdi} ({src.Akts} AKTS)"));
 
-        // ═══════════════════════════════════════════════
         // DERS ATAMA
-        // ═══════════════════════════════════════════════
         CreateMap<DersAtama, DersAtamaViewModel>()
             .ForMember(dest => dest.DersAdi, opt => opt.MapFrom(src =>
                 src.Ders != null ? src.Ders.DersAdi : string.Empty))
@@ -113,9 +105,7 @@ public class MappingProfile : Profile
 
         CreateMap<DersAtama, DersAtamaOlusturViewModel>();
 
-        // ═══════════════════════════════════════════════
         // ÖĞRENCİ
-        // ═══════════════════════════════════════════════
         CreateMap<Ogrenci, StudentManagement.Services.ViewModels.Admin.OgrenciViewModel>()
             .ForMember(dest => dest.TamAd, opt => opt.MapFrom(src =>
                 src.Kullanici != null ? src.Kullanici.TamAd : string.Empty))
@@ -138,9 +128,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.OgrenciDurumAdi, opt => opt.MapFrom(src =>
                 src.Durum.ToString()));
 
-        // ═══════════════════════════════════════════════
         // ÖĞRENCİ DERS (OgrenciDers)
-        // ═══════════════════════════════════════════════
         CreateMap<OgrenciDers, OgrenciDersViewModel>()
             .ForMember(dest => dest.DersAdi, opt => opt.MapFrom(src =>
                 src.DersAtama != null && src.DersAtama.Ders != null
@@ -181,9 +169,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.HarfNotuAdi, opt => opt.MapFrom(src =>
                 src.HarfNotu.HasValue ? src.HarfNotu.Value.ToString() : "-"));
 
-        // ═══════════════════════════════════════════════
         // SINAV
-        // ═══════════════════════════════════════════════
         CreateMap<Sinav, SinavViewModel>()
             .ForMember(dest => dest.DersAdi, opt => opt.MapFrom(src =>
                 src.DersAtama != null && src.DersAtama.Ders != null
@@ -198,9 +184,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
 
-        // ═══════════════════════════════════════════════
         // YOKLAMA
-        // ═══════════════════════════════════════════════
         CreateMap<Yoklama, YoklamaViewModel>()
             .ForMember(dest => dest.DersAdi, opt => opt.MapFrom(src =>
                 src.DersAtama != null && src.DersAtama.Ders != null
@@ -215,9 +199,7 @@ public class MappingProfile : Profile
                 src.Ogrenci != null && src.Ogrenci.Kullanici != null
                     ? src.Ogrenci.Kullanici.TamAd : string.Empty));
 
-        // ═══════════════════════════════════════════════
         // DUYURU
-        // ═══════════════════════════════════════════════
         CreateMap<Duyuru, StudentManagement.Services.ViewModels.Ogretmen.DuyuruOlusturViewModel>()
             .ForMember(dest => dest.HedefAdi, opt => opt.MapFrom(src => src.Hedef.ToString()))
             .ForMember(dest => dest.YayinlayanAdi, opt => opt.MapFrom(src =>
@@ -234,9 +216,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
 
 
-        // ═══════════════════════════════════════════════
         // BELGE TALEBİ
-        // ═══════════════════════════════════════════════
         CreateMap<BelgeTalebi, StudentManagement.Services.ViewModels.OgrenciIsleri.BelgeTalebiViewModel>()
             .ForMember(dest => dest.BelgeTurAdi, opt => opt.MapFrom(src => src.BelgeTur.ToString()))
             .ForMember(dest => dest.BelgeDurumAdi, opt => opt.MapFrom(src => src.Durum.ToString()))
@@ -254,9 +234,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
 
-        // ═══════════════════════════════════════════════
         // AUDIT LOG
-        // ═══════════════════════════════════════════════
         CreateMap<AuditLog, AuditLogViewModel>()
             .ForMember(dest => dest.ActionAdi, opt => opt.MapFrom(src => src.Action.ToString()))
             .ForMember(dest => dest.KullaniciAdi, opt => opt.MapFrom(src =>

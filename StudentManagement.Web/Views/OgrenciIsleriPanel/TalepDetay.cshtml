@@ -16,7 +16,7 @@
 
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:800px;">
 
-    <!-- Öğrenci Bilgileri -->
+
     <div class="card">
         <div class="card-header">
             <div class="card-title"><i class="fas fa-user"></i> Öğrenci Bilgileri</div>
@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <!-- Ders Bilgileri -->
+
     <div class="card">
         <div class="card-header">
             <div class="card-title"><i class="fas fa-book"></i> Talep Edilen Ders</div>
@@ -56,12 +56,12 @@
     </div>
 </div>
 
-<!-- Onay / Red -->
+
 @if (Model.DurumAdi == "Talep")
 {
     <div style="display:flex; gap:16px; margin-top:20px; max-width:800px;">
 
-        <!-- Onayla -->
+
         <div class="card" style="flex:1;">
             <div class="card-body" style="text-align:center;">
                 <i class="fas fa-check-circle" style="font-size:2rem; color:var(--color-success); margin-bottom:10px;"></i>
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <!-- Reddet -->
+
         <div class="card" style="flex:1;">
             <div class="card-body" style="text-align:center;">
                 <i class="fas fa-times-circle" style="font-size:2rem; color:var(--color-danger); margin-bottom:10px;"></i>

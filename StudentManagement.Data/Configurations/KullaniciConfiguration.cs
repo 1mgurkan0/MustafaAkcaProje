@@ -24,7 +24,7 @@ public class KullaniciConfiguration : IEntityTypeConfiguration<Kullanici>
         builder.Property(k => k.Unvan).HasMaxLength(50);
         builder.Property(k => k.Rol).HasConversion<int>();
 
-        // ── İlişkiler ─────────────────────────────────────────────────────────
+        // İlişkiler
         builder.HasOne(k => k.Bolum)
                .WithMany(b => b.Ogretmenler)
                .HasForeignKey(k => k.BolumId)

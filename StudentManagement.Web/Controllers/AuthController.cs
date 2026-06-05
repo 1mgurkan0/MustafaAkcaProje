@@ -17,11 +17,9 @@ public class AuthController : Controller
         _logger      = logger;
     }
 
-    // ─── GET Login ────────────────────────────────────────────────────────────
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
     {
-        // Zaten giriş yapmış kullanıcıyı paneline yönlendir
         var role = HttpContext.Session.GetString(AppConstants.Session.UserRole);
         if (!string.IsNullOrEmpty(role))
             return RedirectToAction("Index", "Home");
@@ -30,7 +28,6 @@ public class AuthController : Controller
         return View(new LoginViewModel());
     }
 
-    // ─── POST Login ───────────────────────────────────────────────────────────
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
@@ -51,7 +48,6 @@ public class AuthController : Controller
             return View(model);
         }
 
-        // Session'a yaz
         HttpContext.Session.SetInt32(AppConstants.Session.UserId,    result.Data!.UserId);
         HttpContext.Session.SetString(AppConstants.Session.Username,  result.Data.Username);
         HttpContext.Session.SetString(AppConstants.Session.UserRole,  result.Data.Role);
@@ -65,7 +61,6 @@ public class AuthController : Controller
         _logger.LogInformation("Giriş başarılı: {Username} [{Role}]",
             result.Data.Username, result.Data.Role);
 
-        // ReturnUrl güvenlik kontrolü
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             return Redirect(returnUrl);
 
@@ -80,11 +75,9 @@ public class AuthController : Controller
     }
 
 
-    // ─── GET Register ─────────────────────────────────────────────────────────
     [HttpGet]
     public async Task<IActionResult> Register()
     {
-        // Zaten giriş yapmış kullanıcıyı paneline yönlendir
         var role = HttpContext.Session.GetString(AppConstants.Session.UserRole);
         if (!string.IsNullOrEmpty(role))
             return RedirectToAction("Index", "Home");
@@ -101,7 +94,6 @@ public class AuthController : Controller
         return View(new RegisterViewModel());
     }
 
-    // ─── POST Register ────────────────────────────────────────────────────────
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model)
@@ -125,7 +117,6 @@ public class AuthController : Controller
         return RedirectToAction(nameof(Login));
     }
 
-    // ─── POST Logout ──────────────────────────────────────────────────────────
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Logout()
@@ -136,7 +127,6 @@ public class AuthController : Controller
         return RedirectToAction(nameof(Login));
     }
 
-    // ─── Private ─────────────────────────────────────────────────────────────
     private async Task RepopulateBolumler()
     {
         var bolumler = await _authService.GetBolumlerAsync();

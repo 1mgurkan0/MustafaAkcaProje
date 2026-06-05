@@ -172,7 +172,7 @@
     }
 </div>
 
-<!-- DERS KAYIT TALEPLERİ ANA SATIRI -->
+
 <div class="main-category-container">
     <div class="main-category-header">
         <div class="main-category-arrow">
@@ -280,7 +280,7 @@
     </div>
 </div>
 
-<!-- BELGE TALEPLERİ ANA SATIRI -->
+
 <div class="main-category-container">
     <div class="main-category-header">
         <div class="main-category-arrow">
@@ -381,7 +381,7 @@
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Ana Başlık (Kategori) Açılır/Kapanır Ok Mekanizması
+
             $('.main-category-header').on('click', function() {
                 var body = $(this).next('.main-category-body');
                 var icon = $(this).find('.main-category-arrow i');
@@ -399,7 +399,7 @@
                 }
             });
 
-            // Toplu Onay Mekanizması
+
             const selectAll = document.getElementById('tumunuSec');
             const chkBoxes = document.querySelectorAll('.talep-chk');
             const btn = document.getElementById('topluOnayBtn');
@@ -425,7 +425,7 @@
             chkBoxes.forEach(c => c.addEventListener('change', updateBtn));
             updateBtn();
 
-            // DataTable Kurulumu
+
             var tableDers = $('#talepTbl').DataTable({
                 pageLength: 50,
                 dom: 'rt<"d-flex justify-content-center w-100 mt-4 mb-4"p>',
@@ -444,7 +444,7 @@
             });
             $('#searchBelge').on('keyup', function() { tableBelge.search(this.value).draw(); });
 
-            // Öğrenci Satırı Açılır/Kapanır Ok Mekanizması (Child Rows)
+
             $('#talepTbl tbody, #belgeTbl tbody').on('click', 'td.details-control', function (e) {
                 if(e.target.tagName.toLowerCase() === 'input') return;
 

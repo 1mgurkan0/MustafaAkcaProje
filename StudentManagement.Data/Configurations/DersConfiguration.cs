@@ -18,7 +18,7 @@ public class DersConfiguration : IEntityTypeConfiguration<Ders>
         builder.Property(d => d.DersAdi).IsRequired().HasMaxLength(200);
         builder.Property(d => d.Aciklama).HasMaxLength(1000);
 
-        // ── İlişkiler ─────────────────────────────────────────────────────────
+        // İlişkiler
         builder.HasOne(d => d.Bolum)
                .WithMany(b => b.Dersler)
                .HasForeignKey(d => d.BolumId)

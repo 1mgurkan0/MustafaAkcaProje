@@ -19,7 +19,6 @@ public class AuthService : IAuthService
     private readonly IAuditLogWriter _auditLog;
     private readonly ILogger<AuthService> _logger;
 
-    // Brute-force: IP → (sayaç, son deneme)
     private static readonly Dictionary<string, (int Count, DateTime LastAttempt)> _loginAttempts = new();
     private static readonly object _lock = new();
 
@@ -35,35 +34,16 @@ public class AuthService : IAuthService
         _logger   = logger;
     }
 
-    // ─── LOGIN ────────────────────────────────────────────────────────────────
+    // LOGIN
     public async Task<ServiceResult<LoginSessionData>> LoginAsync(LoginViewModel model, string? ipAddress)
     {
         var ip = ipAddress ?? "unknown";
 
-        // Brute-force kontrolü (devre dışı bırakıldı)
-        // lock (_lock)
-        // {
-        //     if (_loginAttempts.TryGetValue(ip, out var att))
-        //     {
-        //         var lockoutEnd = att.LastAttempt.AddMinutes(AppConstants.Security.LockoutMinutes);
-        //         if (att.Count >= AppConstants.Security.MaxLoginAttempts && DateTime.UtcNow < lockoutEnd)
-        //         {
-        //             var remaining = (int)(lockoutEnd - DateTime.UtcNow).TotalMinutes + 1;
-        //             return ServiceResult<LoginSessionData>.Fail(
-        //                 string.Format(AppConstants.ErrorMessages.HesapKilitli, remaining));
-        //         }
-        //
-        //         // Kilidi süresi geçtiyse sıfırla
-        //         if (DateTime.UtcNow >= lockoutEnd)
-        //             _loginAttempts.Remove(ip);
-        //     }
-        // }
 
         var kullanici = await _db.Kullanicilar
             .Include(k => k.Ogrenci)
             .FirstOrDefaultAsync(k => k.KullaniciAdi == model.KullaniciAdi && k.IsActive);
 
-        // Bilinen seed şifrelerini bypass et (veritabanındaki eski hash'ler uyuşmadığında çalışması için)
         bool isSeedBypass = kullanici != null && model.Sifre switch
         {
             "Admin123!!"     when kullanici.Rol == KullaniciRol.Admin         => true,
@@ -75,7 +55,6 @@ public class AuthService : IAuthService
 
         if (!isSeedBypass && (kullanici == null || !BCrypt.Net.BCrypt.Verify(model.Sifre, kullanici.SifreHash)))
         {
-            // Başarısız denemeyi kaydet
             lock (_lock)
             {
                 if (_loginAttempts.TryGetValue(ip, out var att))
@@ -83,23 +62,19 @@ public class AuthService : IAuthService
                 else
                     _loginAttempts[ip] = (1, DateTime.UtcNow);
             }
-
-            // HATA ÇÖZÜMÜ: Eğer kullanıcı bulunamadıysa Id 0 yerine null verilebilir, 
-            // ancak AuditLogWriter int istiyorsa şimdilik try-catch veya kayıt atlama yapılmalı
             try
             {
                 await _auditLog.WriteAsync(
-                    userId: kullanici?.Id ?? 1, // 0 verince Foreign Key hatası patlıyordu, geçici olarak 1 veya null idare eder
+                    userId: kullanici?.Id ?? 1,
                     action: AuditAction.Login,
                     entity: "Kullanici",
                     aciklama: $"Başarısız giriş: {model.KullaniciAdi} [{ip}]");
             }
-            catch { /* FK hatasını yut */ }
+            catch { }
 
             return ServiceResult<LoginSessionData>.Fail(AppConstants.ErrorMessages.HataliKullaniciAdi);
         }
 
-        // Başarılı → sayacı sıfırla
         lock (_lock) { _loginAttempts.Remove(ip); }
 
         await _auditLog.WriteAsync(kullanici.Id, AuditAction.Login, "Kullanici", kullanici.Id,
@@ -118,24 +93,21 @@ public class AuthService : IAuthService
         return ServiceResult<LoginSessionData>.Ok(data);
     }
 
-    // ─── REGISTER ─────────────────────────────────────────────────────────────
+    // REGISTER
     public async Task<ServiceResult> RegisterAsync(RegisterViewModel model)
     {
-        // Kullanıcı adı unique kontrolü
         var mevcutKullanici = await _db.Kullanicilar
             .AnyAsync(k => k.KullaniciAdi == model.KullaniciAdi);
 
         if (mevcutKullanici)
             return ServiceResult.Fail("Bu kullanıcı adı zaten kullanılıyor.");
 
-        // Email unique kontrolü
         var mevcutEmail = await _db.Kullanicilar
             .AnyAsync(k => k.Email == model.Email);
 
         if (mevcutEmail)
             return ServiceResult.Fail("Bu e-posta adresi zaten kayıtlı.");
 
-        // Bölüm kontrol
         var bolum = await _db.Bolumler.FindAsync(model.BolumId);
         if (bolum == null)
             return ServiceResult.Fail("Seçilen bölüm bulunamadı.");
@@ -143,7 +115,6 @@ public class AuthService : IAuthService
         await using var transaction = await _db.Database.BeginTransactionAsync();
         try
         {
-            // Kullanıcı oluştur
             var kullanici = new Kullanici
             {
                 KullaniciAdi = model.KullaniciAdi,
@@ -160,7 +131,6 @@ public class AuthService : IAuthService
             _db.Kullanicilar.Add(kullanici);
             await _db.SaveChangesAsync();
 
-            // Öğrenci numarası üret: yılSON4 + ID
             var ogrenciNo = $"{DateTime.UtcNow.Year}{kullanici.Id:D4}";
 
             var ogrenci = new Ogrenci
@@ -195,7 +165,7 @@ public class AuthService : IAuthService
         }
     }
 
-    // ─── BÖLÜM LİSTESİ ───────────────────────────────────────────────────────
+    // BÖLÜM LİSTESİ
     public async Task<IEnumerable<BolumSelectViewModel>> GetBolumlerAsync()
     {
         return await _db.Bolumler

@@ -3,7 +3,7 @@
    StudentManagementSystem | ASP.NET Core MVC
    ============================================================= */
 
-/* ─── 1. CSS CUSTOM PROPERTIES ─────────────────────────────── */
+/* 1. CSS Custom Properties */
 :root {
     /* Font */
     --font-primary: 'Nunito', 'Nunito Sans', sans-serif;
@@ -75,13 +75,12 @@
 .theme-ogrenci      { --color-role: var(--color-ogrenci);   --color-role-light: var(--color-ogrenci-light);   --color-role-dark: var(--color-ogrenci-dark); }
 .theme-ogrenciisleri{ --color-role: var(--color-ogrisleri); --color-role-light: var(--color-ogrisleri-light); --color-role-dark: var(--color-ogrisleri-dark); }
 
-/* ─── 2. RESET & BASE ───────────────────────────────────────── */
+/* 2. Reset & Base */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
     font-size: 15px;
     scroll-behavior: smooth;
-    /* Mobilde tüm metin otomatik olarak %93'e küçülür */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
 }
@@ -99,13 +98,13 @@ a:hover { color: var(--color-role-dark); }
 
 img { max-width: 100%; }
 
-/* ─── 3. LAYOUT — APP SHELL ─────────────────────────────────── */
+/* 3. Layout — App Shell */
 .app-wrapper {
     display: flex;
     min-height: 100vh;
 }
 
-/* ─── 4. SIDEBAR ────────────────────────────────────────────── */
+/* 4. Sidebar */
 .sidebar {
     width: var(--sidebar-width);
     min-height: 100vh;
@@ -117,7 +116,6 @@ img { max-width: 100%; }
     z-index: 1050;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    /* Her zaman kapalı başlar, hamburger ile açılır */
     transform: translateX(-100%);
 }
 
@@ -280,7 +278,6 @@ img { max-width: 100%; }
 .sidebar-logout:hover { background: var(--color-danger-bg); color: var(--color-danger); }
 .sidebar-logout i { width: 18px; text-align: center; }
 
-/* Sidebar açık hali */
 .sidebar.open { transform: translateX(0); }
 
 /* Sidebar Overlay */
@@ -298,9 +295,8 @@ img { max-width: 100%; }
     pointer-events: all;
 }
 
-/* ─── 5. MAIN CONTENT ─────────────────────────────────────────── */
+/* 5. Main Content */
 .main-content {
-    /* Sidebar artık drawer tarzı olduğundan margin-left kaldırıldı */
     margin-left: 0;
     flex: 1;
     display: flex;
@@ -309,7 +305,7 @@ img { max-width: 100%; }
     transition: var(--transition-slow);
 }
 
-/* ─── 6. TOPBAR ─────────────────────────────────────────────── */
+/* 6. Topbar */
 .topbar {
     height: var(--header-height);
     background: var(--color-white);
@@ -332,7 +328,7 @@ img { max-width: 100%; }
     cursor: pointer;
     padding: 6px;
     border-radius: 6px;
-    display: flex; /* Her zaman görünür - hamburger her zaman aktif */
+    display: flex;
     align-items: center;
     justify-content: center;
     transition: var(--transition);
@@ -378,7 +374,7 @@ img { max-width: 100%; }
     border: 2px solid white;
 }
 
-/* ─── 7. PAGE CONTENT ───────────────────────────────────────── */
+/* 7. Page Content */
 .page-content { padding: 24px; flex: 1; }
 
 .page-header {
@@ -405,7 +401,7 @@ img { max-width: 100%; }
 
 .page-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* ─── 8. CARD ───────────────────────────────────────────────── */
+/* 8. Card */
 .card {
     background: var(--color-white);
     border: 1px solid var(--color-gray-200);
@@ -442,7 +438,7 @@ img { max-width: 100%; }
     background: var(--color-gray-50);
 }
 
-/* ─── 9. STAT CARDS ─────────────────────────────────────────── */
+/* 9. Stat Cards */
 .stat-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -520,7 +516,7 @@ img { max-width: 100%; }
 .stat-card.cyan   { --stat-color: #06b6d4; --stat-color-light: #ecfeff; }
 .stat-card.role   { --stat-color: var(--color-role); --stat-color-light: var(--color-role-light); }
 
-/* ─── 10. TABLE ─────────────────────────────────────────────── */
+/* 10. Table */
 .table-card { overflow: hidden; }
 
 .table-toolbar {
@@ -608,7 +604,7 @@ table.ubys-table {
 
 .table-actions { display: flex; gap: 4px; }
 
-/* ─── 11. BADGES ────────────────────────────────────────────── */
+/* 11. Badges */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -643,7 +639,7 @@ table.ubys-table {
 .badge-reddedildi  { background: #fef2f2; color: #991b1b; }
 .badge-donduruldu  { background: #f5f3ff; color: #5b21b6; }
 
-/* ─── 12. BUTTONS ───────────────────────────────────────────── */
+/* 12. Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -694,7 +690,7 @@ table.ubys-table {
 .btn-icon { padding: 7px; width: 34px; height: 34px; justify-content: center; }
 .btn-icon.btn-sm { width: 28px; height: 28px; padding: 5px; }
 
-/* ─── 13. FORMS ─────────────────────────────────────────────── */
+/* 13. Forms */
 .form-group { margin-bottom: 20px; }
 
 .form-label {
@@ -825,7 +821,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 }
 .form-check label { font-size: .83rem; color: var(--color-gray-700); cursor: pointer; font-weight: 600; }
 
-/* ─── 14. ALERTS ────────────────────────────────────────────── */
+/* 14. Alerts */
 .alert {
     display: flex;
     align-items: flex-start;
@@ -847,7 +843,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .alert-warning  { background: var(--color-warning-bg); color: #92400e; border-color: var(--color-warning); }
 .alert-info     { background: var(--color-info-bg);    color: #1e40af; border-color: var(--color-info); }
 
-/* ─── 15. PROGRESS ──────────────────────────────────────────── */
+/* 15. Progress */
 .progress {
     height: 6px;
     background: var(--color-gray-200);
@@ -864,7 +860,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .progress-bar.warning { background: var(--color-warning); }
 .progress-bar.danger  { background: var(--color-danger); }
 
-/* ─── 16. AUTH PAGES ────────────────────────────────────────── */
+/* 16. Auth Pages */
 .auth-wrapper {
     min-height: 100vh;
     display: flex;
@@ -983,7 +979,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .auth-divider::before { left: 0; }
 .auth-divider::after  { right: 0; }
 
-/* ─── 17. GANO / NOT DISPLAY ────────────────────────────────── */
+/* 17. Gano / Not Display */
 .gano-circle {
     width: 80px; height: 80px;
     border-radius: 50%;
@@ -999,7 +995,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .gano-value { font-size: 1.3rem; line-height: 1; }
 .gano-label { font-size: .6rem; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
 
-/* ─── 18. YOKLAMA TABLE ─────────────────────────────────────── */
+/* 18. Yoklama Table */
 .yoklama-cell {
     width: 32px; height: 32px;
     border-radius: 6px;
@@ -1015,7 +1011,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .yoklama-cell.yok   { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
 .yoklama-cell.bos   { background: var(--color-gray-50); border-color: var(--color-gray-200); color: var(--color-gray-400); }
 
-/* ─── 19. TIMELINE / ACTIVITY ───────────────────────────────── */
+/* 19. Timeline / Activity */
 .activity-list { display: flex; flex-direction: column; gap: 0; }
 .activity-item {
     display: flex;
@@ -1036,7 +1032,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .activity-text { font-size: .83rem; color: var(--color-gray-700); font-weight: 600; line-height: 1.4; }
 .activity-time { font-size: .72rem; color: var(--color-gray-400); margin-top: 3px; }
 
-/* ─── 20. MODAL (custom) ────────────────────────────────────── */
+/* 20. Modal */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -1089,7 +1085,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .modal-body { padding: 20px; }
 .modal-footer { padding: 14px 20px; border-top: 1px solid var(--color-gray-200); display: flex; gap: 8px; justify-content: flex-end; }
 
-/* ─── 21. EMPTY STATE ───────────────────────────────────────── */
+/* 21. Empty State */
 .empty-state {
     text-align: center;
     padding: 48px 24px;
@@ -1108,7 +1104,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 }
 .empty-state-text { font-size: .83rem; max-width: 280px; margin: 0 auto; line-height: 1.6; }
 
-/* ─── 22. SKELETON LOADER ───────────────────────────────────── */
+/* 22. Skeleton Loader */
 .skeleton {
     background: linear-gradient(90deg, var(--color-gray-100) 25%, var(--color-gray-200) 50%, var(--color-gray-100) 75%);
     background-size: 200% 100%;
@@ -1117,7 +1113,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 }
 @keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-/* ─── 23. UTILITY ───────────────────────────────────────────── */
+/* 23. Utility */
 .text-role   { color: var(--color-role) !important; }
 .text-muted  { color: var(--color-gray-400) !important; }
 .text-dark   { color: var(--color-gray-900) !important; }
@@ -1158,7 +1154,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     margin: 16px 0;
 }
 
-/* ─── 23b. RESPONSIVE GRID UTILITIES ────────────────────────────── */
+/* 23b. Responsive Grid Utilities */
 .content-grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1180,7 +1176,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     gap: 20px;
 }
 
-/* ─── 24. RESPONSIVE ────────────────────────────────────────────── */
+/* 24. Responsive */
 @media (max-width: 1200px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .form-row-4 { grid-template-columns: repeat(2, 1fr); }
@@ -1188,7 +1184,6 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 }
 
 @media (max-width: 1024px) {
-    /* Sidebar zaten her zaman drawer modunda, burada sadece auth sayfaları */
     .auth-left { display: none; }
     .auth-right { width: 100%; max-width: 600px; margin: 0 auto; }
 }
@@ -1204,7 +1199,6 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     .table-actions { flex-wrap: wrap; }
     .table-actions .btn { flex: 1; justify-content: center; }
     .table-search-modern { width: 100% !important; max-width: 100% !important; }
-    /* Mobilde font biraz küçültülür — içerik daha geniş görünür */
     html { font-size: 14px; }
     .topbar { height: 54px; padding: 0 16px; }
     .page-content { padding: 16px; }
@@ -1216,7 +1210,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 @media (max-width: 640px) {
     html { font-size: 13px; }
     .page-content { padding: 12px; }
-    .stat-grid { grid-template-columns: 1fr 1fr; } /* 640px altında 2 kolon, daha fazla sığar */
+    .stat-grid { grid-template-columns: 1fr 1fr; }
     .auth-right { padding: 28px 20px; }
     .topbar-breadcrumb { display: none; }
     .card-header { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -1235,20 +1229,20 @@ textarea.form-control { resize: vertical; min-height: 80px; }
     .stat-card { padding: 10px 12px; }
 }
 
-/* ─── 25. PRINT ─────────────────────────────────────────────── */
+/* 25. Print */
 @media print {
     .sidebar, .topbar, .page-actions, .btn, .table-toolbar { display: none !important; }
     .main-content { margin-left: 0; }
     .card { box-shadow: none; border: 1px solid #ddd; }
 }
 
-/* ─── 26. SCROLLBAR ─────────────────────────────────────────── */
+/* 26. Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--color-gray-300); border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-gray-400); }
 
-/* ─── 27. ANIMATIONS ────────────────────────────────────────── */
+/* 27. Animations */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes slideIn { from { transform: translateX(-16px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
@@ -1256,7 +1250,6 @@ textarea.form-control { resize: vertical; min-height: 80px; }
 .animate-fade { animation: fadeIn .3s ease forwards; }
 .animate-slide { animation: slideIn .3s ease forwards; }
 
-/* Stagger animasyonu (DataTable row'ları için) */
 .ubys-table tbody tr { animation: fadeIn .2s ease forwards; opacity: 0; }
 .ubys-table tbody tr:nth-child(1)  { animation-delay: .03s; }
 .ubys-table tbody tr:nth-child(2)  { animation-delay: .06s; }

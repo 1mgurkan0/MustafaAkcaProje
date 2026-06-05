@@ -21,18 +21,11 @@ public class OgrenciIsleriPanelController : BaseController
         _env = env;
     }
 
-    // ═══════════════════════════════════════════════════════════════════════
-    // DASHBOARD
-    // ═══════════════════════════════════════════════════════════════════════
     public async Task<IActionResult> Dashboard()
     {
         var vm = await _service.GetDashboardAsync();
         return View(vm);
     }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // KAYIT TALEPLERİ
-    // ═══════════════════════════════════════════════════════════════════════
 
     /// <summary>Bekleyen tüm kayıt talepleri (filtreli)</summary>
     public async Task<IActionResult> Talepler(int? donemId, int? bolumId)
@@ -125,10 +118,6 @@ public class OgrenciIsleriPanelController : BaseController
         return RedirectToAction(nameof(Talepler));
     }
 
-    // ═══════════════════════════════════════════════════════════════════════
-    // BELGE TALEPLERİ
-    // ═══════════════════════════════════════════════════════════════════════
-
     public async Task<IActionResult> Belgeler()
     {
         var vm = await _service.GetBelgeTalepleriAsync();
@@ -168,7 +157,6 @@ public class OgrenciIsleriPanelController : BaseController
             return RedirectToAction(nameof(Belgeler));
         }
 
-        // Dosya bos kontrolü (Belge yükleme esnasında)
         try
         {
             var result = await _service.BelgeYukleAsync(belgeTalebiId, belgeFile, CurrentUserId);
@@ -194,7 +182,6 @@ public class OgrenciIsleriPanelController : BaseController
             return RedirectToAction(nameof(Belgeler));
         }
 
-        // wwwroot'a göreceli yol
         var tamYol = Path.Combine("wwwroot", yol.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
         if (!System.IO.File.Exists(tamYol))
         {
@@ -212,10 +199,6 @@ public class OgrenciIsleriPanelController : BaseController
         var dosyaAdi = string.IsNullOrWhiteSpace(ad) ? Path.GetFileName(yol) : ad;
         return PhysicalFile(Path.GetFullPath(tamYol), contentType, dosyaAdi);
     }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // ÖĞRENCİ ARAMA
-    // ═══════════════════════════════════════════════════════════════════════
 
     public async Task<IActionResult> OgrenciAra(string? arama, int? bolumId)
     {
@@ -235,9 +218,6 @@ public class OgrenciIsleriPanelController : BaseController
     }
 
 
-    // ═══════════════════════════════════════════════════════════════════════
-    // ÖĞRENCİ DETAY
-    // ═══════════════════════════════════════════════════════════════════════
     public async Task<IActionResult> OgrenciDetay(int id)
     {
         var result = await _service.OgrenciDetayAsync(id);
@@ -248,10 +228,6 @@ public class OgrenciIsleriPanelController : BaseController
         }
         return View(result.Data);
     }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // DUYURU
-    // ═══════════════════════════════════════════════════════════════════════
 
     [HttpGet]
     public IActionResult DuyuruOlustur()
@@ -275,10 +251,6 @@ public class OgrenciIsleriPanelController : BaseController
             return View(model);
         }
     }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // ÖĞRENCİ OLUŞTUR
-    // ═══════════════════════════════════════════════════════════════════════
 
     [HttpGet]
     public async Task<IActionResult> OgrenciOlustur()
@@ -314,10 +286,6 @@ public class OgrenciIsleriPanelController : BaseController
         var bolumler = await _service.GetBolumSelectListAsync();
         model.BolumListesi = bolumler.Select(b => new SelectListItem(b.DisplayText, b.Id.ToString())).ToList();
     }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // ÖĞRENCİ GÜNCELLE
-    // ═══════════════════════════════════════════════════════════════════════
 
     [HttpGet]
     public async Task<IActionResult> OgrenciGuncelle(int id)

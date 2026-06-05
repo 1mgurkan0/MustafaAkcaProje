@@ -20,7 +20,7 @@ public class OgrenciConfiguration : IEntityTypeConfiguration<Ogrenci>
         builder.Property(o => o.Gano).HasColumnType("decimal(4,2)");
         builder.Property(o => o.Durum).HasConversion<int>();
 
-        // ── İlişkiler ─────────────────────────────────────────────────────────
+        // İlişkiler
         builder.HasOne(o => o.Kullanici)
                .WithOne(k => k.Ogrenci)
                .HasForeignKey<Ogrenci>(o => o.KullaniciId)

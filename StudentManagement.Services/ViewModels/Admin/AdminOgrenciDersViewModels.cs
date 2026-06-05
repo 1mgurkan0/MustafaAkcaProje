@@ -4,9 +4,7 @@ using StudentManagement.Core.Enums;
 
 namespace StudentManagement.Services.ViewModels.Admin;
 
-// ═══════════════════════════════════════════════════════════════════════════
 // ÖĞRENCİ YÖNETİMİ (Admin/Ogrenciler)
-// ═══════════════════════════════════════════════════════════════════════════
 
 public class AdminOgrenciListViewModel
 {
@@ -44,9 +42,7 @@ public class AdminOgrenciDurumViewModel
     public OgrenciDurum YeniDurum { get; set; }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
 // ÖĞRENCİ OLUŞTURMA (Admin/OgrenciOlustur)
-// ═══════════════════════════════════════════════════════════════════════════
 
 public class AdminOgrenciOlusturViewModel
 {
@@ -110,9 +106,7 @@ public class AdminOgrenciOlusturViewModel
     public List<SelectListItem> BolumListesi { get; set; } = new();
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
 // ÖĞRENCİ GÜNCELLEME (Admin/OgrenciGuncelle)
-// ═══════════════════════════════════════════════════════════════════════════
 
 public class AdminOgrenciGuncelleViewModel
 {
@@ -182,9 +176,7 @@ public class AdminOgrenciGuncelleViewModel
     public List<SelectListItem> BolumListesi { get; set; } = new();
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
 // DERS KATALOĞU (Admin/DersKatalogu)
-// ═══════════════════════════════════════════════════════════════════════════
 
 public class AdminDersListViewModel
 {

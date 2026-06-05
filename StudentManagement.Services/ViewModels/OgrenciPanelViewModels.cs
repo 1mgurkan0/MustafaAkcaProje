@@ -2,7 +2,7 @@ using StudentManagement.Core.Enums;
 
 namespace StudentManagement.Services.ViewModels.Ogrenci;
 
-// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+// DASHBOARD
 public class OgrenciDashboardViewModel
 {
     public string   TamAd               { get; set; } = string.Empty;
@@ -20,7 +20,7 @@ public class OgrenciDashboardViewModel
     public List<StudentManagement.Services.ViewModels.Ogretmen.SinavViewModel> YaklasanSinavlar { get; set; } = new();
 }
 
-// ─── DERS KAYIT ───────────────────────────────────────────────────────────────
+// DERS KAYIT
 public class DersKayitViewModel
 {
     public string   DonemAdi       { get; set; } = string.Empty;
@@ -55,7 +55,7 @@ public class DersKayitTalepViewModel
     public int DersAtamaId { get; set; }
 }
 
-// ─── ÖĞRENCİ DERS ────────────────────────────────────────────────────────────
+// ÖĞRENCİ DERS
 public class OgrenciDersViewModel
 {
     public string Saat { get; set; } = string.Empty;
@@ -76,7 +76,7 @@ public class OgrenciDersViewModel
     public string   DurumAdi       { get; set; } = string.Empty;
 }
 
-// ─── TRANSKRİPT ───────────────────────────────────────────────────────────────
+// TRANSKRİPT
 public class TranskriptViewModel
 {
     public string   TamAd                { get; set; } = string.Empty;
@@ -111,7 +111,7 @@ public class TranskriptSatirViewModel
     public string   HarfNotuAdi { get; set; } = "-";
 }
 
-// ─── DERS PROGRAMI ────────────────────────────────────────────────────────────
+// DERS PROGRAMI
 public class DersProgramiViewModel
 {
     public string DonemAdi { get; set; } = string.Empty;
@@ -132,14 +132,14 @@ public class DersProgramiSatirViewModel
     public string   Derslik        { get; set; } = string.Empty;
 }
 
-// ─── SINAV TAKVİMİ ────────────────────────────────────────────────────────────
+// SINAV TAKVİMİ
 public class SinavTakvimiViewModel
 {
     public string DonemAdi { get; set; } = string.Empty;
     public List<StudentManagement.Services.ViewModels.Ogretmen.SinavViewModel> Sinavlar { get; set; } = new();
 }
 
-// ─── BELGELER ─────────────────────────────────────────────────────────────────
+// BELGELER
 public class BelgelerViewModel
 {
     public List<BelgeTalebiViewModel> Talepler { get; set; } = new();

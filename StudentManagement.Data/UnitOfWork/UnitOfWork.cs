@@ -3,7 +3,7 @@ using StudentManagement.Data.Context;
 
 namespace StudentManagement.Data.UnitOfWork;
 
-// ─── GENERIC REPOSITORY ───────────────────────────────────────────────────────
+// GENERIC REPOSITORY
 public interface IGenericRepository<T> where T : class
 {
     Task<T?> GetByIdAsync(int id);
@@ -31,7 +31,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public void Remove(T entity)                       => _set.Remove(entity);
 }
 
-// ─── UNIT OF WORK ─────────────────────────────────────────────────────────────
+// UNIT OF WORK
 public interface IUnitOfWork : IDisposable
 {
     Task<int> SaveChangesAsync();

@@ -2,9 +2,7 @@ using StudentManagement.Core.Enums;
 
 namespace StudentManagement.Services.ViewModels.Admin;
 
-// ═══════════════════════════════════════════════════════════════
 // SHARED / SELECT
-// ═══════════════════════════════════════════════════════════════
 public class KullaniciOzetViewModel
 {
     public int    Id     { get; set; }
@@ -15,9 +13,7 @@ public class KullaniciOzetViewModel
     public string DisplayText => TamAd;
 }
 
-// ═══════════════════════════════════════════════════════════════
 // DASHBOARD
-// ═══════════════════════════════════════════════════════════════
 public class AdminDashboardViewModel
 {
     public int    ToplamOgrenci        { get; set; }
@@ -43,9 +39,7 @@ public class TalepOzetViewModel
     public DateTime TalepTarihi   { get; set; }
 }
 
-// ═══════════════════════════════════════════════════════════════
 // BÖLÜM
-// ═══════════════════════════════════════════════════════════════
 public class BolumViewModel
 {
     public int    Id               { get; set; }
@@ -81,9 +75,7 @@ public class BolumSelectViewModel
     public string DisplayText { get; set; } = string.Empty;
 }
 
-// ═══════════════════════════════════════════════════════════════
 // DÖNEM
-// ═══════════════════════════════════════════════════════════════
 public class DonemViewModel
 {
     public int      Id                 { get; set; }
@@ -127,9 +119,7 @@ public class DonemSelectViewModel
     public string DisplayText { get; set; } = string.Empty;
 }
 
-// ═══════════════════════════════════════════════════════════════
 // DERS
-// ═══════════════════════════════════════════════════════════════
 public class DersViewModel
 {
     public int    Id           { get; set; }
@@ -171,9 +161,7 @@ public class DersSelectViewModel
     public string DisplayText { get; set; } = string.Empty;
 }
 
-// ═══════════════════════════════════════════════════════════════
 // DERS ATAMA
-// ═══════════════════════════════════════════════════════════════
 public class DersAtamaViewModel
 {
     public int      Id                   { get; set; }
@@ -234,9 +222,7 @@ public class DersAtamaOgrenciViewModel
     public string   DurumAdi     { get; set; } = string.Empty;
 }
 
-// ═══════════════════════════════════════════════════════════════
 // ÖĞRENCİ
-// ═══════════════════════════════════════════════════════════════
 public class OgrenciViewModel
 {
     public int      OgrenciId { get; set; }
@@ -264,9 +250,7 @@ public class OgrenciDetayViewModel : OgrenciViewModel
     public string? ProfilFotoUrl { get; set; }
     public string KullaniciAdi  { get; set; } = string.Empty;
 }
-// ═══════════════════════════════════════════════════════════════
 // AUDIT LOG
-// ═══════════════════════════════════════════════════════════════
 public class AuditLogViewModel
 {
     public int      Id           { get; set; }

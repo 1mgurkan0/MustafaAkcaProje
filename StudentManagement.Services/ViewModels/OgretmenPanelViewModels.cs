@@ -2,7 +2,7 @@ using StudentManagement.Core.Enums;
 
 namespace StudentManagement.Services.ViewModels.Ogretmen;
 
-// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+// DASHBOARD
 public class OgretmenDashboardViewModel
 {
     public string  UnvanliAd            { get; set; } = string.Empty;
@@ -16,7 +16,7 @@ public class OgretmenDashboardViewModel
     public List<SinavViewModel>         YaklasanSinavlar { get; set; } = new();
 }
 
-// ─── DERS ATAMA ÖZET ──────────────────────────────────────────────────────────
+// DERS ATAMA ÖZET
 public class DersAtamaOzetViewModel
 {
     public int    DersAtamaId          { get; set; }
@@ -31,7 +31,7 @@ public class DersAtamaOzetViewModel
     public string DonemAdi             { get; set; } = string.Empty;
 }
 
-// ─── DERS DETAY ───────────────────────────────────────────────────────────────
+// DERS DETAY
 public class DersDetayViewModel
 {
     public int    DersAtamaId          { get; set; }
@@ -47,7 +47,7 @@ public class DersDetayViewModel
     public List<OgrenciNotSatirViewModel> Ogrenciler { get; set; } = new();
 }
 
-// ─── NOT GİR ──────────────────────────────────────────────────────────────────
+// NOT GİR
 public class NotGirViewModel
 {
     public int    DersAtamaId { get; set; }
@@ -72,7 +72,7 @@ public class OgrenciNotSatirViewModel
     public double   DevamYuzdesi  { get; set; }
 }
 
-// ─── YOKLAMA ──────────────────────────────────────────────────────────────────
+// YOKLAMA
 public class YoklamaGirViewModel
 {
     public int      DersAtamaId   { get; set; }
@@ -110,7 +110,7 @@ public class OgrenciYoklamaViewModel
     public bool   Geldi      { get; set; }
 }
 
-// ─── SINAV ────────────────────────────────────────────────────────────────────
+// SINAV
 public class SinavViewModel
 {
     public int      Id            { get; set; }

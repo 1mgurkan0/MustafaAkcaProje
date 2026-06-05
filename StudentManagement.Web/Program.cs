@@ -66,7 +66,7 @@ try
     app.UseStaticFiles();
     app.UseRouting();
     app.UseSession();
-    // app.UseMiddleware<StudentManagement.Web.Middlewares.SessionValidationMiddleware>(); // Sorun yaratan gizli duvar kapatıldı
+    // app.UseMiddleware<StudentManagement.Web.Middlewares.SessionValidationMiddleware>();
 
     app.MapControllerRoute(name: "admin", pattern: "Admin/{action=Dashboard}/{id?}", defaults: new { controller = "Admin" });
     app.MapControllerRoute(name: "ogretmenPanel", pattern: "OgretmenPanel/{action=Dashboard}/{id?}", defaults: new { controller = "OgretmenPanel" });
@@ -84,7 +84,7 @@ try
             logger.LogInformation("Veritabanı migrate ediliyor...");
             await db.Database.MigrateAsync();
             logger.LogInformation("Seed verisi kontrol ediliyor...");
-            // Burada scope çakışması vardı, sildik ve doğrudan db'yi yolladık.
+
             await DataSeeder.SeedAsync(db);
             logger.LogInformation("Veritabanı hazır.");
 
